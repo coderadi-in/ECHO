@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Auvora ECHO &bull; coderadi</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='base/_utility.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='base/index.css') }}">
+</head>
+
+<body>
+    <header class="header w-full pv-12">
+        <section class="section ph-24 pv-20 row h-sb rounded-16">
+            <div class="left">
+                <a href="/" class="link row gap-12">
+                    <img src="{{ url_for('static', filename='assets/icons/logo.webp') }}" alt="ECHO LOGO" class="logo">                    
+                    <h1 class="h1">echo</h1>
+                </a>
+            </div>
+
+            <div class="right row gap-12">
+                <a href="https://github.com/coderadi-in/ECHO" class="link">
+                    <img src="{{ url_for('static', filename='assets/icons/git.png') }}" alt="GITHUB" class="img">
+                </a>
+
+                <a href="/docs" class="link">docs</a>
+            </div>
+        </section>
+    </header>
+
+    <main class="main h-screen column center gap-12 p-20">
+        <p class="para text-center">An AI powered branding management application for E-com businesses.</p>
+
+        <div class="content column h-center gap-20 p-20 rounded-16">
+            <div class="mode-selection row">
+                <span class="mode pv-8 text-center selected" id="signupMode">Signup</span>
+                <span class="mode pv-8 text-center" id="loginMode">Login</span>
+            </div>
+
+            <form action="/auth/signup" method="post" class="form column gap-12 active" id="signupForm">
+                <input required type="text" name="name" placeholder="Your name" class="input">
+                <input required type="email" name="email" placeholder="Your email" class="input">
+                <input required type="password" name="password" id="Create a passwrod" class="input">
+                <button type="submit" class="btn fl pv-12 rounded-4 w-full">Signup</button>
+            </form>
+
+            <form action="/auth/login" method="post" class="form column gap-12" id="loginForm">
+                <input required type="email" name="email" placeholder="Your email" class="input">
+                <input required type="password" name="password" id="Your passwrod" class="input">
+                <button type="submit" class="btn fl pv-12 rounded-4 w-full">Login</button>
+            </form>
+        </div>
+    </main>
+
+    <script type="module" src="{{ url_for('static', filename='js/index.js') }}"></script>
+</body>
+
+</html>

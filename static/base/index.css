@@ -1,0 +1,106 @@
+/* ================================================== */
+/* HEADER */
+/* ================================================== */
+
+.header { position: fixed; }
+
+.header .section {
+    background-color: var(--color-surface-main);
+    backdrop-filter: blur(4px);
+    color: var(--color-bg-main);
+}
+
+.header .link { color: var(--color-bg-main); }
+
+/* ================================================== */
+/* CONTAINERS */
+/* ================================================== */
+
+.main {
+    background-image: url('/static/assets/images/auth-bg.webp');
+    background-size: cover;
+    background-position: center;
+    color: var(--color-bg-main);
+}
+
+.main .content {
+    max-width: 568px;
+    width: 100%;
+    background-color: var(--color-surface-main);
+    backdrop-filter: blur(4px);
+    border: 1px solid var(--color-border);
+    position: relative;
+    overflow: hidden;
+}
+
+/* ================================================== */
+/* GLOW */
+/* ================================================== */
+
+.content::before,
+.content::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    width: 40%;
+    height: 40%;
+    background-color: var(--color-accent-main);
+    filter: blur(14px);
+}
+
+.content::before {
+    bottom: 0;
+    left: 0;
+    border-radius: 10vw 50vw 10vw 0;
+    opacity: 0.8;
+}
+
+.content::after {
+    top: 0;
+    right: 0;
+    border-radius: 10vw 0 10vw 50vw;
+    opacity: 0.5;
+}
+
+/* ================================================== */
+/* SOFTWARE DESCRIPTION */
+/* ================================================== */
+
+.main .para {
+    max-width: 568px;
+    text-wrap: balance;
+}
+
+/* ================================================== */
+/* MODE SELECTION */
+/* ================================================== */
+
+.mode-selection .mode {
+    flex: 1;
+    cursor: pointer;
+}
+
+.mode-selection .mode.selected {
+    border-bottom: 1px solid var(--color-bg-card);
+
+    background: linear-gradient(
+        0deg, 
+        var(--color-accent-main) 0%,
+        var(--color-surface-main) 40%
+    );
+}
+
+/* ================================================== */
+/* FORM CONTENT */
+/* ================================================== */
+
+.form {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.form.active {
+    display: flex;
+    opacity: 1;
+}

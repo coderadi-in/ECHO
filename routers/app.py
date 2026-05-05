@@ -12,4 +12,4 @@ app = Blueprint("app", __name__, url_prefix='/app')
 
 @app.route("/")
 def index():
-    return "Index"
+    return "App index"
