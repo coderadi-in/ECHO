@@ -33,11 +33,6 @@ def captions():
 def headlines():
     return render_template('pages/headlines.html')
 
-# & AUDIT ROUTE
-@app.route('/audit')
-def audit():
-    return render_template('pages/audit.html')
-
 # & SETTINGS ROUTE
 @app.route('/settings')
 def settings():

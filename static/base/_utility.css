@@ -19,6 +19,13 @@
     50% { transform: scale(0.95); }
 }
 
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    60% { transform: rotate(360deg); }
+    80% { transform: rotate(300deg); }
+    100% { transform: rotate(360deg); }
+}
+
 .animated-arrow {
     position: absolute;
     bottom: 20px;
@@ -28,6 +35,8 @@
 }
 
 .anim-clicked { animation: clickAnimation 0.3s ease forwards; }
+
+.anim-rotate { animation: rotate 1.2s infinite; }
 
 /* ================================================== */
 /* BASIC */
@@ -58,7 +67,7 @@
     box-sizing: border-box;
     letter-spacing: 1px;
     scrollbar-width: thin;
-    scrollbar-color: var(--color-accent-alt) transparent;
+    scrollbar-color: var(--color-text-main) transparent;
 }
 
 *::selection {
@@ -80,7 +89,6 @@ body {
 html {
     scroll-behavior: smooth;
     scrollbar-width: thin;
-    scrollbar-color: var(--color-text-main) transparent;
 }
 
 .section {

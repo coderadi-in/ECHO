@@ -20,6 +20,12 @@
     {% include 'components/header.html' %}
     {% include 'components/controls.html' %}
 
+    <div class="output-frame p-20 rounded-16 column gap-24">
+        <button class="btn symbol" id="closeFrame">close</button>
+        <p class="para" id="outputResponse"></p>
+        <button class="btn symbol" id="copyBtn">content_copy</button>
+    </div>
+
     <div class="prompt-area center w-full p-20">
         <div class="prompt-content p-12 rounded-16 flex gap-12">
             <div class="prompt-inputs column w-full">
@@ -32,7 +38,7 @@
             </div>
 
             <div class="prompt-controls column h-en">
-                <button class="btn fl rounded-full p-12 symbol">send</button>
+                <button class="btn fl rounded-full p-12 symbol" id="sendBtn">send</button>
             </div>
         </div>
     </div>
@@ -98,7 +104,8 @@
         </section>
     </main>
 
-    <script src="{{ url_for('static', filename='js/pages/captions.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    <script type="module" src="{{ url_for('static', filename='js/pages/captions.js') }}"></script>
 </body>
 
 </html>

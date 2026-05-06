@@ -6,7 +6,8 @@ Runs the project in localhost.
 
 # ? IMPORTS
 from main import server
+from plugins import socket
 
 # ! RUN
 if (__name__ == "__main__"):
-    server.run(debug=True)
+    socket.run(server, debug=True)
