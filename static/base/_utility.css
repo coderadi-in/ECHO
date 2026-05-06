@@ -34,8 +34,8 @@
 /* ================================================== */
 
 :root {
-    --color-bg-main: #F2EFEA;
-    --color-bg-card: #FDFFFF;
+    --color-bg-main: #EAECF2;
+    --color-bg-card: #FDFDFF;
     
     --color-text-main: #242423;
     --color-text-alt: #353A47;
@@ -44,7 +44,7 @@
     --color-accent-alt: #2A78CB;
 
     --color-surface-main: #12131757;
-    --color-surface-alt: #1B1C2257;
+    --color-surface-alt: #FDFDFF57;
     --color-border: #333533;
 
     --color-state-red: #DF2935;
@@ -340,7 +340,7 @@ html {
 /* ================================================== */
 
 .input {
-    background-color: var(--color-surface-alt);
+    background-color: var(--color-surface-main);
     color: var(--color-text-main);
     border: 1px solid var(--color-border);
     padding: 8px;

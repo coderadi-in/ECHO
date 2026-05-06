@@ -1,0 +1,34 @@
+<style>
+    @media (max-width: 768px) {
+        .header .navlinks { display: none; }
+    }
+</style>
+
+<header class="header p-20 row h-sb">
+    <div class="left row gap-96">
+        <a href="{{ url_for('app.dashboard') }}" class="link">
+            <img src="{{ url_for('static', filename='assets/icons/logo.webp') }}" alt="ECHO" class="logo">
+        </a>
+
+        <ul class="navlinks list row gap-24">
+            <li><a href="{{ url_for('app.captions') }}" class="link">Captions</a></li>
+            <li><a href="{{ url_for('app.headlines') }}" class="link">Headlines</a></li>
+            <li><a href="{{ url_for('app.audit') }}" class="link">Site audit</a></li>
+        </ul>
+    </div>
+
+    <div class="right row gap-12">
+        <a href="{{ url_for('app.dashboard') }}" class="link symbol" title="Dashboard">dashboard</a>
+        <button class="btn symbol" title="Settings">settings</button>
+        <button class="btn symbol" title="Open Controls" id="openControls">page_control</button>
+        <a href="/docs" class="link">docs</a>
+    </div>
+</header>
+
+<script>
+    const openControls = document.getElementById('openControls');
+
+    openControls.addEventListener('click', () => {
+        controls.classList.remove('hidden');
+    })
+</script>
