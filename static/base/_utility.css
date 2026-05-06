@@ -73,13 +73,14 @@
 body {
     background-color: var(--color-bg-main);
     color: var(--color-text-main);
-    min-height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
 }
 
 html {
     scroll-behavior: smooth;
     scrollbar-width: thin;
-    scrollbar-color: var(--color-accent-alt) transparent;
+    scrollbar-color: var(--color-text-main) transparent;
 }
 
 .section {

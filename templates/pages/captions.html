@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="pre-connect" href="https://fonts.googleapis.com">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/icons/favicon.ico') }}" type="image/x-icon">
+    <title>Dashboard &bull; ECHO</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='base/_utility.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/captions.css') }}">
+</head>
+
+<body>
+    <img src="{{ url_for('static', filename='assets/images/captions-bg.webp') }}" alt="BACKGROUND IMAGE" class="bg img">
+    {% include 'components/msg.html' %}
+
+    {% include 'components/header.html' %}
+    {% include 'components/controls.html' %}
+
+    <div class="prompt-area center w-full p-20">
+        <div class="prompt-content p-12 rounded-16 flex gap-12">
+            <div class="prompt-inputs column w-full">
+                <div class="top flex">
+                    <input type="text" name="title" placeholder="Product title" class="input w-full">
+                    <input type="text" name="price" placeholder="Product price" class="input w-full">
+                </div>
+
+                <textarea name="desc" placeholder="Product description" class="input"></textarea>
+            </div>
+
+            <div class="prompt-controls column h-en">
+                <button class="btn fl rounded-full p-12 symbol">send</button>
+            </div>
+        </div>
+    </div>
+
+    <main class="main">
+        <section class="section p-48 column gap-24">
+            <div class="head column gap4">
+                <h1 class="h1">explore</h1>
+                <p class="para">Checkout some generated captions to go with.</p>
+            </div>
+
+            <div class="cards grid cols-auto-400 gap-12">
+                <div class="card center p-20 bg-card rounded-16">
+                    <p class="para text-center">Elevate your everyday style with this must-have piece. Simple, bold, and
+                        designed to stand out wherever you go. ✨</p>
+                </div>
+
+                <div class="card center p-20 bg-card rounded-16">
+                    <p class="para text-center">Built for comfort, styled for confidence. This is the upgrade your daily
+                        routine has been waiting for. 💯</p>
+                </div>
+
+                <div class="card center p-20 bg-card rounded-16">
+                    <p class="para text-center">Small details, big impact. Add a touch of perfection to your lifestyle
+                        with this sleek essential. 🖤</p>
+                </div>
+
+                <div class="card center p-20 bg-card rounded-16">
+                    <p class="para text-center">Designed to impress, made to last. Experience quality that speaks
+                        without saying a word. 🚀</p>
+                </div>
+
+                <div class="card center p-20 bg-card rounded-16">
+                    <p class="para text-center">Turn heads effortlessly. This piece blends style and function like never
+                        before. 🔥</p>
+                </div>
+
+                <div class="card center p-20 bg-card rounded-16">
+                    <p class="para text-center">Not just a product, it's a vibe. Upgrade your collection with something
+                        truly unique. 😌</p>
+                </div>
+
+                <div class="card center p-20 bg-card rounded-16">
+                    <p class="para text-center">Clean design, powerful presence. Because you deserve something that
+                        matches your energy. ⚡</p>
+                </div>
+
+                <div class="card center p-20 bg-card rounded-16">
+                    <p class="para text-center">Everyday essentials, redefined. Step into a better version of your
+                        routine starting today. 🌿</p>
+                </div>
+
+                <div class="card center p-20 bg-card rounded-16">
+                    <p class="para text-center">Minimal look, maximum impact. Crafted for those who love simplicity with
+                        a statement. 🎯</p>
+                </div>
+
+                <div class="card center p-20 bg-card rounded-16">
+                    <p class="para text-center">Your perfect companion for daily life. Smart, stylish, and made just for
+                        you. 💫</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/pages/captions.js') }}"></script>
+</body>
+
+</html>
