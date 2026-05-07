@@ -4,6 +4,7 @@
 
 .alerts {
     position: fixed;
+    z-index: 10;
     bottom: 20px;
     width: 100vw;
 }

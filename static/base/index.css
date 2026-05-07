@@ -104,3 +104,6 @@
     display: flex;
     opacity: 1;
 }
+
+.form .input { color: var(--color-bg-main); }
+.form .input::placeholder { color: var(--color-text-alt); }
