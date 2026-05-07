@@ -27,7 +27,7 @@ import { socket, sendMessage } from '../base/socket_listeners.js';
 // ==================================================
 
 // * FUNCTION TO APPLY RANDOM BACKGROUND COLOR TO EACH CARD
-function applyRandomBackgroundColor() {
+export function applyRandomBackgroundColor() {
     cards.forEach(card => {
         const randomColor = colors[Math.floor(Math.random() * colors.length)];
         card.style.backgroundColor = randomColor;
@@ -35,14 +35,53 @@ function applyRandomBackgroundColor() {
 }
 
 // * FUNCTION TO COPY OUTPUT RESPONSE TO CLIPBOARD
-function copyToClipboard(text) {
+export function copyToClipboard(text) {
     navigator.clipboard.writeText(text);
 }
 
 // * FUNCTION TO CLOSE OUTPUT FRAME
-function closeOutputFrame() {
+export function closeOutputFrame() {
     outputFrame.style.opacity = '0';
     setTimeout(() => { outputFrame.style.display = 'none'; }, 500);
+}
+
+// * FUNCTION TO HANDLE SEND-BUTTON CLICK
+export function handleSendButtonClick(event, message) {
+    // UPDATE SEND-BTN
+    sendBtn.disabled = true;
+    sendBtn.textContent = 'progress_activity';
+    sendBtn.classList.add('anim-rotate');
+
+    // DATA VALIDATION
+    if (titleInput.value.trim() === '' || priceInput.value.trim() === '' || descInput.value.trim() === '') {
+        sendBtn.disabled = false;
+        sendBtn.textContent = 'send';
+        sendBtn.classList.remove('anim-rotate');
+        return;
+    }
+
+    // SEND MESSAGE TO SERVER
+    sendMessage(event, message);
+}
+
+// * FUNCTION TO RESET PROMPT AREA
+export function resetPromptArea() {
+    // CLEAR INPUT FIELDS
+    titleInput.value = '';
+    priceInput.value = '';
+    descInput.value = '';
+
+    // CLEAR INPUT FIELDS
+    titleInput.value = '';
+    priceInput.value = '';
+    descInput.value = '';
+
+    // UPDATE SEND-BTN
+    sendBtn.disabled = false;
+    sendBtn.textContent = 'send';
+    sendBtn.classList.remove('anim-rotate');
+
+    setTimeout(() => { outputFrame.style.opacity = '1'; }, 100);
 }
 
 // ==================================================
@@ -63,28 +102,14 @@ closeFrameBtn.addEventListener('click', closeOutputFrame);
 
 // & EVENT LISTENER FOR SEND-BUTTON CLICK
 sendBtn.addEventListener('click', () => {
-    // UPDATE SEND-BTN
-    sendBtn.disabled = true;
-    sendBtn.textContent = 'progress_activity';
-    sendBtn.classList.add('anim-rotate');
-
-    // DATA VALIDATION
-    if (titleInput.value.trim() === '' || priceInput.value.trim() === '' || descInput.value.trim() === '') {
-        sendBtn.disabled = false;
-        sendBtn.textContent = 'send';
-        sendBtn.classList.remove('anim-rotate');
-        return;
-    }
-
     // CREATE MESSAGE OBJECT
     const message = {
-        title: titleInput.value,
-        price: priceInput.value,
-        desc: descInput.value
-    }
-
-    // SEND MESSAGE TO SERVER
-    sendMessage('captions-sys', message);
+        title: titleInput.value.trim(),
+        price: priceInput.value.trim(),
+        desc: descInput.value.trim()
+    };
+    
+    handleSendButtonClick('captions-sys', message);
 });
 
 // ==================================================
@@ -96,15 +121,5 @@ socket.on('captions-cl', (data) => {
     outputResponse.textContent = data;
     outputFrame.style.display = 'flex';
 
-    // CLEAR INPUT FIELDS
-    titleInput.value = '';
-    priceInput.value = '';
-    descInput.value = '';
-
-    // UPDATE SEND-BTN
-    sendBtn.disabled = false;
-    sendBtn.textContent = 'send';
-    sendBtn.classList.remove('anim-rotate');
-
-    setTimeout(() => { outputFrame.style.opacity = '1'; }, 100);
+    resetPromptArea();
 });

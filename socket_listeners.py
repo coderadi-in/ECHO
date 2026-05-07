@@ -6,27 +6,31 @@ Manages all socket listeners.
 
 # ? IMPORTS
 from plugins import *
-from models import Caption
+from models import Caption, Headline
 from ai import SystemPrompts
 
+
 # & CAPTION GENERATION
-@socket.on('captions-sys')
+@socket.on("captions-sys")
 def generate_captions(product: dict) -> str:
     # ACCESS DATA
-    title = product['title']
-    desc = product['desc']
-    price = product['price']
+    title = product["title"]
+    desc = product["desc"]
+    price = product["price"]
 
     # DATA VALIDATION
     if (not title) or (not desc) or (not price):
-        socket.emit('captions-cl', "The inputs aren't filled properly.")
+        socket.emit("captions-cl", "The inputs aren't filled properly.")
         return
-    
+
     # RESPONSE GENERATION
-    response = get_response(SystemPrompts.CAPTION_GENERATION, f"""Title: {title}, Price: {price}, Desc: {desc}""")
+    response = get_response(
+        SystemPrompts.CAPTION_GENERATION,
+        f"""Title: {title}, Price: {price}, Desc: {desc}""",
+    )
 
     # EMIT OUTPUT
-    socket.emit('captions-cl', response)
+    socket.emit("captions-cl", response)
 
     # SAVE OUTPUT IN DB
     new_caption = Caption(
@@ -34,8 +38,48 @@ def generate_captions(product: dict) -> str:
         title=title,
         desc=desc,
         price=float(price),
-        caption=response
+        caption=response,
     )
-    
+
     db.session.add(new_caption)
+    db.session.commit()
+
+
+# & HEADLINE GENERATION
+@socket.on("headlines-sys")
+def generate_headlines(product: dict) -> str:
+    # ACCESS DATA
+    title = product["title"]
+    desc = product["desc"]
+    price = product["price"]
+
+    # DATA VALIDATION
+    if (not title) or (not desc) or (not price):
+        socket.emit("headlines-cl", {"headline": "Input Error", "desc": "The inputs aren't filled properly."})
+        return
+
+    # RESPONSE GENERATION
+    response = get_response(
+        SystemPrompts.HEADLINE_GENERATION,
+        f"""Title: {title}, Price: {price}, Desc: {desc}""",
+    )
+
+    splitted = response.split("::")
+    output_headline = splitted[0]
+    output_desc = splitted[1]
+
+    # EMIT OUTPUT
+    socket.emit("headlines-cl", {"headline": output_headline, "desc": output_desc})
+
+    # SAVE OUTPUT IN DB
+    new_headline = Headline(
+        user=current_user.id,
+        title=title,
+        desc=desc,
+        price=float(price),
+        gen_headline=output_headline,
+        gen_desc=output_desc
+    )
+
+    db.session.add(new_headline)
     db.session.commit()

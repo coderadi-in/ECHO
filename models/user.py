@@ -32,3 +32,4 @@ class User(db.Model, UserMixin):
     config_pass = db.Column(db.String, unique=True)
 
     captions = db.relationship('Caption', backref='author', lazy=True)
+    headlines = db.relationship('Headline', backref='author', lazy=True)

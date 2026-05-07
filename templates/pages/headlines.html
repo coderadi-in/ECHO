@@ -7,10 +7,10 @@
     <link rel="pre-connect" href="https://fonts.googleapis.com">
 
     <link rel="shortcut icon" href="{{ url_for('static', filename='assets/icons/favicon.ico') }}" type="image/x-icon">
-    <title>Captions &bull; ECHO</title>
+    <title>Headlines &bull; ECHO</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='base/_utility.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/captions.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/headlines.css') }}">
 </head>
 
 <body>
@@ -22,7 +22,12 @@
 
     <div class="output-frame p-20 rounded-16 column gap-24">
         <button class="btn symbol" id="closeFrame">close</button>
-        <p class="para" id="outputResponse"></p>
+        
+        <div class="column gap-8">
+            <h2 class="h2" id="outputHeadline"></h2>
+            <p class="para" id="outputDesc"></p>
+        </div>
+        
         <button class="btn symbol" id="copyBtn">content_copy</button>
     </div>
 
@@ -105,7 +110,7 @@
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
-    <script type="module" src="{{ url_for('static', filename='js/pages/captions.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/pages/headlines.js') }}"></script>
 </body>
 
 </html>

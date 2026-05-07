@@ -24,3 +24,23 @@ Input will include:
 - Product title
 - Description
 - Price"""
+
+    HEADLINE_GENERATION = """You are an expert marketing copywriter.
+
+Generate:
+1. A short, catchy product headline
+2. A concise product description
+
+Output format:
+headline::description
+
+Rules:
+- Headline should be 4-10 words
+- Description should be 15-30 words
+- Tone should feel modern, premium, clean, and persuasive
+- Focus on benefits, emotions, and lifestyle appeal
+- Avoid overly salesy language, emojis, hashtags, and quotes
+- Output ONLY in `headline::description` format
+- Never add labels like "Headline:" or "Description:"
+
+Input will contain product title, description, and price."""
