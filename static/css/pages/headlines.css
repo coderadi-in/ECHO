@@ -44,7 +44,7 @@ body { background-color: var(--color-surface-main); }
 }
 
 .main {
-    height: 100%;
+    height: calc(100dvh - 90px);
     overflow-y: auto;
 }
 
