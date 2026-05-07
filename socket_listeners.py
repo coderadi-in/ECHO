@@ -6,6 +6,7 @@ Manages all socket listeners.
 
 # ? IMPORTS
 from plugins import *
+from models import Caption
 from ai import SystemPrompts
 
 # & CAPTION GENERATION
@@ -26,3 +27,15 @@ def generate_captions(product: dict) -> str:
 
     # EMIT OUTPUT
     socket.emit('captions-cl', response)
+
+    # SAVE OUTPUT IN DB
+    new_caption = Caption(
+        user=current_user.id,
+        title=title,
+        desc=desc,
+        price=float(price),
+        caption=response
+    )
+    
+    db.session.add(new_caption)
+    db.session.commit()

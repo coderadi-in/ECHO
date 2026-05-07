@@ -40,6 +40,7 @@ bind_routers(server)
 
 # & DATABASE INIT
 with server.app_context():
+    if (not os.path.exists('migrations')): init_migrator()
     db.create_all()
 
 # ==================================================

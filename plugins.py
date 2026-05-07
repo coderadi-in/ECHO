@@ -9,7 +9,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO
 from flask_bcrypt import Bcrypt
-from flask_migrate import Migrate, migrate
+from flask_migrate import Migrate, migrate, upgrade, init as init_migrator
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
 from openai import OpenAI
 import os
