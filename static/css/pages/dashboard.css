@@ -67,3 +67,18 @@ main { height: calc(100dvh - 90px); }
     width: var(--w);
     background-color: var(--color-accent-main);
 }
+
+/* ================================================== */
+/* INFO-GRID */
+/* ================================================== */
+
+.info-grid { grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); }
+
+.info-grid .info .symbol {
+    background-color: var(--bg);
+    color: var(--color-bg-main);
+}
+
+/* ================================================== */
+/* USAGE OVERVIEW */
+/* ================================================== */
