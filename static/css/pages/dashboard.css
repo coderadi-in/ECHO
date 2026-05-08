@@ -3,7 +3,7 @@
 /* ================================================== */
 
 main { height: calc(100dvh - 90px); }
-aside { max-width: 360px; }
+.left-panel { max-width: min(360px, 100%); }
 
 /* ================================================== */
 /* SIDEBAR */
@@ -53,4 +53,17 @@ aside { max-width: 360px; }
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
+}
+
+/* ================================================== */
+/* OVERVIEW */
+/* ================================================== */
+
+.overview { background-color: var(--color-surface-main); }
+
+.overview .progress-bar { height: 4px; }
+
+.overview .progress-done {
+    width: var(--w);
+    background-color: var(--color-accent-main);
 }
