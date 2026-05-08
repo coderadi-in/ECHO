@@ -37,3 +37,8 @@ def headlines():
 @app.route('/settings')
 def settings():
     return render_template('pages/settings.html')
+
+# & HISTORY ROUTE
+@app.route('/history')
+def history():
+    return render_template('pages/history.html')

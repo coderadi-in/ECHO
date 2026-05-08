@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,14 +12,95 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='base/_utility.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/dashboard.css') }}">
 </head>
+
 <body>
-    {% include 'components/msg.html' %}    
+    {% include 'components/msg.html' %}
 
     {% include 'components/header.html' %}
     {% include 'components/controls.html' %}
 
-    <main class="main">
-        
+    <main class="main p-20">
+        <section class="left-panel column gap-20 h-full">
+            <aside class="sidebar column gap-12 p-16 rounded-16 bg-card w-full">
+                <span class="text fs-20 fw-500">Quick Actions</span>
+
+                <button class="btn row gap-12" id="generateOpen" popovertarget="generationOptions">
+                    <span class="symbol">edit</span>
+                    <span class="text">Generate</span>
+                </button>
+
+                <div id="generationOptions" popover>
+                    <div class="content column gap-8 rounded-4 p-8">
+                        <a href="{{ url_for('app.captions') }}" class="link row gap-8">
+                            <span class="symbol">subtitles</span>
+                            <span class="text">Captions</span>
+                        </a>
+
+                        <a href="{{ url_for('app.headlines') }}" class="link row gap-8">
+                            <span class="symbol">text_ad</span>
+                            <span class="text">Headlines</span>
+                        </a>
+                    </div>
+                </div>
+
+                <a href="{{ url_for('app.history') }}" class="link row gap-12">
+                    <span class="symbol">schedule</span>
+                    <span class="text">History</span>
+                </a>
+
+                <a href="{{ url_for('app.settings') }}" class="link row gap-12">
+                    <span class="symbol">settings</span>
+                    <span class="text">Settings</span>
+                </a>
+            </aside>
+
+            <aside class="recent-gens column gap-12 p-16 rounded-16 bg-card w-full h-full">
+                <div class="head row h-sb">
+                    <span class="text fs-20 fw-500">Recent Generations</span>
+                    <a href="{{ url_for('app.history') }}" class="link row gap-4">
+                        <span class="text">View all</span>
+                        <span class="symbol">keyboard_arrow_right</span>
+                    </a>
+                </div>
+
+                <div class="tabs row gap-12 p-8">
+                    <span class="text selected" id="captionsTabBtn">Captions</span>
+                    <span class="text" id="headlinesTabBtn">Headlines</span>
+                </div>
+
+                <div class="body">
+                    <div class="captions column gap-8">
+                        {% for caption in current_user.captions %}
+                        <div class="generated caption row h-sb gap-8 p-8" data-cap-id="{{ caption.id }}">
+                            <p class="para">{{ caption.caption }}</p>
+
+                            <div class="caption-actions row gap-8">
+                                <button class="btn symbol copy-btn">content_copy</button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="headlines column gap-8">
+                        {% for headline in current_user.headlines %}
+                        <div class="generated headline row h-sb gap-8 p-8" data-head-id="{{ headline.id }}">
+                            <div class="column gap-4">
+                                <span class="text fs-20 fw-500">{{ headline.gen_headline }}</span>
+                                <span class="mini">{{ headline.gen_desc }}</span>
+                            </div>
+
+                            <div class="caption-actions row gap-8">
+                                <button class="btn symbol copy-btn">content_copy</button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </aside>
+        </section>
     </main>
+
+    <script type="module" src="{{ url_for('static', filename='js/pages/dashboard.js') }}"></script>
 </body>
+
 </html>
