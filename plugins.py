@@ -45,7 +45,7 @@ def bind_plugins(server: Flask) -> None:
     logger.init_app(server)
 
 # * FUNCTION TO SEND MESSAGE TO MODEL
-def get_response(system_prompt: str, message: str) -> str:
+def get_response(system_prompt: str, message: str, token_size: int = 250) -> str:
     """
     Generates a response using AI model.
 
@@ -78,7 +78,7 @@ def get_response(system_prompt: str, message: str) -> str:
                 { "role": "user", "content": message },
             ],
             temperature=0.7,
-            max_output_tokens=500,
+            max_output_tokens=token_size,
         )
 
         return response.output_text

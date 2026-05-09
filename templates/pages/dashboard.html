@@ -24,7 +24,7 @@
             <aside class="sidebar column gap-12 p-16 rounded-16 bg-card">
                 <span class="text fs-20 fw-500">Quick Actions</span>
 
-                <button class="btn row gap-12" id="generateOpen" popovertarget="generationOptions">
+                <button class="link btn row gap-12" id="generateOpen" popovertarget="generationOptions">
                     <span class="symbol">edit</span>
                     <span class="text">Generate</span>
                 </button>
@@ -75,7 +75,7 @@
                             <p class="para">{{ caption.caption }}</p>
 
                             <div class="caption-actions row gap-8">
-                                <button class="btn symbol copy-btn" title="Copy content">content_copy</button>
+                                <button class="link btn symbol copy-btn" title="Copy content">content_copy</button>
                             </div>
                         </div>
                         {% endfor %}
@@ -90,7 +90,7 @@
                             </div>
 
                             <div class="caption-actions row gap-8">
-                                <button class="btn symbol copy-btn" title="Copy content">content_copy</button>
+                                <button class="link btn symbol copy-btn" title="Copy content">content_copy</button>
                             </div>
                         </div>
                         {% endfor %}
@@ -100,7 +100,7 @@
         </section>
 
         <section class="right-panel column gap-20 w-full h-full">
-            <div class="overview column gap-12 p-16 rounded-16 w-full">
+            <div class="overview bg-card column gap-12 p-16 rounded-16 w-full">
                 <span class="text fs-20 fw-500">Welcome back, {{ current_user.name }}. 👋</span>
 
                 <div class="column gap-4">
@@ -114,7 +114,7 @@
 
             <div class="info-grid grid gap-20">
                 <div class="info flex gap-12 p-12 rounded-16 bg-card">
-                    <span class="symbol p-16 rounded-8 h-fit" style="--bg: #022B3A;">bolt</span>
+                    <span class="symbol p-16 rounded-8 h-fit" style="--bg: #C3423F;">bolt</span>
 
                     <div class="text-content column gap-4">
                         <h1 class="h1">21600</h1>
@@ -144,7 +144,7 @@
                 </div>
                 
                 <div class="info flex gap-12 p-12 rounded-16 bg-card">
-                    <span class="symbol p-16 rounded-8 h-fit" style="--bg: #435058;">bookmark</span>
+                    <span class="symbol p-16 rounded-8 h-fit" style="--bg: #F4C12A;">bookmark</span>
 
                     <div class="text-content column gap-4">
                         <h1 class="h1">36</h1>
@@ -155,7 +155,14 @@
             </div>
 
             <div class="bottom-section flex gap-20 h-full">
-                <div class="chat-area bg-card p-16 rounded-16 w-full"></div>
+                <div class="chat-area column bg-card p-16 rounded-16 w-full">
+                    <div class="chats-container column gap-12 h-full"></div>
+
+                    <div class="prompt-area flex gap-12 p-12 rounded-12 w-full v-en">
+                        <textarea name="userPrompt" id="userPrompt" class="input w-full" placeholder="Ask anything about E-commerce"></textarea>
+                        <button class="link btn fl rounded-full p-12 h-fit symbol" id="sendPrompt" disabled>send</button>
+                    </div>
+                </div>
                 
                 <div class="usage-overview column gap-12 h-sb bg-card p-16 rounded-16 w-full">
                     <div class="head row h-sb gap-12">
@@ -175,6 +182,7 @@
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
     <script type="module" src="{{ url_for('static', filename='js/pages/dashboard.js') }}"></script>
 </body>
 

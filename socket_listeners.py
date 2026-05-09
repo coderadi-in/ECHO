@@ -7,7 +7,7 @@ Manages all socket listeners.
 # ? IMPORTS
 from plugins import *
 from models import Caption, Headline
-from ai import SystemPrompts
+from ai import SystemPrompts, TokenSize
 
 
 # & CAPTION GENERATION
@@ -27,6 +27,7 @@ def generate_captions(product: dict) -> str:
     response = get_response(
         SystemPrompts.CAPTION_GENERATION,
         f"""Title: {title}, Price: {price}, Desc: {desc}""",
+        TokenSize.CAPTION_GENERATION
     )
 
     # EMIT OUTPUT
@@ -62,6 +63,7 @@ def generate_headlines(product: dict) -> str:
     response = get_response(
         SystemPrompts.HEADLINE_GENERATION,
         f"""Title: {title}, Price: {price}, Desc: {desc}""",
+        TokenSize.HEADLINE_GENERATION
     )
 
     splitted = response.split("::")
@@ -83,3 +85,20 @@ def generate_headlines(product: dict) -> str:
 
     db.session.add(new_headline)
     db.session.commit()
+
+# & NORMAL CHAT
+@socket.on("response-sys")
+def generate_response(data: str) -> str:
+    # DATA VALIDATION
+    if (not data) or (data.strip() == ""):
+        return
+    
+    # RESPONSE GENERATION
+    response = get_response(
+        SystemPrompts.RESPONSE_GENERATION,
+        data,
+        TokenSize.RESPONSE_GENERATION
+    )
+
+    # EMIT OUTPUT
+    socket.emit("response-cl", { 'response': response })

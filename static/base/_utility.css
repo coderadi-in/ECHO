@@ -60,6 +60,24 @@
     --color-state-green: #488B49;
 }
 
+.dark-theme {
+    --color-bg-main: #08090D;
+    --color-bg-card: #101119;
+    
+    --color-text-main: #F8F7FF;
+    --color-text-alt: #525251;
+    
+    --color-accent-main: #2364AA;
+    --color-accent-alt: #2A78CB;
+
+    --color-surface-main: #F4F4F657;
+    --color-surface-alt: #9A9AAC57;
+    --color-border: #1E212B;
+
+    --color-state-red: #DF2935;
+    --color-state-green: #488B49;
+}
+
 * {
     margin: 0;
     padding: 0;

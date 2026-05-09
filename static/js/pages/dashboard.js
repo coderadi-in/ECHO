@@ -7,7 +7,18 @@ const captionContent = document.querySelector('.recent-gens .body .captions');
 const headlineContent = document.querySelector('.recent-gens .body .headlines');
 const capCopyBtns = document.querySelectorAll('.caption .copy-btn');
 const headCopyBtns = document.querySelectorAll('.headline .copy-btn');
+
 const usageChart = document.getElementById("usageChart").getContext('2d');
+
+const userPrompt = document.getElementById("userPrompt");
+const sendPrompt = document.getElementById("sendPrompt");
+const chatsContainer = document.querySelector('.chats-container');
+
+// ==================================================
+// IMPORTS
+// ==================================================
+
+import { socket, sendMessage } from '../base/socket_listeners.js';
 
 // ==================================================
 // FUNCTIONS
@@ -65,6 +76,28 @@ function renderUsageChart() {
     });
 }
 
+// * FUNCTION TO RENDER PROMPT IN CHATS-CONTAINER
+function renderPrompt(prompt) {
+    // CREATE PROMPT PARA ELEMENT
+    const para = document.createElement('p');
+    para.classList.add('prompt', 'para');
+    para.textContent = prompt;
+
+    // APPEND TO CHATS CONTAINER
+    chatsContainer.appendChild(para);
+}
+
+// * FUNCTION TO HANDLE SEND-BUTTON CLICK
+export function handleSendButtonClick(event, message) {
+    // UPDATE SEND-BTN
+    sendPrompt.disabled = true;
+    sendPrompt.textContent = 'progress_activity';
+    sendPrompt.classList.add('anim-rotate');
+
+    // SEND MESSAGE TO SERVER
+    sendMessage(event, message);
+}
+
 // ==================================================
 // EVENT LISTENERS
 // ==================================================
@@ -98,4 +131,42 @@ headCopyBtns.forEach((btn) => {
         navigator.clipboard.writeText(headlineText + "\n" + headlineDesc);
         btn.textContent = 'check';
     });
+});
+
+// & EVENT LISTENER TO ENABLE/DISABLE SEND-BTN ON PROMPT-INPUT CHANGE
+userPrompt.addEventListener('input', () => {
+    sendPrompt.disabled = userPrompt.value.trim() === '';
+});
+
+// & EVENT LISTENER FOR SEND-BTN CLICK
+sendPrompt.addEventListener('click', () => {
+    renderPrompt(userPrompt.value.trim());
+    handleSendButtonClick("response-sys", userPrompt.value.trim());
+    userPrompt.value = "";
+});
+
+// & EVENT LISTENER TO SEND MESSAGE ON `CTRL+ENTER` KEYPRESS
+userPrompt.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && e.ctrlKey) {
+        renderPrompt(userPrompt.value.trim());
+        handleSendButtonClick("response-sys", userPrompt.value.trim());
+        userPrompt.value = "";
+    }
+});
+
+// ==================================================
+// SOCKET EVENTS
+// ==================================================
+
+socket.on('response-cl', (data) => {
+    // UPDATE SEND-BTN
+    sendPrompt.disabled = false;
+    sendPrompt.textContent = 'send';
+    sendPrompt.classList.remove('anim-rotate');
+
+    // RENDER RESPONSE IN CHATS-CONTAINER
+    const responsePara = document.createElement('p');
+    responsePara.classList.add('response', 'para');
+    responsePara.textContent = data.response;
+    chatsContainer.appendChild(responsePara);
 });
