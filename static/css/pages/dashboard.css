@@ -84,6 +84,13 @@ main { height: calc(100dvh - 90px); }
 /* CHAT AREA */
 /* ================================================== */
 
+.chat-area { overflow: hidden; }
+
+.chat-area .chats-container {
+    flex: 1;
+    overflow-y: auto;
+}
+
 .chat-area .chats-container .para {
     padding: 2px 4px;
     width: fit-content;
