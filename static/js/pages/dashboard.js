@@ -53,7 +53,7 @@ function getCurrentMonthDates() {
     const monthDates = Array.from({ length: daysInMonth }, (_, i) => {
         return new Date(year, month, i + 1);
     });
-    
+
     return monthDates;
 }
 
@@ -140,6 +140,11 @@ userPrompt.addEventListener('input', () => {
 
 // & EVENT LISTENER FOR SEND-BTN CLICK
 sendPrompt.addEventListener('click', () => {
+    // REMOVE WELCOME MESSAGE FROM CHAT CONTAINER
+    if (chatsContainer.contains(chatsContainer.querySelector('.h1'))) {
+        chatsContainer.querySelector('.h1').remove();
+    }
+    
     renderPrompt(userPrompt.value.trim());
     handleSendButtonClick("response-sys", userPrompt.value.trim());
     userPrompt.value = "";
@@ -148,6 +153,11 @@ sendPrompt.addEventListener('click', () => {
 // & EVENT LISTENER TO SEND MESSAGE ON `CTRL+ENTER` KEYPRESS
 userPrompt.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && e.ctrlKey) {
+        // REMOVE WELCOME MESSAGE FROM CHAT CONTAINER
+        if (chatsContainer.contains(chatsContainer.querySelector('.h1'))) {
+            chatsContainer.querySelector('.h1').remove();
+        }
+
         renderPrompt(userPrompt.value.trim());
         handleSendButtonClick("response-sys", userPrompt.value.trim());
         userPrompt.value = "";

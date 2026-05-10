@@ -54,7 +54,7 @@
                 </a>
             </aside>
 
-            <aside class="recent-gens column gap-12 p-16 rounded-16 bg-card h-full">
+            <aside class="recent-gens column gap-12 p-16 rounded-16 bg-card h-full min-h-0">
                 <div class="head row h-sb">
                     <span class="text fs-20 fw-500">Recent Generations</span>
                     <a href="{{ url_for('app.history') }}" class="link row gap-4">
@@ -156,10 +156,12 @@
 
             <div class="bottom-section flex gap-20 h-full min-h-0">
                 <div class="chat-area column bg-card p-16 rounded-16 w-full min-h-0">
-                    <div class="chats-container column gap-12 min-h-0"></div>
+                    <div class="chats-container column gap-12 min-h-0">
+                        <h1 class="h1 m-auto text-center text-muted">Ready when you are.</h1>
+                    </div>
 
                     <div class="prompt-area flex gap-12 p-12 rounded-12 w-full v-en">
-                        <textarea name="userPrompt" id="userPrompt" class="input w-full" placeholder="Ask anything about E-commerce"></textarea>
+                        <textarea name="userPrompt" id="userPrompt" class="input w-full" placeholder="Ask anything about Marketing & Sales"></textarea>
                         <button class="link btn fl rounded-full p-12 h-fit symbol" id="sendPrompt" disabled>send</button>
                     </div>
                 </div>
