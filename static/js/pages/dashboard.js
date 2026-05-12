@@ -8,6 +8,7 @@ const headlineContent = document.querySelector('.recent-gens .body .headlines');
 const capCopyBtns = document.querySelectorAll('.caption .copy-btn');
 const headCopyBtns = document.querySelectorAll('.headline .copy-btn');
 
+const generationOptions = document.getElementById('generationOptions');
 const usageChart = document.getElementById("usageChart").getContext('2d');
 
 const userPrompt = document.getElementById("userPrompt");
@@ -107,6 +108,13 @@ document.addEventListener('DOMContentLoaded', () => {
     captionContent.style.display = 'flex';
     headlineContent.style.display = 'none';
     renderUsageChart();
+});
+
+// & EVENT LISTENER FOR GENERATION-OPTIONS
+generationOptions.addEventListener('beforetoggle', () => {
+    setTimeout(() => {
+        generationOptions.classList.toggle('open');
+    }, 100);
 });
 
 // & EVENT LISTENER FOR TAB-BTN CLICK

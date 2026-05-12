@@ -42,3 +42,8 @@ def settings():
 @app.route('/history')
 def history():
     return render_template('pages/history.html')
+
+# & ACCOUNT ROUTE
+@app.route('/account')
+def account():
+    return render_template('pages/account.html')

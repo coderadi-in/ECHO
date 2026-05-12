@@ -16,9 +16,14 @@ main { height: calc(100dvh - 90px); }
     position-anchor: --generateAnchor;
     position-area: bottom right;
     border: none;
+    background-color: var(--color-surface-alt);
+    backdrop-filter: blur(4px);
+    transition: transform 0.3s;
+    transform-origin: top left;
+    transform: scale(0);
 }
 
-.sidebar #generationOptions .content { background-color: var(--color-surface-main); }
+.sidebar #generationOptions.open { transform: scale(1); }
 
 /* ================================================== */
 /* RECENT-GENS */

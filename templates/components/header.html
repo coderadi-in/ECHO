@@ -1,4 +1,20 @@
 <style>
+    .header #settingsOpen { anchor-name: --settingAnchor; }
+
+    .header #settingsOptions {
+        position: absolute;
+        position-anchor: --settingAnchor;
+        position-area: bottom left;
+        border: none;
+        background-color: var(--color-surface-alt);
+        backdrop-filter: blur(4px);
+        transition: transform 0.3s;
+        transform-origin: top right;
+        transform: scale(0);
+    }
+
+    .header #settingsOptions.open { transform: scale(1); }
+
     @media (max-width: 768px) {
         .header .navlinks { display: none; }
     }
@@ -18,16 +34,69 @@
 
     <div class="right row gap-12">
         <a href="{{ url_for('app.dashboard') }}" class="link symbol" title="Dashboard">dashboard</a>
-        <button class="link btn symbol" title="Settings">settings</button>
+        <button class="link btn symbol" title="Settings" popovertarget="settingsOptions" id="settingsOpen">settings</button>
         <button class="link btn symbol" title="Open Controls" id="openControls">page_control</button>
         <a href="/docs" class="link">docs</a>
+
+        <div id="settingsOptions" class="rounded-16" popover>
+            <div class="content column gap-8 rounded-16 p-16">
+                <button class="link btn settings-option row gap-4" id="themeControl">
+                    <span class="symbol">contrast</span>
+                    <span class="text">Theme</span>
+                </button>
+                
+                <a href="{{ url_for('app.account') }}" class="link row settings-option row gap-4">
+                    <span class="symbol">person</span>
+                    <span class="text">Account</span>
+                </a>
+
+                <hr class="divider">
+
+                <a href="{{ url_for('auth.logout') }}" class="link row settings-option row gap-4">
+                    <span class="symbol">logout</span>
+                    <span class="text">Logout</span>
+                </a>
+
+                <hr class="divider">
+
+                <a href="{{ url_for('app.settings') }}" class="link row settings-option row gap-4">
+                    <span class="symbol">more_horiz</span>
+                    <span class="text">More</span>
+                </a>
+            </div>
+        </div>
     </div>
 </header>
 
 <script>
     const openControls = document.getElementById('openControls');
+    const themeControl = document.getElementById('themeControl');
+    const settingsOptions = document.getElementById('settingsOptions');
+
+    function toggleTheme() {
+        document.body.classList.toggle('dark-theme');
+
+        if (localStorage.getItem('theme') === 'dark') {
+            localStorage.setItem('theme', 'light');
+        } else {
+            localStorage.setItem('theme', 'dark');
+        }
+    }
+
+    function setTheme() {
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-theme');
+        } else { null }
+    }
 
     openControls.addEventListener('click', () => {
         controls.classList.remove('hidden');
+    });
+
+    settingsOptions.addEventListener('beforetoggle', () => {
+        setTimeout(() => { settingsOptions.classList.toggle('open'); }, 100);
     })
+
+    themeControl.addEventListener('click', toggleTheme);
+    document.addEventListener('DOMContentLoaded', setTheme);
 </script>
