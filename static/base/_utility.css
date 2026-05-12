@@ -65,7 +65,7 @@
     --color-bg-card: #101119;
     
     --color-text-main: #F8F7FF;
-    --color-text-alt: #525251;
+    --color-text-alt: #CFC3D5;
     
     --color-accent-main: #2364AA;
     --color-accent-alt: #2A78CB;
@@ -376,6 +376,8 @@ html {
     border-radius: 8px;
     outline: none;
 }
+
+.input::placeholder { color: var(--color-text-alt); }
 
 textarea.input {
     height: 148px;
