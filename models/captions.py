@@ -6,6 +6,7 @@ Manages the captions table.
 
 # ? IMPORTS
 from plugins import *
+from datetime import date
 
 # ! MODEL INIT
 class Caption(db.Model):
@@ -30,3 +31,4 @@ class Caption(db.Model):
     desc = db.Column(db.TEXT, nullable=False)
     price = db.Column(db.Float, nullable=False)
     caption = db.Column(db.TEXT, nullable=False)
+    created_at = db.Column(db.Date, default=date.today())

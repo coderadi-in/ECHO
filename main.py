@@ -17,7 +17,7 @@ load_dotenv('.venv/vars.env')
 # ==================================================
 
 # ? IMPORTS
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, flash
 from plugins import *
 from routers import *
 from models import *
@@ -58,3 +58,12 @@ def index():
     if (current_user.is_authenticated):
         return redirect(url_for("app.index"))
     return render_template("index.html")
+
+# ==================================================
+# ERROR HANDLES
+# ==================================================
+
+@server.errorhandler(401)
+def handle_401(error):
+    flash("Login required", "error")
+    return redirect('/')
