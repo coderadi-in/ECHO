@@ -183,7 +183,7 @@ socket.on('response-cl', (data) => {
     sendPrompt.classList.remove('anim-rotate');
 
     // RENDER RESPONSE IN CHATS-CONTAINER
-    const responsePara = document.createElement('p');
+    const responsePara = document.createElement('pre');
     responsePara.classList.add('response', 'para');
     responsePara.textContent = data.response;
     chatsContainer.appendChild(responsePara);

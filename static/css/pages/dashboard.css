@@ -109,7 +109,10 @@ main { height: calc(100dvh - 90px); }
     border-right: 2px solid var(--color-accent-alt);
 }
 
-.chat-area .chats-container .response { border-left: 2px solid var(--color-accent-alt); }
+.chat-area .chats-container .response {
+    border-left: 2px solid var(--color-accent-alt);
+    text-wrap: wrap;
+}
 
 .chat-area .prompt-area { border: 1px solid var(--color-surface-main); }
 
