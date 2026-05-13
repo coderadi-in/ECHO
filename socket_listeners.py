@@ -66,9 +66,7 @@ def generate_headlines(product: dict) -> str:
         TokenSize.HEADLINE_GENERATION
     )
 
-    splitted = response.split("::")
-    output_headline = splitted[0]
-    output_desc = splitted[1]
+    output_headline, output_desc = response.split("::", 1)
 
     # EMIT OUTPUT
     socket.emit("headlines-cl", {"headline": output_headline, "desc": output_desc})

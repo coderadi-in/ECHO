@@ -13,6 +13,7 @@ from flask_migrate import Migrate, migrate, upgrade, init as init_migrator
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
 from openai import OpenAI
 import os
+from sqlalchemy import extract
 
 # ! INITS
 db = SQLAlchemy()

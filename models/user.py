@@ -33,3 +33,4 @@ class User(db.Model, UserMixin):
 
     captions = db.relationship('Caption', backref='author', lazy=True)
     headlines = db.relationship('Headline', backref='author', lazy=True)
+    saved = db.relationship('SavedGen', backref='author', lazy=True)
