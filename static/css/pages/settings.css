@@ -1,0 +1,41 @@
+/* ================================================== */
+/* MINI NAV */
+/* ================================================== */
+
+.mini-nav { width: min(400px, 100%); }
+.mini-nav .h3 { margin-bottom: 8px; }
+
+/* ================================================== */
+/* SETTINGS CARDS */
+/* ================================================== */
+
+.settings-cards .settings-card { display: none; }
+.settings-cards .settings-card.active { display: flex; }
+
+/* ================================================== */
+/* APPEARANCE SETTINGS */
+/* ================================================== */
+
+#appearanceSettings .sample {
+    width: 12px;
+    height: 12px;
+    border-radius: 12px;
+}
+
+#appearanceSettings #accentsBtn { anchor-name: --accentsAnchor; }
+#appearanceSettings #accentsList {
+    position: absolute;
+    position-anchor: --accentsAnchor;
+    position-area: bottom right;
+    border: none;
+    background-color: var(--color-surface-alt);
+    backdrop-filter: blur(4px);
+    transition: transform 0.3s cubic-bezier(0.911, 0.161, 0.181, 0.797);
+    transform-origin: top left;
+    transform: scale(0);
+}
+
+#appearanceSettings #accentsList.open { transform: scale(1); }
+
+#appearanceSettings #accentsList #blue .sample { background-color: #2364AA; }
+#appearanceSettings #accentsList #green .sample { background-color: #488B49; }

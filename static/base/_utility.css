@@ -263,7 +263,7 @@ html {
 /* TYPOGRAPHY */
 /* ================================================== */
 
-.text-left { text-align: left; }
+.text-left { text-align: left !important; }
 .text-center { text-align: center; }
 .text-right { text-align: right; }
 .uppercase { text-transform: uppercase !important; }
@@ -370,8 +370,8 @@ html {
 
 .input {
     background-color: var(--color-surface-main);
+    border: none;
     color: var(--color-text-main);
-    border: 1px solid var(--color-border);
     padding: 8px;
     border-radius: 8px;
     outline: none;
@@ -393,6 +393,12 @@ textarea.input {
     text-decoration: none;
 }
 
+.btn:disabled {
+    background-color: var(--color-border) !important;
+    color: #FDFDFF !important;
+    cursor: not-allowed !important;
+}
+
 .ot {
     border: 1px solid var(--color-border);
     color: var(--color-text-main);
@@ -402,7 +408,7 @@ textarea.input {
 
 .fl {
     background-color: var(--color-accent-main);
-    color: var(--color-bg-card) !important;
+    color: #FDFDFF !important;
     transition: background-color 0.3s;
 }
 .fl:hover {
@@ -426,7 +432,7 @@ textarea.input {
     justify-content: center;
     gap: 8px;
     background-color: var(--color-accent-main);
-    color: var(--color-bg-card) !important;
+    color: #FDFDFF !important;
     transition: background-color 0.3s;
 }
 .icon-fl:hover { 
