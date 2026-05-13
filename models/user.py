@@ -27,6 +27,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
+    site_url = db.Column(db.String, unique=True)
     password = db.Column(db.String, nullable=False)
     site_url = db.Column(db.String)
     config_pass = db.Column(db.String, unique=True)
