@@ -14,6 +14,17 @@ const usageChart = document.getElementById("usageChart").getContext('2d');
 const userPrompt = document.getElementById("userPrompt");
 const sendPrompt = document.getElementById("sendPrompt");
 const chatsContainer = document.querySelector('.chats-container');
+const chatWelcome = document.querySelector('.chat-area .h1');
+
+const messagesArray = [
+    "Ready when you are!",
+    "What to build today?",
+    "Let's create something amazing!",
+    "Type your prompt to get started.",
+    "Your AI assistant is here to help!",
+    "What can I do for you today?",
+];
+const randomMessage = messagesArray[Math.floor(Math.random() *messagesArray.length)];
 
 // ==================================================
 // IMPORTS
@@ -108,6 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
     captionContent.style.display = 'flex';
     headlineContent.style.display = 'none';
     renderUsageChart();
+    chatWelcome.textContent = randomMessage;
 });
 
 // & EVENT LISTENER FOR GENERATION-OPTIONS
@@ -141,16 +153,13 @@ headCopyBtns.forEach((btn) => {
     });
 });
 
-// & EVENT LISTENER TO ENABLE/DISABLE SEND-BTN ON PROMPT-INPUT CHANGE
-userPrompt.addEventListener('input', () => {
-    sendPrompt.disabled = userPrompt.value.trim() === '';
-});
-
 // & EVENT LISTENER FOR SEND-BTN CLICK
 sendPrompt.addEventListener('click', () => {
+    if (userPrompt.value.trim() === '') { return };
+    
     // REMOVE WELCOME MESSAGE FROM CHAT CONTAINER
-    if (chatsContainer.contains(chatsContainer.querySelector('.h1'))) {
-        chatsContainer.querySelector('.h1').remove();
+    if (chatsContainer.contains(chatWelcome)) {
+        chatWelcome.remove();
     }
     
     renderPrompt(userPrompt.value.trim());
@@ -161,9 +170,11 @@ sendPrompt.addEventListener('click', () => {
 // & EVENT LISTENER TO SEND MESSAGE ON `CTRL+ENTER` KEYPRESS
 userPrompt.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && e.ctrlKey) {
+        if (userPrompt.value.trim() === '') { return };
+        
         // REMOVE WELCOME MESSAGE FROM CHAT CONTAINER
-        if (chatsContainer.contains(chatsContainer.querySelector('.h1'))) {
-            chatsContainer.querySelector('.h1').remove();
+        if (chatsContainer.contains(chatWelcome)) {
+            chatWelcome.remove();
         }
 
         renderPrompt(userPrompt.value.trim());
@@ -178,7 +189,6 @@ userPrompt.addEventListener('keydown', (e) => {
 
 socket.on('response-cl', (data) => {
     // UPDATE SEND-BTN
-    sendPrompt.disabled = false;
     sendPrompt.textContent = 'send';
     sendPrompt.classList.remove('anim-rotate');
 
