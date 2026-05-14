@@ -32,3 +32,4 @@ class Caption(db.Model):
     price = db.Column(db.Float, nullable=False)
     caption = db.Column(db.TEXT, nullable=False)
     created_at = db.Column(db.Date, default=date.today())
+    deleted = db.Column(db.Boolean, default=False)

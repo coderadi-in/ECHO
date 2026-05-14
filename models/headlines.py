@@ -34,3 +34,4 @@ class Headline(db.Model):
     gen_headline = db.Column(db.String, nullable=False)
     gen_desc = db.Column(db.TEXT, nullable=False)
     created_at = db.Column(db.Date, default=date.today())
+    deleted = db.Column(db.Boolean, default=False)

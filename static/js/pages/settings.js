@@ -4,7 +4,7 @@
 
 const allBtns = document.querySelectorAll('[data-section]');
 const allSections = document.querySelectorAll('.settings-card');
-const settingsPopovers = document.querySelectorAll('#appearanceSettings [popover], #aiPreferenceSettings [popover], #securitySettings [popover]');
+const settingsPopovers = document.querySelectorAll('#appearanceSettings [popover], #aiPreferenceSettings [popover], #securitySettings [popover], #dataSettings [popover]');
 
 const toggleTheme = document.getElementById('themeToggle');
 const accentInputs = document.querySelectorAll('.accent-input');

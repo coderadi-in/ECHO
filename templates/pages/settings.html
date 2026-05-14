@@ -144,12 +144,12 @@
                         <form action="/app/settings/update/security" method="post" class="form content column gap-12 p-12 rounded-12 w-full">
                             <div class="form-elem column gap-12">
                                 <label for="oldPassword">Current password</label>
-                                <input type="password" name="oldPassword" id="oldPassword" placeholder="Your current password" class="input">
+                                <input required type="password" name="oldPassword" id="oldPassword" placeholder="Your current password" class="input">
                             </div>
                             
                             <div class="form-elem column gap-12">
                                 <label for="newPassword">New password</label>
-                                <input type="password" name="newPassword" id="newPassword" placeholder="Create a new password" class="input">
+                                <input required type="password" name="newPassword" id="newPassword" placeholder="Create a new password" class="input">
                             </div>
 
                             <button type="submit" class="btn fl rounded-full ph-32 pv-12">Update password</button>
@@ -165,12 +165,25 @@
                 <div class="settings-card p-20 rounded-16 bg-card column gap-20 h-fit w-full" id="dataSettings">
                     <h1 class="h1">Data</h1>
 
-                    <a href="/app/settings/data/clear" class="link row gap-12">
+                    <button class="link btn row gap-12" id="clearTrigger" popovertarget="clearConfirmation">
                         <span class="symbol">delete</span>
                         <span class="text">Clear history</span>
-                    </a>
+                    </button>
 
-                    <a href="/app/settings/data/export" class="link row gap-12">
+                    <div class="rounded-12" id="clearConfirmation" popover>
+                        <div class="content column gap-20 rounded-12 p-12">
+                            <div class="text-content column gap-12">
+                                <h2 class="h2">Are you sure?</h2>
+                                <span class="text">This action will delete all generation history.</span>
+                            </div>
+
+                            <div class="actions">
+                                <a href="/app/settings/data/clear" class="ulink">Yeah, go ahead.</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a target="_blank" href="/app/settings/data/export" class="link row gap-12">
                         <span class="symbol fl-icon">download_2</span>
                         <span class="text">Export data</span>
                     </a>

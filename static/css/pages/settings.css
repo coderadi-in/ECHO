@@ -92,3 +92,22 @@
 }
 
 #securitySettings #securityForm.open { transform: scale(1); }
+
+/* ================================================== */
+/* DATA SETTINGS */
+/* ================================================== */
+
+#dataSettings #clearConfirmation {
+    position: absolute;
+    border: none;
+    background-color: var(--color-surface-main);
+    color: var(--color-text-main);
+    backdrop-filter: blur(4px);
+    width: min(500px, 100%);
+    margin: auto;
+    transition: transform 0.3s cubic-bezier(0.911, 0.161, 0.181, 0.797);
+    transform-origin: center;
+    transform: scale(0);
+}
+
+#dataSettings #clearConfirmation.open { transform: scale(1); }

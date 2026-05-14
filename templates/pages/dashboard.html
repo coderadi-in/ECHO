@@ -71,6 +71,7 @@
                 <div class="body">
                     <div class="captions column gap-8">
                         {% for caption in current_user.captions %}
+                        {% if not caption.deleted %}
                         <div class="generated caption row h-sb gap-8 p-8" data-cap-id="{{ caption.id }}">
                             <p class="para">{{ caption.caption }}</p>
 
@@ -78,11 +79,13 @@
                                 <button class="link btn symbol copy-btn" title="Copy content">content_copy</button>
                             </div>
                         </div>
+                        {% endif %}
                         {% endfor %}
                     </div>
 
                     <div class="headlines column gap-8">
                         {% for headline in current_user.headlines %}
+                        {% if not headline.deleted %}
                         <div class="generated headline row h-sb gap-8 p-8" data-head-id="{{ headline.id }}">
                             <div class="column gap-4">
                                 <span class="text fs-20 fw-500">{{ headline.gen_headline }}</span>
@@ -93,6 +96,7 @@
                                 <button class="link btn symbol copy-btn" title="Copy content">content_copy</button>
                             </div>
                         </div>
+                        {% endif %}
                         {% endfor %}
                     </div>
                 </div>
@@ -105,7 +109,7 @@
 
                 <div class="column gap-4">
                     <p class="para text-right">Usage: <span class="text">2400/24000</span></p>
-                    
+
                     <div class="progress-bar bg-card w-full rounded-4">
                         <div class="progress-done h-full rounded-4" style="--w: 10%;"></div>
                     </div>
@@ -122,7 +126,7 @@
                         <span class="mini">Resets on 1st Jun 2026</span>
                     </div>
                 </div>
-                
+
                 <div class="info flex gap-12 p-12 rounded-16 bg-card">
                     <span class="symbol p-16 rounded-8 h-fit" style="--bg: #044389;">description</span>
 
@@ -132,7 +136,7 @@
                         <span class="mini">All time</span>
                     </div>
                 </div>
-                
+
                 <div class="info flex gap-12 p-12 rounded-16 bg-card">
                     <span class="symbol p-16 rounded-8 h-fit" style="--bg: #218380;">trending_up</span>
 
@@ -142,7 +146,7 @@
                         <span class="mini">Used today</span>
                     </div>
                 </div>
-                
+
                 <div class="info flex gap-12 p-12 rounded-16 bg-card">
                     <span class="symbol p-16 rounded-8 h-fit" style="--bg: #F4C12A;">bookmark</span>
 
@@ -161,11 +165,12 @@
                     </div>
 
                     <div class="prompt-area flex gap-12 p-12 rounded-12 w-full v-en">
-                        <textarea name="userPrompt" id="userPrompt" class="input w-full" placeholder="Ask anything about Marketing & Sales"></textarea>
+                        <textarea name="userPrompt" id="userPrompt" class="input w-full"
+                            placeholder="Ask anything about Marketing & Sales"></textarea>
                         <button class="link btn fl rounded-full p-12 h-fit symbol" id="sendPrompt">send</button>
                     </div>
                 </div>
-                
+
                 <div class="usage-overview column gap-12 h-sb bg-card p-16 rounded-16 w-full">
                     <div class="head row h-sb gap-12">
                         <span class="text fw-500 fs-20">Usage overview</span>
@@ -184,7 +189,9 @@
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+        integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+        crossorigin="anonymous"></script>
     <script type="module" src="{{ url_for('static', filename='js/pages/dashboard.js') }}"></script>
 </body>
 

@@ -16,4 +16,5 @@ dependencies = [
     "gevent-websocket>=0.10.1",
     "gunicorn>=26.0.0",
     "openai>=2.34.0",
+    "pandas>=3.0.3",
 ]
