@@ -89,6 +89,13 @@
         } else { null }
     }
 
+    function setAccent() {
+        const savedAccent = localStorage.getItem('accent');
+        if (!savedAccent) return;
+
+        document.body.classList.add(savedAccent);
+    }
+
     openControls.addEventListener('click', () => {
         controls.classList.remove('hidden');
     });
@@ -98,5 +105,8 @@
     });
 
     themeControl.addEventListener('click', toggleTheme);
-    document.addEventListener('DOMContentLoaded', setTheme);
+    document.addEventListener('DOMContentLoaded', () => {
+        setTheme();
+        setAccent();
+    });
 </script>

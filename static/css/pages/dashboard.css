@@ -68,7 +68,7 @@ main { height: calc(100dvh - 90px); }
 /* ================================================== */
 
 .overview .progress-bar {
-    background-color: #67A1E0;
+    background-color: var(--color-accent-alt);
     height: 4px;
 }
 

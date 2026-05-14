@@ -46,17 +46,20 @@ def bind_plugins(server: Flask) -> None:
     logger.init_app(server)
 
 # * FUNCTION TO SEND MESSAGE TO MODEL
-def get_response(system_prompt: str, message: str, token_size: int = 250) -> str:
+def get_response(system_prompt: str, message: str, personality_prompt: str|None = None, token_size: int = 250) -> str:
     """
     Generates a response using AI model.
 
     :param system_prompt: The prompt to be provided by the system.
     :param message: The prompt to be provided by the user.
+    :param personality_prompt: The prompt the be provided to give a personality to the AI to talk like.
+    :param token_size: The max token size to generate response.
 
     ## Usage
     ```python
         response = get_response(
             "You're a professional story-teller.",
+            "Talk like a friend.",
             "Create a small 100 words story for a tech-product."
         )
     ```
@@ -72,15 +75,27 @@ def get_response(system_prompt: str, message: str, token_size: int = 250) -> str
             api_key=api_key,
         )
 
-        response = model.responses.create(
-            model="openai/gpt-4o-mini",
-            input=[
-                { "role": "system", "content": system_prompt },
-                { "role": "user", "content": message },
-            ],
-            temperature=0.7,
-            max_output_tokens=token_size,
-        )
+        if (personality_prompt):
+            response = model.responses.create(
+                model="openai/gpt-4o-mini",
+                input=[
+                    { "role": "system", "content": system_prompt + "\n" + personality_prompt },
+                    { "role": "user", "content": message },
+                ],
+                temperature=0.7,
+                max_output_tokens=token_size,
+            )
+        
+        else:
+            response = model.responses.create(
+                model="openai/gpt-4o-mini",
+                input=[
+                    { "role": "system", "content": system_prompt },
+                    { "role": "user", "content": message },
+                ],
+                temperature=0.7,
+                max_output_tokens=token_size,
+            )
 
         return response.output_text
 

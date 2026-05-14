@@ -189,6 +189,7 @@ userPrompt.addEventListener('keydown', (e) => {
 
 socket.on('response-cl', (data) => {
     // UPDATE SEND-BTN
+    sendPrompt.disabled = false;
     sendPrompt.textContent = 'send';
     sendPrompt.classList.remove('anim-rotate');
 

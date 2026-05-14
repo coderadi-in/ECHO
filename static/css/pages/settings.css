@@ -46,9 +46,11 @@
 
 #aiPreferenceSettings #toneTarget { anchor-name: --toneAnchor; }
 #aiPreferenceSettings #creativityTarget { anchor-name: --creativityAnchor; }
+#aiPreferenceSettings #langTarget { anchor-name: --langAnchor; }
 
 #aiPreferenceSettings #toneInfo,
-#aiPreferenceSettings #creativityInfo {
+#aiPreferenceSettings #creativityInfo,
+#aiPreferenceSettings #langInfo {
     position: absolute;
     position-area: bottom right;
     border: none;
@@ -64,9 +66,11 @@
 
 #aiPreferenceSettings #toneInfo { position-anchor: --toneAnchor; }
 #aiPreferenceSettings #creativityInfo { position-anchor: --creativityAnchor; }
+#aiPreferenceSettings #langInfo { position-anchor: --langAnchor; }
 
 #aiPreferenceSettings #toneInfo.open,
-#aiPreferenceSettings #creativityInfo.open { transform: scale(1); }
+#aiPreferenceSettings #creativityInfo.open,
+#aiPreferenceSettings #langInfo.open { transform: scale(1); }
 
 /* ================================================== */
 /* SECURITY SETTINGS */

@@ -6,6 +6,9 @@ const allBtns = document.querySelectorAll('[data-section]');
 const allSections = document.querySelectorAll('.settings-card');
 const settingsPopovers = document.querySelectorAll('#appearanceSettings [popover], #aiPreferenceSettings [popover], #securitySettings [popover]');
 
+const toggleTheme = document.getElementById('themeToggle');
+const accentInputs = document.querySelectorAll('.accent-input');
+
 // ==================================================
 // FUNCTIONS
 // ==================================================
@@ -37,6 +40,25 @@ function showSectionById(section) {
     return true;
 }
 
+// * FUNCTION TO TOGGLE THEME
+function setColorTheme() {
+    document.body.classList.toggle('dark-theme');
+
+    if (localStorage.getItem('theme') === 'dark') {
+        localStorage.setItem('theme', 'light');
+    } else {
+        localStorage.setItem('theme', 'dark');
+    }
+}
+
+// * FUNCTION TO SET ACCENT COLOR
+function setAccentColor(color) {
+    document.body.classList.remove('accent-blue', 'accent-green');
+    document.body.classList.add(`accent-${color}`);
+
+    localStorage.setItem('accent', `accent-${color}`);
+}
+
 // ==================================================
 // EVENT LISTENERS
 // ==================================================
@@ -60,5 +82,16 @@ settingsPopovers.forEach(popover => {
         setTimeout(() => {
             popover.classList.toggle('open', event.newState === 'open');
         }, 100);
+    });
+});
+
+// & EVENT LISTENER FOR THEME-TOGGLE CLICK
+toggleTheme.addEventListener('click', setColorTheme);
+
+// & EVENT LISTENER FOR ACCENT-INPUT CLICK
+accentInputs.forEach(accent => {
+    accent.addEventListener('click', () => {
+        const selectedAccent = accent.id;
+        setAccentColor(selectedAccent);
     });
 });

@@ -72,12 +72,12 @@
 
                     <div class="rounded-12" id="accentsList" popover>
                         <div class="content column gap-8 p-12 rounded-12">
-                            <button class="link btn row gap-12" id="blue">
+                            <button class="accent-input link btn row gap-12" id="blue">
                                 <span class="sample"></span>
                                 <span class="text">Blue</span>
                             </button>
                             
-                            <button class="link btn row gap-12" id="green">
+                            <button class="accent-input link btn row gap-12" id="green">
                                 <span class="sample"></span>
                                 <span class="text">Green</span>
                             </button>
@@ -99,7 +99,20 @@
                                 <p class="para">What do you want your chatbot to talk like. It can be a mentor, a friend, or anything you want.</p>
                             </div>
                             
-                            <input type="text" name="tone" id="tone" placeholder="Mentor, Friend, etc." value="Mentor" class="input">
+                            <input type="text" name="tone" id="tone" placeholder="Mentor, Friend, etc." value="{{ current_user.ai_tone }}" class="input">
+                        </div>
+                        
+                        <div class="form-elem column gap-4">
+                            <div class="row gap-16">
+                                <label for="lang">Chatbot Language</label>
+                                <button type="button" class="link btn symbol fl-icon" popovertarget="langInfo" id="langTarget" aria-label="Show chatbot lang info">info</button>
+                            </div>
+
+                            <div class="rounded-12" id="langInfo" popover>
+                                <p class="para">What language you want your AI to talk in.</p>
+                            </div>
+                            
+                            <input type="text" name="lang" id="lang" placeholder="English, Italian, Hindi." value="{{ current_user.ai_lang }}" class="input">
                         </div>
                         
                         <div class="form-elem column gap-4">
@@ -112,7 +125,7 @@
                                 <p class="para">What level of creativity you want from your chatbot. 0 is default, means the bot will select on its own. Higher level means longer delay and higher credits usage.</p>
                             </div>
 
-                            <input type="number" name="creativity" id="creativity" placeholder="0" value="0" class="input" min="0" max="10">
+                            <input type="number" name="creativity" id="creativity" placeholder="0" value="{{ current_user.ai_creativity }}" class="input" min="0" max="10">
                         </div>
 
                         <button type="submit" class="btn fl rounded-full ph-32 pv-12">Update settings</button>

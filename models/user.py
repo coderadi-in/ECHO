@@ -31,6 +31,9 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String, nullable=False)
     site_url = db.Column(db.String)
     config_pass = db.Column(db.String, unique=True)
+    ai_tone = db.Column(db.String, default='Mentor')
+    ai_creativity = db.Column(db.Integer, default=0)
+    ai_lang = db.Column(db.String, default="English")
 
     captions = db.relationship('Caption', backref='author', lazy=True)
     headlines = db.relationship('Headline', backref='author', lazy=True)
