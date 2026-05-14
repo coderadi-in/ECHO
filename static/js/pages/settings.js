@@ -4,7 +4,7 @@
 
 const allBtns = document.querySelectorAll('[data-section]');
 const allSections = document.querySelectorAll('.settings-card');
-const accentsList = document.getElementById('accentsList');
+const settingsPopovers = document.querySelectorAll('#appearanceSettings [popover], #aiPreferenceSettings [popover], #securitySettings [popover]');
 
 // ==================================================
 // FUNCTIONS
@@ -54,7 +54,11 @@ allBtns.forEach(btn => {
     });
 });
 
-// & EVENT LISTENER FOR ACCENTS-LIST TOGGLE
-accentsList.addEventListener('beforetoggle', () => {
-    setTimeout(() => { accentsList.classList.toggle('open'); }, 100);
+// & EVENT LISTENER FOR SETTINGS POPOVER TOGGLE
+settingsPopovers.forEach(popover => {
+    popover.addEventListener('beforetoggle', (event) => {
+        setTimeout(() => {
+            popover.classList.toggle('open', event.newState === 'open');
+        }, 100);
+    });
 });

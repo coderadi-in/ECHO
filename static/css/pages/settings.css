@@ -39,3 +39,52 @@
 
 #appearanceSettings #accentsList #blue .sample { background-color: #2364AA; }
 #appearanceSettings #accentsList #green .sample { background-color: #488B49; }
+
+/* ================================================== */
+/* AI PREFERENCE SETTINGS */
+/* ================================================== */
+
+#aiPreferenceSettings #toneTarget { anchor-name: --toneAnchor; }
+#aiPreferenceSettings #creativityTarget { anchor-name: --creativityAnchor; }
+
+#aiPreferenceSettings #toneInfo,
+#aiPreferenceSettings #creativityInfo {
+    position: absolute;
+    position-area: bottom right;
+    border: none;
+    max-width: 320px;
+    padding: 12px;
+    color: var(--color-text-main);
+    background-color: var(--color-surface-alt);
+    backdrop-filter: blur(4px);
+    transition: transform 0.3s cubic-bezier(0.911, 0.161, 0.181, 0.797);
+    transform-origin: top left;
+    transform: scale(0);
+}
+
+#aiPreferenceSettings #toneInfo { position-anchor: --toneAnchor; }
+#aiPreferenceSettings #creativityInfo { position-anchor: --creativityAnchor; }
+
+#aiPreferenceSettings #toneInfo.open,
+#aiPreferenceSettings #creativityInfo.open { transform: scale(1); }
+
+/* ================================================== */
+/* SECURITY SETTINGS */
+/* ================================================== */
+
+#securitySettings #logoutBtn { background-color: var(--color-state-red); }
+
+#securitySettings #securityForm {
+    position: absolute;
+    border: none;
+    background-color: var(--color-surface-main);
+    color: var(--color-text-main);
+    backdrop-filter: blur(4px);
+    width: min(500px, 100%);
+    margin: auto;
+    transition: transform 0.3s cubic-bezier(0.911, 0.161, 0.181, 0.797);
+    transform-origin: center;
+    transform: scale(0);   
+}
+
+#securitySettings #securityForm.open { transform: scale(1); }
