@@ -45,12 +45,14 @@ def dashboard():
     # COUNT CURRENT MONTH'S GENERATIONS
     month_captions_count = Caption.query.filter(
         Caption.user == current_user.id,
-        extract('month', Caption.created_at) == date.today().month
+        extract('month', Caption.created_at) == date.today().month,
+        Caption.deleted == False
     ).count()
 
     month_headlines_count = Headline.query.filter(
         Headline.user == current_user.id,
-        extract('month', Headline.created_at) == date.today().month
+        extract('month', Headline.created_at) == date.today().month,
+        Headline.deleted == False
     ).count()
 
     month_gens = month_captions_count + month_headlines_count
@@ -81,6 +83,7 @@ def settings():
 
 # | SETTINGS UPDATE ROUTE
 @app.route('/settings/update/<field>', methods=['POST'])
+@login_required
 def update_settings(field):
     if (field == 'profile'):
         current_user.name = request.form.get('name', current_user.name)
@@ -128,6 +131,7 @@ def update_settings(field):
     
 # | SETTINGS DATA ROUTE
 @app.route('/settings/data/<function>')
+@login_required
 def handle_data(function):
     if (function == 'clear'):
         for caption in current_user.captions:
@@ -194,6 +198,33 @@ def handle_data(function):
 @login_required
 def history():
     return render_template('pages/history.html')
+
+# | DELETE GENERATION ROUTE
+@app.route('/history/delete/<category>')
+@login_required
+def delete_generation(category):
+    gen_id = request.args.get('id')
+    gen = None
+
+    if (not gen_id):
+        flash("Couldn't find the generation to delete.", "error")
+        return redirect(url_for('app.history'))
+    
+    if (category.lower() == 'caption'):
+        gen = Caption.query.get(gen_id)
+
+    elif (category.lower() == 'headline'):
+        gen = Headline.query.get(gen_id)
+
+    if (not gen):
+        flash("Couldn't find the generation to delete.", "error")
+        return redirect(url_for('app.history'))
+        
+    gen.deleted = True
+    db.session.commit()
+
+    flash("The generation has been deleted.", "check_circle")
+    return redirect(url_for('app.history'))
 
 # & ACCOUNT ROUTE
 @app.route('/account')

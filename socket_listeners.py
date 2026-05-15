@@ -25,9 +25,9 @@ def generate_captions(product: dict) -> str:
 
     # RESPONSE GENERATION
     response = get_response(
-        SystemPrompts.CAPTION_GENERATION,
-        f"""Title: {title}, Price: {price}, Desc: {desc}""",
-        TokenSize.CAPTION_GENERATION
+        system_prompt=SystemPrompts.CAPTION_GENERATION,
+        message=f"""Title: {title}, Price: {price}, Desc: {desc}""",
+        token_size=TokenSize.CAPTION_GENERATION
     )
 
     # EMIT OUTPUT
@@ -61,9 +61,9 @@ def generate_headlines(product: dict) -> str:
 
     # RESPONSE GENERATION
     response = get_response(
-        SystemPrompts.HEADLINE_GENERATION,
-        f"""Title: {title}, Price: {price}, Desc: {desc}""",
-        TokenSize.HEADLINE_GENERATION
+        system_prompt=SystemPrompts.HEADLINE_GENERATION,
+        message=f"""Title: {title}, Price: {price}, Desc: {desc}""",
+        token_size=TokenSize.HEADLINE_GENERATION
     )
 
     output_headline, output_desc = response.split("::", 1)

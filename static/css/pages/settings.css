@@ -88,7 +88,7 @@
     margin: auto;
     transition: transform 0.3s cubic-bezier(0.911, 0.161, 0.181, 0.797);
     transform-origin: center;
-    transform: scale(0);   
+    transform: scale(0);
 }
 
 #securitySettings #securityForm.open { transform: scale(1); }

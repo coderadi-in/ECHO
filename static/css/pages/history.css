@@ -1,0 +1,51 @@
+/* ================================================== */
+/* TOP SECTION */
+/* ================================================== */
+
+.top-section .content { min-width: 30%; }
+
+.top-section .search-bar { border: 1px solid var(--color-border); }
+.top-section .search-bar .input { background: transparent; }
+
+.top-section #filterTarget { anchor-name: --filterAnchor; }
+.top-section #filterPopover {
+    position: absolute;
+    position-anchor: --filterAnchor;
+    position-area: bottom left;
+    border: none;
+    background-color: var(--color-surface-alt);
+    backdrop-filter: blur(4px);
+    transition: transform 0.3s cubic-bezier(0.911, 0.161, 0.181, 0.797);
+    transform-origin: top right;
+    transform: scale(0);
+}
+
+.top-section #filterPopover.open { transform: scale(1); }
+
+/* ================================================== */
+/* CARDS SECTION */
+/* ================================================== */
+
+.cards-section .card {
+    aspect-ratio: 2 / 3;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* ================================================== */
+/* DELETE POPOVER */
+/* ================================================== */
+
+.main #deleteConfirmation {
+    position: absolute;
+    border: none;
+    background-color: var(--color-surface-main);
+    color: var(--color-text-main);
+    backdrop-filter: blur(4px);
+    width: min(500px, 100%);
+    margin: auto;
+    transition: transform 0.3s cubic-bezier(0.911, 0.161, 0.181, 0.797);
+    transform-origin: center;
+    transform: scale(0);
+}
+.main #deleteConfirmation.open { transform: scale(1); }

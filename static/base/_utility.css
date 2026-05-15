@@ -389,6 +389,15 @@ html {
 
 .input::placeholder { color: var(--color-text-alt); }
 
+.input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;    
+    width: 16px;
+    height: 16px;
+    background-image: url('/static/assets/icons/close.svg');
+    background-size: contain;
+    cursor: pointer;
+}
+
 textarea.input {
     height: 148px;
     resize: vertical;
