@@ -203,8 +203,7 @@ def history():
 @app.route('/history/delete/<category>')
 @login_required
 def delete_generation(category):
-    gen_id = request.args.get('id')
-    gen = None
+    gen, gen_id = None, request.args.get('id')
 
     if (not gen_id):
         flash("Couldn't find the generation to delete.", "error")

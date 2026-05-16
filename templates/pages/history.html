@@ -20,7 +20,7 @@
     {% include 'components/controls.html' %}
 
     <main class="main">
-        <section class="section p-48 content column gap-24">
+        <section class="section p-48 content column gap-24 min-h-0">
             <div class="top-section res-row h-sb">
                 <h1 class="h1">Generation history</h1>
 
@@ -43,20 +43,43 @@
                 </div>
             </div>
 
-            <div class="cards-section grid cols-auto-400 gap-12">
+            <div class="cards-section grid cols-auto-400 gap-12 min-h-0">
                 {% for caption in current_user.captions %}
                 {% if not caption.deleted %}
-                <div class="card column h-sb p-20 bg-card rounded-16">
+                <div class="card column h-sb p-20 bg-card rounded-16" data-type="caption">
                     <div class="head res-row h-sb gap-8">
                         <span class="text">{{ caption.title }}</span>
                         <span class="text">{{ caption.created_at }}</span>
                     </div>
 
-                    <p class="para text-center">{{ caption.caption }}</p>
+                    <div class="content">
+                        <p class="para text-center">{{ caption.caption }}</p>
+                    </div>
 
                     <div class="actions row gap-12 h-en">
                         <button class="link btn symbol copy-content" data-content="{{ caption.caption }}">content_copy</button>
                         <button class="link btn symbol delete-btn" data-id="{{ caption.id }}" data-type="caption" popovertarget="deleteConfirmation">delete</button>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+
+                {% for headline in current_user.headlines %}
+                {% if not headline.deleted %}                    
+                <div class="card column h-sb p-20 bg-card rounded-16" data-type="headline">
+                    <div class="head res-row h-sb gap-8">
+                        <span class="text">{{ headline.title }}</span>
+                        <span class="text">{{ headline.created_at }}</span>
+                    </div>
+
+                    <div class="content column gap-12 text-center">
+                        <h2 class="h2">{{ headline.gen_headline }}</h2>
+                        <p class="para">{{ headline.gen_desc }}</p>
+                    </div>
+
+                    <div class="actions row gap-12 h-en">
+                        <button class="link btn symbol copy-content" data-content="{{ headline.gen_headline }}\n{{ headline.gen_desc }}">content_copy</button>
+                        <button class="link btn symbol delete-btn" data-id="{{ headline.id }}" data-type="headline" popovertarget="deleteConfirmation">delete</button>
                     </div>
                 </div>
                 {% endif %}
