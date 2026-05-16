@@ -229,4 +229,36 @@ def delete_generation(category):
 @app.route('/account')
 @login_required
 def account():
-    return render_template('pages/account.html')
+    # COUNT TOTAL GENERATIONS
+    total_captions_count = Caption.query.filter(
+        Caption.user == current_user.id,
+        Caption.deleted == False
+    ).count()
+
+    total_headlines_count = Headline.query.filter(
+        Headline.user == current_user.id,
+        Headline.deleted == False
+    ).count()
+
+    total_gens = total_captions_count + total_headlines_count
+
+    # COUNT CURRENT MONTH'S GENERATIONS
+    month_captions_count = Caption.query.filter(
+        Caption.user == current_user.id,
+        extract('month', Caption.created_at) == date.today().month,
+        Caption.deleted == False
+    ).count()
+
+    month_headlines_count = Headline.query.filter(
+        Headline.user == current_user.id,
+        extract('month', Headline.created_at) == date.today().month,
+        Headline.deleted == False
+    ).count()
+
+    month_gens = month_captions_count + month_headlines_count
+
+    return render_template('pages/account.html', data={
+        'total_gens': total_gens,
+        'monthly_gens': month_gens,
+        'saved_count': len(current_user.saved),
+    })

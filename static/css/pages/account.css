@@ -1,0 +1,37 @@
+/* ================================================== */
+/* PROFILE SECTION */
+/* ================================================== */
+
+.profile-section .text-content { border-left: 2px solid var(--color-accent-main); }
+
+/* ================================================== */
+/* INFO GRID */
+/* ================================================== */
+
+.info-grid { grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); }
+
+.info-grid .info .symbol {
+    background-color: var(--bg);
+    color: #F4F4F6;
+}
+
+/* ================================================== */
+/* ACCOUNT ACTIONS */
+/* ================================================== */
+
+.account-action { background-color: #FF58589C; }
+
+.account-action #clearConfirmation {
+    position: absolute;
+    border: none;
+    background-color: var(--color-surface-main);
+    color: var(--color-text-main);
+    backdrop-filter: blur(4px);
+    width: min(500px, 100%);
+    margin: auto;
+    transition: transform 0.3s cubic-bezier(0.911, 0.161, 0.181, 0.797);
+    transform-origin: center;
+    transform: scale(0);
+}
+
+.account-action #clearConfirmation.open { transform: scale(1); }

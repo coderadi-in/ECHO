@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="pre-connect" href="https://fonts.googleapis.com">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/icons/favicon.ico') }}" type="image/x-icon">
+    <title>Account &bull; ECHO</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='base/_utility.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/account.css') }}">
+</head>
+
+<body>
+    {% include 'components/msg.html' %}
+
+    {% include 'components/header.html' %}
+    {% include 'components/controls.html' %}
+
+    <main class="main">
+        <section class="section p-48 column gap-20">
+            <div class="profile-section row gap-20 bg-card p-16 rounded-16">
+                <div class="text-content column gap-12 ph-16 rounded-8">
+                    <span class="text fs-24">Hi, {{ current_user.name }} 👋</span>
+                    <span class="text">{{ current_user.email }}</span>
+                    <span class="text">{{ data.total_gens }} generations</span>
+                </div>
+            </div>
+
+            <div class="info-grid grid gap-20">
+                <div class="info flex gap-12 p-12 rounded-16 bg-card">
+                    <span class="symbol p-16 rounded-8 h-fit" style="--bg: #C3423F;">bolt</span>
+
+                    <div class="text-content column gap-4">
+                        <h1 class="h1">21600</h1>
+                        <span class="text">Credits left</span>
+                        <span class="mini">Resets on 1st Jun 2026</span>
+                    </div>
+                </div>
+
+                <div class="info flex gap-12 p-12 rounded-16 bg-card">
+                    <span class="symbol p-16 rounded-8 h-fit" style="--bg: #044389;">description</span>
+
+                    <div class="text-content column gap-4">
+                        <h1 class="h1">{{ data.total_gens }}</h1>
+                        <span class="text">Total generations</span>
+                        <span class="mini">All time</span>
+                    </div>
+                </div>
+
+                <div class="info flex gap-12 p-12 rounded-16 bg-card">
+                    <span class="symbol p-16 rounded-8 h-fit" style="--bg: #218380;">trending_up</span>
+
+                    <div class="text-content column gap-4">
+                        <h1 class="h1">280</h1>
+                        <span class="text">Today's generations</span>
+                        <span class="mini">Used today</span>
+                    </div>
+                </div>
+
+                <div class="info flex gap-12 p-12 rounded-16 bg-card">
+                    <span class="symbol p-16 rounded-8 h-fit" style="--bg: #F4C12A;">bookmark</span>
+
+                    <div class="text-content column gap-4">
+                        <h1 class="h1">{{ data.saved_count }}</h1>
+                        <span class="text">Saved items</span>
+                        <span class="mini">Across all tools</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="account-action p-20 rounded-16 column gap-12">
+                <h2 class="h2">Account actions</h2>
+
+                <div class="actions row gap-20">
+                    <a href="{{ url_for('auth.logout') }}" class="link btn pv-12 ph-20 rounded-8 row gap-12 bg-main">
+                        <span class="symbol">logout</span>
+                        <span class="text">Logout</span>
+                    </a>
+
+                    <button class="link btn pv-12 ph-20 rounded-8 row gap-12 bg-main" popovertarget="clearConfirmation">
+                        <span class="symbol">clear_all</span>
+                        <span class="text">Clear history</span>
+                    </button>
+                    
+                    <button class="link btn pv-12 ph-20 rounded-8 row gap-12 bg-main">
+                        <span class="symbol">delete_forever</span>
+                        <span class="text">Delete account</span>
+                    </button>
+                </div>
+
+                <div class="rounded-12" id="clearConfirmation" popover>
+                    <div class="content column gap-20 rounded-12 p-12">
+                        <div class="text-content column gap-12">
+                            <h2 class="h2">Are you sure?</h2>
+                            <span class="text">This action will delete all generation history.</span>
+                        </div>
+
+                        <div class="actions">
+                            <a href="/app/settings/data/clear" class="ulink">Yeah, go ahead.</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="{{ url_for('static', filename='js/pages/account.js') }}"></script>
+</body>
+
+</html>

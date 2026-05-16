@@ -371,7 +371,7 @@ html {
 /* COLORS */
 /* ================================================== */
 
-.bg-main { background-color: var(--color-bg-main); }
+.bg-main { background-color: var(--color-bg-main) !important; }
 .bg-card { background-color: var(--color-bg-card); }
 
 /* ================================================== */
