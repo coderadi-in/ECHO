@@ -35,8 +35,8 @@ class User(db.Model, UserMixin):
     ai_tone = db.Column(db.String, default='Mentor')
     ai_creativity = db.Column(db.Integer, default=0)
     ai_lang = db.Column(db.String, default="English")
-    total_credits = db.Column(db.Integer, default=2)
-    left_credits = db.Column(db.Integer, default=2)
+    total_credits = db.Column(db.Integer, default=50)
+    left_credits = db.Column(db.Integer, default=50)
     last_reset_month = db.Column(db.Integer, default=date.today().month)
 
     captions = db.relationship('Caption', backref='author', lazy=True)

@@ -116,6 +116,6 @@ def get_response(system_prompt: str, message: str, personality_prompt: str|None 
 def reset_credits():
     if (current_user.last_reset_month != date.today().month):
         current_user.last_reset_month = date.today().month
-        current_user.left_credits = 2
+        current_user.left_credits = 50
         db.session.commit()
         flash("Credits got reset just now.", "thumb_up")
