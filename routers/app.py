@@ -13,7 +13,6 @@ from plugins import login_required, current_user, extract
 from flask import Blueprint, render_template, request, redirect, url_for, flash, send_file
 from models import *
 from plugins import *
-from datetime import date
 import pandas as pd
 from zipfile import ZipFile
 from io import BytesIO
@@ -29,6 +28,9 @@ app = Blueprint("app", __name__, url_prefix='/app')
 @app.route("/dashboard")
 @login_required
 def dashboard():
+    # RESET CREDITS
+    reset_credits()
+
     # COUNT TOTAL GENERATIONS
     total_captions_count = Caption.query.filter(
         Caption.user == current_user.id,
@@ -119,7 +121,7 @@ def update_settings(field):
             flash("Invalid password", "error")
             return redirect(url_for('app.settings'))
         
-        current_user.password = new_password
+        current_user.password = encoder.generate_password_hash(new_password)
         db.session.commit()
 
         flash("Your security password has been updated.", "check_circle")

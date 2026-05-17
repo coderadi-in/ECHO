@@ -23,13 +23,68 @@ const colors = [ '#F6DECBA0', '#FCC5D2A0', '#DFDDE3A0', '#CCF5F5A0', '#C2EDFFA0'
 // ==================================================
 
 import { socket, sendMessage } from '../base/socket_listeners.js';
-import { applyRandomBackgroundColor, copyToClipboard, closeOutputFrame, resetPromptArea } from '../pages/captions.js';
 
 // ==================================================
 // FUNCTIONS
 // ==================================================
 
+// * FUNCTION TO APPLY RANDOM BACKGROUND COLOR TO EACH CARD
+function applyRandomBackgroundColor() {
+    cards.forEach(card => {
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        card.style.backgroundColor = randomColor;
+    });
+}
 
+// * FUNCTION TO COPY OUTPUT RESPONSE TO CLIPBOARD
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text);
+}
+
+// * FUNCTION TO CLOSE OUTPUT FRAME
+function closeOutputFrame() {
+    outputFrame.style.opacity = '0';
+    setTimeout(() => { outputFrame.style.display = 'none'; }, 500);
+}
+
+// * FUNCTION TO HANDLE SEND-BUTTON CLICK
+function handleSendButtonClick(event, message) {
+    // UPDATE SEND-BTN
+    sendBtn.disabled = true;
+    sendBtn.textContent = 'progress_activity';
+    sendBtn.classList.add('anim-rotate');
+
+    // DATA VALIDATION
+    if (titleInput.value.trim() === '' || priceInput.value.trim() === '' || descInput.value.trim() === '') {
+        sendBtn.disabled = false;
+        sendBtn.textContent = 'send';
+        sendBtn.classList.remove('anim-rotate');
+        return;
+    }
+
+    // SEND MESSAGE TO SERVER
+    sendMessage(event, message);
+}
+
+// * FUNCTION TO RESET PROMPT AREA
+function resetPromptArea() {
+    // CLEAR INPUT FIELDS
+    titleInput.value = '';
+    priceInput.value = '';
+    descInput.value = '';
+
+    // CLEAR INPUT FIELDS
+    titleInput.value = '';
+    priceInput.value = '';
+    descInput.value = '';
+
+    // UPDATE SEND-BTN
+    sendBtn.disabled = false;
+    sendBtn.textContent = 'send';
+    sendBtn.classList.remove('anim-rotate');
+
+    setTimeout(() => { outputFrame.style.opacity = '1'; }, 100);
+}
 
 // ==================================================
 // EVENT LISTENERS
@@ -56,8 +111,7 @@ sendBtn.addEventListener('click', () => {
         desc: descInput.value.trim()
     }
 
-    // SEND MESSAGE TO SERVER
-    sendMessage('headlines-sys', message);
+    handleSendButtonClick("headlines-sys", message);
 });
 
 // ==================================================

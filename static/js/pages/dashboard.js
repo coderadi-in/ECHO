@@ -2,6 +2,11 @@
 // ELEMENT REFERENCE
 // ==================================================
 
+const progressBar = document.querySelector('.progress-done');
+
+const monthName = document.getElementById('monthName');
+const yearName = document.getElementById('yearName');
+
 const tabBtns = document.querySelectorAll('.tabs .text');
 const captionContent = document.querySelector('.recent-gens .body .captions');
 const headlineContent = document.querySelector('.recent-gens .body .headlines');
@@ -35,6 +40,18 @@ import { socket, sendMessage } from '../base/socket_listeners.js';
 // ==================================================
 // FUNCTIONS
 // ==================================================
+
+// * FUNCTION TO GET NEXT MONTH NAME
+function getNextMonth(month = "short") {
+    const date = new Date();
+    date.setMonth(date.getMonth() + 1);
+    const nextMonthName = date.toLocaleString('default', { month: month });
+    
+    return {
+        month: nextMonthName,
+        year: date.getFullYear()
+    };
+}
 
 // * FUNCTION TO SWITCH TABS
 function switchTab(e) {
@@ -116,9 +133,20 @@ export function handleSendButtonClick(event, message) {
 
 // & INITIAL DISPLAY SETTINGS
 document.addEventListener('DOMContentLoaded', () => {
+    const progressWidth = progressBar.attributes.style.value.slice(4, -2);
+    if (0 <= progressWidth <= 33){ progressBar.style.backgroundColor = 'var(--color-state-green)'; }
+    if (33 <= progressWidth <= 66){ progressBar.style.backgroundColor = 'var(--color-accent-alt)'; }
+    if (66 <= progressWidth <= 100){ progressBar.style.backgroundColor = 'var(--color-state-red)'; }
+
+    const creditsCalender = getNextMonth();
+    monthName.textContent = creditsCalender.month;
+    yearName.textContent = creditsCalender.year;
+
     captionContent.style.display = 'flex';
     headlineContent.style.display = 'none';
+
     renderUsageChart();
+
     chatWelcome.textContent = randomMessage;
 });
 

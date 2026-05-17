@@ -9,10 +9,17 @@ from plugins import *
 from models import Caption, Headline
 from ai import SystemPrompts, TokenSize
 
-
 # & CAPTION GENERATION
 @socket.on("captions-sys")
 def generate_captions(product: dict) -> str:
+    # RESET CREDITS
+    reset_credits()
+
+    # CHECK CREDITS
+    if (current_user.left_credits <= 0):
+        socket.emit("captions-cl", "You're out of credits!")
+        return
+
     # ACCESS DATA
     title = product["title"]
     desc = product["desc"]
@@ -31,24 +38,34 @@ def generate_captions(product: dict) -> str:
     )
 
     # EMIT OUTPUT
-    socket.emit("captions-cl", response)
+    socket.emit("captions-cl", response['output'])
 
     # SAVE OUTPUT IN DB
-    new_caption = Caption(
-        user=current_user.id,
-        title=title,
-        desc=desc,
-        price=float(price),
-        caption=response,
-    )
+    if (response['status'] == 200):
+        new_caption = Caption(
+            user=current_user.id,
+            title=title,
+            desc=desc,
+            price=float(price),
+            caption=response['output'],
+        )
 
-    db.session.add(new_caption)
-    db.session.commit()
+        db.session.add(new_caption)
+        current_user.left_credits -= 1
+        db.session.commit()
 
 
 # & HEADLINE GENERATION
 @socket.on("headlines-sys")
 def generate_headlines(product: dict) -> str:
+    # RESET CREDITS
+    reset_credits()
+    
+    # CHECK CREDITS
+    if (current_user.left_credits <= 0):
+        socket.emit("headlines-cl", {"headline": "Low credits", "desc": "You're out of credits!"})
+        return
+    
     # ACCESS DATA
     title = product["title"]
     desc = product["desc"]
@@ -66,23 +83,25 @@ def generate_headlines(product: dict) -> str:
         token_size=TokenSize.HEADLINE_GENERATION
     )
 
-    output_headline, output_desc = response.split("::", 1)
+    output_headline, output_desc = response['output'].split("::", 1)
 
     # EMIT OUTPUT
     socket.emit("headlines-cl", {"headline": output_headline, "desc": output_desc})
 
     # SAVE OUTPUT IN DB
-    new_headline = Headline(
-        user=current_user.id,
-        title=title,
-        desc=desc,
-        price=float(price),
-        gen_headline=output_headline,
-        gen_desc=output_desc
-    )
+    if (response['status'] == 200):
+        new_headline = Headline(
+            user=current_user.id,
+            title=title,
+            desc=desc,
+            price=float(price),
+            gen_headline=output_headline,
+            gen_desc=output_desc
+        )
 
-    db.session.add(new_headline)
-    db.session.commit()
+        db.session.add(new_headline)
+        current_user.left_credits -= 1
+        db.session.commit()
 
 # & NORMAL CHAT
 @socket.on("response-sys")
@@ -104,4 +123,4 @@ def generate_response(data: str) -> str:
     )
 
     # EMIT OUTPUT
-    socket.emit("response-cl", { 'response': response })
+    socket.emit("response-cl", { 'response': response['output'] })

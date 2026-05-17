@@ -5,7 +5,7 @@ Manages all Flask-plugins.
 """
 
 # ? IMPORTS
-from flask import Flask
+from flask import Flask, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO
 from flask_bcrypt import Bcrypt
@@ -14,6 +14,7 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, curren
 from openai import OpenAI
 import os
 from sqlalchemy import extract
+from datetime import date
 
 # ! INITS
 db = SQLAlchemy()
@@ -67,7 +68,10 @@ def get_response(system_prompt: str, message: str, personality_prompt: str|None 
 
     api_key = os.getenv("OPENAI_API_KEY")
     if not (api_key):
-        return "There're issues in the backend!"
+        return {
+            "output": "There're issues in the backend!",
+            "status": 503
+        }
 
     try:
         model = OpenAI(
@@ -97,7 +101,21 @@ def get_response(system_prompt: str, message: str, personality_prompt: str|None 
                 max_output_tokens=token_size,
             )
 
-        return response.output_text
+        return {
+            "output": response.output_text,
+            "status": 200
+        }
 
     except:
-        return "Something went wrong while generating response!"
+        return {
+            "output": "Something went wrong while generating response!",
+            "status": 500
+        }
+
+# * FUNCTION TO RESET USER CREDITS
+def reset_credits():
+    if (current_user.last_reset_month != date.today().month):
+        current_user.last_reset_month = date.today().month
+        current_user.left_credits = 2
+        db.session.commit()
+        flash("Credits got reset just now.", "thumb_up")

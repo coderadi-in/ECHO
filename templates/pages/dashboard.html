@@ -108,10 +108,10 @@
                 <span class="text fs-20 fw-500">Welcome back, {{ current_user.name }}. 👋</span>
 
                 <div class="column gap-4">
-                    <p class="para text-right">Usage: <span class="text">2400/24000</span></p>
+                    <p class="para text-right">Usage: <span class="text">{{ current_user.total_credits - current_user.left_credits }}/{{ current_user.total_credits }}</span></p>
 
                     <div class="progress-bar bg-card w-full rounded-4">
-                        <div class="progress-done h-full rounded-4" style="--w: 10%;"></div>
+                        <div class="progress-done h-full rounded-4" style="--w: {{(current_user.total_credits - current_user.left_credits)/current_user.total_credits*100}}%;"></div>
                     </div>
                 </div>
             </div>
@@ -121,9 +121,9 @@
                     <span class="symbol p-16 rounded-8 h-fit" style="--bg: #C3423F;">bolt</span>
 
                     <div class="text-content column gap-4">
-                        <h1 class="h1">21600</h1>
+                        <h1 class="h1">{{ current_user.left_credits }}</h1>
                         <span class="text">Credits left</span>
-                        <span class="mini">Resets on 1st Jun 2026</span>
+                        <span class="mini">Reset on 1st <span id="monthName"></span> <span id="yearName"></span></span>
                     </div>
                 </div>
 
