@@ -262,3 +262,34 @@ def account():
         'monthly_gens': month_gens,
         'saved_count': len(current_user.saved),
     })
+
+# | DELETE ACCOUNT ROUTE
+@app.route('/account/delete', methods=['POST'])
+@login_required
+def delete_account():
+    # FORM VALIDATION
+    password = request.form.get('password')
+
+    if (not password):
+        flash("The required password ins't provided!", "error")
+        return redirect(url_for('app.account'))
+    
+    if (not encoder.check_password_hash(current_user.password, password)):
+        flash("Password mismatched!", "error")
+        return redirect(url_for('app.account'))
+    
+    # DELETE ACCOUNT
+    for caption in current_user.captions:
+        db.session.delete(caption)
+
+    for headline in current_user.headlines:
+        db.session.delete(headline)
+
+    for saved in current_user.saved:
+        db.session.delete(saved)
+
+    db.session.delete(current_user)
+    db.session.commit()
+
+    flash("Your account has been deleted completely from ECHO.", "delete_forever")
+    return redirect('/')

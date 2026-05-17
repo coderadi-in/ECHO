@@ -21,7 +21,8 @@
 
 .account-action { background-color: #FF58589C; }
 
-.account-action #clearConfirmation {
+.account-action #clearConfirmation,
+.account-action #deleteConfirmation {
     position: absolute;
     border: none;
     background-color: var(--color-surface-main);
@@ -34,4 +35,5 @@
     transform: scale(0);
 }
 
-.account-action #clearConfirmation.open { transform: scale(1); }
+.account-action #clearConfirmation.open,
+.account-action #deleteConfirmation.open { transform: scale(1); }

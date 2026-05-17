@@ -85,7 +85,7 @@
                         <span class="text">Clear history</span>
                     </button>
                     
-                    <button class="link btn pv-12 ph-20 rounded-8 row gap-12 bg-main">
+                    <button class="link btn pv-12 ph-20 rounded-8 row gap-12 bg-main" popovertarget="deleteConfirmation">
                         <span class="symbol">delete_forever</span>
                         <span class="text">Delete account</span>
                     </button>
@@ -101,6 +101,20 @@
                         <div class="actions">
                             <a href="/app/settings/data/clear" class="ulink">Yeah, go ahead.</a>
                         </div>
+                    </div>
+                </div>
+                
+                <div class="rounded-12" id="deleteConfirmation" popover>
+                    <div class="content column gap-20 rounded-12 p-12">
+                        <div class="text-content column gap-12">
+                            <h2 class="h2">Are you sure?</h2>
+                            <span class="text">This action will delete your account and all generations.</span>
+                        </div>
+
+                        <form action="{{ url_for('app.delete_account') }}" method="post" class="form column gap-12">
+                            <input required type="password" name="password" placeholder="Enter your account password" class="input">
+                            <button type="submit" class="ulink btn">Delete account.</button>
+                        </form>
                     </div>
                 </div>
             </div>

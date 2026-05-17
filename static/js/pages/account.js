@@ -2,15 +2,17 @@
 // ELEMENT REFERENCE
 // ==================================================
 
-const clearConfirmation = document.getElementById('clearConfirmation');
+const popovers = document.querySelector('.main').querySelectorAll('[popover]');
 
 // ==================================================
 // EVENT LISTENERS
 // ==================================================
 
-// & CONFIRMATION MODEL BEFORE-TOGGLE LISTENER
-clearConfirmation.addEventListener('beforetoggle', (event) => {
-    setTimeout(() => {
-        clearConfirmation.classList.toggle('open', event.newState === 'open');
-    }, 100);
+// & EVENT LISTENER FOR POPOVER BEFORE-TOGGLE
+popovers.forEach(popover => {
+    popover.addEventListener('beforetoggle', (event) => {
+        setTimeout(() => {
+            popover.classList.toggle('open', event.newState === 'open');
+        }, 100);
+    });
 });
