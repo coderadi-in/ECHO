@@ -32,36 +32,40 @@ def dashboard():
     reset_credits()
 
     # COUNT TOTAL GENERATIONS
-    total_captions_count = Caption.query.filter(
-        Caption.user == current_user.id,
-        Caption.deleted == False
-    ).count()
-
-    total_headlines_count = Headline.query.filter(
-        Headline.user == current_user.id,
-        Headline.deleted == False
-    ).count()
-
+    total_captions_count = Caption.query.filter(Caption.user == current_user.id).count()
+    total_headlines_count = Headline.query.filter(Headline.user == current_user.id).count()
     total_gens = total_captions_count + total_headlines_count
 
     # COUNT CURRENT MONTH'S GENERATIONS
     month_captions_count = Caption.query.filter(
         Caption.user == current_user.id,
         extract('month', Caption.created_at) == date.today().month,
-        Caption.deleted == False
     ).count()
 
     month_headlines_count = Headline.query.filter(
         Headline.user == current_user.id,
         extract('month', Headline.created_at) == date.today().month,
-        Headline.deleted == False
     ).count()
 
     month_gens = month_captions_count + month_headlines_count
 
+    # COUNT TODAY'S GENERATIONS
+    today_caption_count = Caption.query.filter(
+        Caption.user == current_user.id,
+        Caption.created_at == date.today()
+    ).count()
+
+    today_headline_count = Headline.query.filter(
+        Headline.user == current_user.id,
+        Headline.created_at == date.today()
+    ).count()
+
+    today_gens = today_caption_count + today_headline_count
+
     return render_template('pages/dashboard.html', data={
         'total_gens': total_gens,
         'monthly_gens': month_gens,
+        'today_gens': today_gens,
         'saved_count': len(current_user.saved),
     })
 

@@ -68,14 +68,11 @@ main { height: calc(100dvh - 90px); }
 /* ================================================== */
 
 .overview .progress-bar {
-    background-color: var(--color-accent-alt);
+    background-color: var(--color-border);
     height: 4px;
 }
 
-.overview .progress-done {
-    width: var(--w);
-    background-color: var(--color-accent-main);
-}
+.overview .progress-done { width: var(--w); }
 
 /* ================================================== */
 /* INFO-GRID */

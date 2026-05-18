@@ -70,32 +70,24 @@ function switchTab(e) {
     });
 }
 
-// * FUNCTION TO GET DATES IN CURRENT-MONTH
-function getCurrentMonthDates() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth()
-
-    // Get total days by moving to the 0th day of the next month
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-    const monthDates = Array.from({ length: daysInMonth }, (_, i) => {
-        return new Date(year, month, i + 1);
-    });
-
-    return monthDates;
+// * FUNCTION TO FETCH CURRENT USER'S MONTHLY CREDITS USAGE
+async function fetchMonthlyUsage() {
+    const response = await fetch('/api/user/credits/monthly-usage');
+    return response.json();
 }
 
 // * FUNCTION TO RENDER USAGE CHART
-function renderUsageChart() {
+async function renderUsageChart() {
+    const gens = await fetchMonthlyUsage();
+
     const chart = new Chart(usageChart, {
         type: 'line',
-        labels: getCurrentMonthDates(),
+        labels: gens.dates,
         data: {
-            labels: getCurrentMonthDates().map(date => date.getDate()),
+            labels: gens.dates,
             datasets: [{
                 label: 'Usage',
-                data: Array.from({ length: getCurrentMonthDates().length }, () => Math.floor(Math.random() * 40) + 1),
+                data: gens.counts,
                 fill: true,
                 tension: 0.4,
                 borderColor: '#2A78CB',
@@ -134,9 +126,9 @@ export function handleSendButtonClick(event, message) {
 // & INITIAL DISPLAY SETTINGS
 document.addEventListener('DOMContentLoaded', () => {
     const progressWidth = progressBar.attributes.style.value.slice(4, -2);
-    if (0 <= progressWidth <= 33){ progressBar.style.backgroundColor = 'var(--color-state-green)'; }
-    if (33 <= progressWidth <= 66){ progressBar.style.backgroundColor = 'var(--color-accent-alt)'; }
-    if (66 <= progressWidth <= 100){ progressBar.style.backgroundColor = 'var(--color-state-red)'; }
+    if (0 <= progressWidth && progressWidth <= 33){ progressBar.style.backgroundColor = 'var(--color-state-green)'; }
+    else if (33 <= progressWidth && progressWidth <= 66){ progressBar.style.backgroundColor = 'var(--color-accent-alt)'; }
+    else if (66 <= progressWidth && progressWidth <= 100){ progressBar.style.backgroundColor = 'var(--color-state-red)'; }
 
     const creditsCalender = getNextMonth();
     monthName.textContent = creditsCalender.month;

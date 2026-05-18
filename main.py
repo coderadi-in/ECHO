@@ -20,6 +20,7 @@ load_dotenv('.venv/vars.env')
 from flask import Flask, render_template, redirect, url_for, flash
 from plugins import *
 from routers import *
+from apis import *
 from models import *
 import os
 import socket_listeners
@@ -37,6 +38,7 @@ server.config['SECRET_KEY'] = os.getenv("SEC_KEY")
 # & EXTENSIONS BINDING
 bind_plugins(server)
 bind_routers(server)
+bind_apis(server)
 
 # & DATABASE INIT
 with server.app_context():
@@ -56,7 +58,7 @@ def load_user(user):
 @server.route('/')
 def index():
     if (current_user.is_authenticated):
-        return redirect(url_for("app.index"))
+        return redirect(url_for("app.dashboard"))
     return render_template("index.html")
 
 # ==================================================

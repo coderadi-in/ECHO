@@ -14,7 +14,7 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, curren
 from openai import OpenAI
 import os
 from sqlalchemy import extract
-from datetime import date
+from datetime import date, timedelta
 
 # ! INITS
 db = SQLAlchemy()
