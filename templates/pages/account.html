@@ -34,7 +34,7 @@
                     <span class="symbol p-16 rounded-8 h-fit" style="--bg: #C3423F;">bolt</span>
 
                     <div class="text-content column gap-4">
-                        <h1 class="h1">21600</h1>
+                        <h1 class="h1">{{ current_user.left_credits }}</h1>
                         <span class="text">Credits left</span>
                         <span class="mini">Resets on 1st Jun 2026</span>
                     </div>
@@ -54,7 +54,7 @@
                     <span class="symbol p-16 rounded-8 h-fit" style="--bg: #218380;">trending_up</span>
 
                     <div class="text-content column gap-4">
-                        <h1 class="h1">280</h1>
+                        <h1 class="h1">{{ data.today_gens }}</h1>
                         <span class="text">Today's generations</span>
                         <span class="mini">Used today</span>
                     </div>
