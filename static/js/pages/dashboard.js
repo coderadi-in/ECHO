@@ -93,7 +93,11 @@ async function renderUsageChart() {
                 borderColor: '#2A78CB',
                 backgroundColor: '#2364AA57'
             }]
-        }
+        },
+        options: { scales: {
+                x: { grid: { display: false } },
+                y: { grid: { display: false } },
+        }}
     });
 }
 
