@@ -37,8 +37,7 @@
 
 #appearanceSettings #accentsList.open { transform: scale(1); }
 
-#appearanceSettings #accentsList #blue .sample { background-color: #2364AA; }
-#appearanceSettings #accentsList #green .sample { background-color: #488B49; }
+#appearanceSettings #accentsList .sample { background-color: var(--bg); }
 
 /* ================================================== */
 /* AI PREFERENCE SETTINGS */

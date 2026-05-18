@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="pre-connect" href="https://fonts.googleapis.com">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/icons/favicon.ico') }}" type="image/x-icon">
+    <title>Billing &bull; ECHO</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='base/_utility.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/billing.css') }}">
+</head>
+<body>
+    {% include 'components/msg.html' %}
+    {% include 'components/header.html' %}
+
+    <main class="main">
+        <section class="section p-48 column gap-32">
+            <h1 class="h1">Billing</h1>
+
+            <div class="info-grid grid gap-20">
+                <div class="info flex gap-12 p-12 rounded-16 bg-card">
+                    <span class="symbol p-16 rounded-8 h-fit" style="--bg: #044389;">topic</span>
+
+                    <div class="text-content column gap-4">
+                        <h1 class="h1">{{ current_user.plan }}</h1>
+                        <span class="text">Selected plan</span>
+                    </div>
+                </div>
+
+                <div class="info flex gap-12 p-12 rounded-16 bg-card">
+                    <span class="symbol p-16 rounded-8 h-fit" style="--bg: #C3423F;">bolt</span>
+
+                    <div class="text-content column gap-4">
+                        <h1 class="h1">{{ current_user.left_credits }}</h1>
+                        <span class="text">Credits left</span>
+                    </div>
+                </div>
+
+                <div class="info flex gap-12 p-12 rounded-16 bg-card">
+                    <span class="symbol p-16 rounded-8 h-fit" style="--bg: #218380;">trending_up</span>
+
+                    <div class="text-content column gap-4">
+                        <h1 class="h1">{{ current_user.renewal_date }}</h1>
+                        <span class="text">Next renewal date</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pricing grid gap-20">
+                <div class="card column gap-12 rounded-16 p-16 bg-card">
+                    <span class="text">Free</span>
+                    <h1 class="h1">50</h1>
+                    <span class="text">Credits/month</span>
+                </div>
+                
+                <div class="card column gap-12 rounded-16 p-16 bg-card">
+                    <span class="text">Pro</span>
+                    <h1 class="h1">1500</h1>
+                    <span class="text">Credits/month</span>
+                </div>
+            </div>
+
+            <div class="upgrade-btn center">
+                <a href="/billing/upgrade?plan=pro" class="link btn fl rounded-full pv-16 ph-32">Upgrade to Pro</a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

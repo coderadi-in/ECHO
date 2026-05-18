@@ -53,7 +53,7 @@ function setColorTheme() {
 
 // * FUNCTION TO SET ACCENT COLOR
 function setAccentColor(color) {
-    document.body.classList.remove('accent-blue', 'accent-green');
+    document.body.classList.remove('accent-blue', 'accent-green', 'accent-red');
     document.body.classList.add(`accent-${color}`);
 
     localStorage.setItem('accent', `accent-${color}`);

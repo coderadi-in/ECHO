@@ -26,18 +26,21 @@ class User(db.Model, UserMixin):
     """
     
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+
     name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
     site_url = db.Column(db.String, unique=True)
     password = db.Column(db.String, nullable=False)
-    site_url = db.Column(db.String)
-    config_pass = db.Column(db.String, unique=True)
+
     ai_tone = db.Column(db.String, default='Mentor')
     ai_creativity = db.Column(db.Integer, default=0)
     ai_lang = db.Column(db.String, default="English")
+
     total_credits = db.Column(db.Integer, default=50)
     left_credits = db.Column(db.Integer, default=50)
-    last_reset_month = db.Column(db.Integer, default=date.today().month)
+
+    plan = db.Column(db.String, default="Free")
+    renewal_date = db.Column(db.Date)
 
     captions = db.relationship('Caption', backref='author', lazy=True)
     headlines = db.relationship('Headline', backref='author', lazy=True)

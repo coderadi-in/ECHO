@@ -8,6 +8,7 @@ Manages all routers in the applications.
 from flask import Flask
 from .app import app
 from .auth import auth
+from .billing import billing
 
 # * FUNCTION TO BIND ALL ROUTERS TO THE SERVER
 def bind_routers(server: Flask) -> None:
@@ -28,3 +29,4 @@ def bind_routers(server: Flask) -> None:
 
     server.register_blueprint(app)
     server.register_blueprint(auth)
+    server.register_blueprint(billing)

@@ -1,0 +1,16 @@
+/* ================================================== */
+/* INFO-GRID */
+/* ================================================== */
+
+.info-grid { grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); }
+
+.info-grid .info .symbol {
+    background-color: var(--bg);
+    color: #F4F4F6;
+}
+
+/* ================================================== */
+/* PRICING CARDS */
+/* ================================================== */
+
+.pricing { grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); }

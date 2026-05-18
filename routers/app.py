@@ -28,9 +28,6 @@ app = Blueprint("app", __name__, url_prefix='/app')
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    # RESET CREDITS
-    reset_credits()
-
     # COUNT TOTAL GENERATIONS
     total_captions_count = Caption.query.filter(Caption.user == current_user.id).count()
     total_headlines_count = Headline.query.filter(Headline.user == current_user.id).count()
@@ -131,6 +128,18 @@ def update_settings(field):
         flash("Your security password has been updated.", "check_circle")
         return redirect(url_for('app.dashboard'))
     
+    elif (field == 'store'):
+        store_url = request.form.get('store_link')
+
+        if (not store_url):
+            flash("Couldn't fetch store URL.", "error")
+            return redirect(url_for('app.account'))
+        
+        current_user.site_url = store_url
+        db.session.commit()
+        flash("Your store is integrated to the application.", "store")
+        return redirect(url_for('app.account'))
+
     else:
         flash("Couldn't find proper field to update.", "error")
         return redirect(url_for('app.settings'))
@@ -313,3 +322,12 @@ def delete_account():
 
     flash("Your account has been deleted completely from ECHO.", "delete_forever")
     return redirect('/')
+
+# & STORE ROUTE
+@app.route('/store')
+def store():
+    if (not current_user.site_url):
+        flash("You have't integrated your store yet.", 'error')
+        return redirect(url_for('app.dashboard'))
+    
+    return render_template('pages/store.html')

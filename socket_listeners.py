@@ -12,9 +12,6 @@ from ai import SystemPrompts, TokenSize
 # & CAPTION GENERATION
 @socket.on("captions-sys")
 def generate_captions(product: dict) -> str:
-    # RESET CREDITS
-    reset_credits()
-
     # CHECK CREDITS
     if (current_user.left_credits <= 0):
         socket.emit("captions-cl", "You're out of credits!")
@@ -58,9 +55,6 @@ def generate_captions(product: dict) -> str:
 # & HEADLINE GENERATION
 @socket.on("headlines-sys")
 def generate_headlines(product: dict) -> str:
-    # RESET CREDITS
-    reset_credits()
-    
     # CHECK CREDITS
     if (current_user.left_credits <= 0):
         socket.emit("headlines-cl", {"headline": "Low credits", "desc": "You're out of credits!"})

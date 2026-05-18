@@ -88,6 +88,11 @@
     --color-accent-alt: #65B891;
 }
 
+.accent-red {
+    --color-accent-main: #B22222;
+    --color-accent-alt: #DE5454;
+}
+
 * {
     margin: 0;
     padding: 0;
