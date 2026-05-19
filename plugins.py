@@ -12,9 +12,14 @@ from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate, migrate, upgrade, init as init_migrator
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
 from openai import OpenAI
+from cashfree_pg.api_client import Cashfree
+from cashfree_pg.models.create_order_request import CreateOrderRequest
+from cashfree_pg.models.customer_details import CustomerDetails
+from cashfree_pg.models.order_meta import OrderMeta
 import os
 from sqlalchemy import extract
 from datetime import date, timedelta
+from typing import Literal
 
 # ! INITS
 db = SQLAlchemy()
@@ -45,6 +50,26 @@ def bind_plugins(server: Flask) -> None:
     encoder.init_app(server)
     migrator.init_app(server, db)
     logger.init_app(server)
+
+# * FUNCTION TO CREATE A CASHFREE INSTANCE
+def CashFree(env = Cashfree.SANDBOX):
+    """
+    Creates a Cashfree instance.
+
+    :param env: The environment type.
+
+    ## Environment types
+    1. Cashfree.SANDBOX - for development
+    2. Cashfree.PRODUCTION - for production
+    """
+
+    cashfree = Cashfree(
+        XEnvironment=Cashfree.SANDBOX,
+        XClientId=os.getenv("CASHFREE_ID"),
+        XClientSecret=os.getenv("CASHFREE_SEC")
+    )
+
+    return cashfree
 
 # * FUNCTION TO SEND MESSAGE TO MODEL
 def get_response(system_prompt: str, message: str, personality_prompt: str|None = None, token_size: int = 250) -> str:
@@ -111,3 +136,11 @@ def get_response(system_prompt: str, message: str, personality_prompt: str|None 
             "output": "Something went wrong while generating response!",
             "status": 500
         }
+    
+# * FUNCTION TO RESET USER CREDITS
+def reset_credits():
+    if (current_user.last_reset_month != date.today().month) and (current_user.plan == "Free"):
+        current_user.last_reset_month = date.today().month
+        current_user.left_credits = 50
+        db.session.commit()
+        flash("Credits got reset just now.", "thumb_up")

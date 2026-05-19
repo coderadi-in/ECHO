@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/icons/favicon.ico') }}" type="image/x-icon">
+    <title>PAYMENT SUCCESS &bull; ECHO</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='base/_utility.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='base/events.css') }}">
+</head>
+
+<body>
+    <main class="main center h-screen">
+        <section class="section p-48 column center gap-20">
+            <span class="symbol fl-icon fs-64" id="SUCCESS">check_circle</span>
+
+            <div class="head column center text-center gap-4">
+                <h1 class="h1">Payment successful</h1>
+                <span class="mini">ORDER ID: {{ data.order_id }}</span>
+            </div>
+
+            <div class="order-details column gap-12 bg-card p-16 rounded-16">
+                <div class="row h-sb">
+                    <span class="text">Date</span>
+                    <span class="text" id="dateValue"></span>
+                </div>
+
+                <div class="row h-sb">
+                    <span class="text">Plan</span>
+                    <span class="text">{{ data.plan }}</span>
+                </div>
+
+                <div class="row h-sb">
+                    <span class="text">Status</span>
+                    <span class="text">{{ data.status }}</span>
+                </div>
+
+                <div class="row h-sb">
+                    <span class="text">Total amount</span>
+                    <span class="text">{{ data.amount }}</span>
+                </div>
+
+                <div class="row h-sb">
+                    <span class="text">Payment currency</span>
+                    <span class="text">{{ data.currency }}</span>
+                </div>
+            </div>
+
+            <div class="action res-row center gap-8">
+                <a href="mailto:adi@coderadi.in" class="link btn fl rounded-4 ph-20 pv-12">Contact support</a>
+                <a href="/billing/download/?id={{ data.id }}" class="link btn ot rounded-4 ph-20 pv-12">Download
+                    receipt</a>
+            </div>
+
+            <a href="{{ url_for('app.dashboard') }}" class="link btn icon-fl rounded-4 ph-20 pv-12">
+                <span class="symbol">home</span>
+                <span class="text">Back to dashboard</span>
+            </a>
+        </section>
+    </main>
+
+    <script>
+        const dateValue = document.getElementById('dateValue');
+        const today = new Date();
+
+        function setTheme() {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-theme');
+            } else { null }
+        }
+
+        function setAccent() {
+            const savedAccent = localStorage.getItem('accent');
+            if (!savedAccent) return;
+
+            document.body.classList.add(savedAccent);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            dateValue.textContent = today.toLocaleDateString();
+            setTheme();
+            setAccent();
+        });
+    </script>
+</body>
+
+</html>

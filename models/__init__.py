@@ -9,6 +9,7 @@ from .user import User
 from .captions import Caption
 from .headlines import Headline
 from .saved_gen import SavedGen
+from .payments import Payment
 
 # ! ALL
-__all__ = [ "User", "Caption", "Headline", "SavedGen" ]
+__all__ = [ "User", "Caption", "Headline", "SavedGen", "Payment" ]

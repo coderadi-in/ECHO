@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "cashfree-pg>=6.0.1",
+    "certifi>=2026.4.22",
     "dotenv>=0.9.9",
     "flask>=3.1.3",
     "flask-bcrypt>=1.0.1",

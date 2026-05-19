@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='base/_utility.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/billing.css') }}">
 </head>
+
 <body>
     {% include 'components/msg.html' %}
     {% include 'components/header.html' %}
@@ -48,13 +50,15 @@
                 </div>
             </div>
 
+            <h2 class="h2">Available plans</h2>
+
             <div class="pricing grid gap-20">
                 <div class="card column gap-12 rounded-16 p-16 bg-card">
                     <span class="text">Free</span>
                     <h1 class="h1">50</h1>
                     <span class="text">Credits/month</span>
                 </div>
-                
+
                 <div class="card column gap-12 rounded-16 p-16 bg-card">
                     <span class="text">Pro</span>
                     <h1 class="h1">1500</h1>
@@ -63,9 +67,17 @@
             </div>
 
             <div class="upgrade-btn center">
-                <a href="/billing/upgrade?plan=pro" class="link btn fl rounded-full pv-16 ph-32">Upgrade to Pro</a>
+                {% if current_user.phone %}
+                <button class="link btn fl rounded-full pv-16 ph-32" id="upgradePro">Upgrade to Pro</button>
+                {% else %}
+                <p class="para">Please add your phone number in <a href="{{ url_for('app.settings') }}" class="ulink">settings</a> before upgrading.</p>
+                {% endif %}
             </div>
         </section>
     </main>
+
+    <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+    <script type="module" src="{{ url_for('static', filename='js/pages/billing.js') }}"></script>
 </body>
+
 </html>

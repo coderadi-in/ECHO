@@ -28,6 +28,9 @@ app = Blueprint("app", __name__, url_prefix='/app')
 @app.route("/dashboard")
 @login_required
 def dashboard():
+    # RESET CREDITS
+    reset_credits()
+
     # COUNT TOTAL GENERATIONS
     total_captions_count = Caption.query.filter(Caption.user == current_user.id).count()
     total_headlines_count = Headline.query.filter(Headline.user == current_user.id).count()
@@ -91,6 +94,7 @@ def update_settings(field):
     if (field == 'profile'):
         current_user.name = request.form.get('name', current_user.name)
         current_user.email = request.form.get('email', current_user.email)
+        current_user.phone = request.form.get('phone', current_user.phone)
         current_user.site_url = request.form.get('site_url', current_user.site_url)
         db.session.commit()
 
