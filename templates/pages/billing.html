@@ -44,7 +44,7 @@
                     <span class="symbol p-16 rounded-8 h-fit" style="--bg: #218380;">trending_up</span>
 
                     <div class="text-content column gap-4">
-                        <h1 class="h1">{{ current_user.renewal_date }}</h1>
+                        <h1 class="h1" id="renewalDate">{{ current_user.renewal_date }}</h1>
                         <span class="text">Next renewal date</span>
                     </div>
                 </div>
@@ -68,9 +68,14 @@
 
             <div class="upgrade-btn center">
                 {% if current_user.phone %}
-                <button class="link btn fl rounded-full pv-16 ph-32" id="upgradePro">Upgrade to Pro</button>
+                    {% if current_user.plan.lower() == "free" %}
+                        <button class="link btn fl rounded-full pv-16 ph-32" id="upgradePro">Upgrade to Pro</button>
+                    {% else %}
+                        <span class="text">You're already a Pro user.</span>
+                    {% endif %}
                 {% else %}
-                <p class="para">Please add your phone number in <a href="{{ url_for('app.settings') }}" class="ulink">settings</a> before upgrading.</p>
+                    <p class="para">Please add your phone number in <a href="{{ url_for('app.settings') }}"
+                            class="ulink">settings</a> before upgrading.</p>
                 {% endif %}
             </div>
         </section>

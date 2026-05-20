@@ -82,11 +82,7 @@ def check_payment_status():
     db.session.commit()
 
     if (order_status == "PAID"):
-        current_user.total_credits = 5000
-        current_user.left_credits = 5000 - current_user.left_credits
-        current_user.plan = "Pro"
-        current_user.renewal_date = today + timedelta(days=30)
-        db.session.commit()
+        upgrade_plan()
 
         return render_template(f"events/{relevant_page}.html", data={
             "order_id": order_id,

@@ -28,8 +28,9 @@ app = Blueprint("app", __name__, url_prefix='/app')
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    # RESET CREDITS
+    # REFRESH USER'S PLAN AND CREDITS
     reset_credits()
+    downgrade_plan()
 
     # COUNT TOTAL GENERATIONS
     total_captions_count = Caption.query.filter(Caption.user == current_user.id).count()

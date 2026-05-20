@@ -4,8 +4,7 @@
 
 const progressBar = document.querySelector('.progress-done');
 
-const monthName = document.getElementById('monthName');
-const yearName = document.getElementById('yearName');
+const renewalDate = document.getElementById('renewalDate');
 
 const tabBtns = document.querySelectorAll('.tabs .text');
 const captionContent = document.querySelector('.recent-gens .body .captions');
@@ -29,7 +28,7 @@ const messagesArray = [
     "Your AI assistant is here to help!",
     "What can I do for you today?",
 ];
-const randomMessage = messagesArray[Math.floor(Math.random() *messagesArray.length)];
+const randomMessage = messagesArray[Math.floor(Math.random() * messagesArray.length)];
 
 // ==================================================
 // IMPORTS
@@ -41,16 +40,17 @@ import { socket, sendMessage } from '../base/socket_listeners.js';
 // FUNCTIONS
 // ==================================================
 
-// * FUNCTION TO GET NEXT MONTH NAME
-function getNextMonth(month = "short") {
-    const date = new Date();
-    date.setMonth(date.getMonth() + 1);
-    const nextMonthName = date.toLocaleString('default', { month: month });
-    
-    return {
-        month: nextMonthName,
-        year: date.getFullYear()
-    };
+// * FUNCTION TO CONVERT DATE STRING TO FORMATTED DATE
+function formatDate() {
+    const date = new Date(renewalDate.textContent);
+
+    const formattedDate = date.toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
+    }).replace(',', '');
+
+    renewalDate.textContent = formattedDate;
 }
 
 // * FUNCTION TO SWITCH TABS
@@ -78,6 +78,8 @@ async function fetchMonthlyUsage() {
 
 // * FUNCTION TO RENDER USAGE CHART
 async function renderUsageChart() {
+    const root = document.body;
+    const rootStyle = getComputedStyle(root);
     const gens = await fetchMonthlyUsage();
 
     const chart = new Chart(usageChart, {
@@ -90,14 +92,16 @@ async function renderUsageChart() {
                 data: gens.counts,
                 fill: true,
                 tension: 0.4,
-                borderColor: '#2A78CB',
-                backgroundColor: '#2364AA57'
+                borderColor: rootStyle.getPropertyValue('--color-chart-border'),
+                backgroundColor: rootStyle.getPropertyValue('--color-chart-background'),
             }]
         },
-        options: { scales: {
+        options: {
+            scales: {
                 x: { grid: { display: false } },
                 y: { grid: { display: false } },
-        }}
+            }
+        }
     });
 }
 
@@ -130,13 +134,11 @@ export function handleSendButtonClick(event, message) {
 // & INITIAL DISPLAY SETTINGS
 document.addEventListener('DOMContentLoaded', () => {
     const progressWidth = progressBar.attributes.style.value.slice(4, -2);
-    if (0 <= progressWidth && progressWidth <= 33){ progressBar.style.backgroundColor = 'var(--color-state-green)'; }
-    else if (33 <= progressWidth && progressWidth <= 66){ progressBar.style.backgroundColor = 'var(--color-accent-alt)'; }
-    else if (66 <= progressWidth && progressWidth <= 100){ progressBar.style.backgroundColor = 'var(--color-state-red)'; }
+    if (0 <= progressWidth && progressWidth <= 33) { progressBar.style.backgroundColor = 'var(--color-state-green)'; }
+    else if (33 <= progressWidth && progressWidth <= 66) { progressBar.style.backgroundColor = 'var(--color-accent-alt)'; }
+    else if (66 <= progressWidth && progressWidth <= 100) { progressBar.style.backgroundColor = 'var(--color-state-red)'; }
 
-    const creditsCalender = getNextMonth();
-    monthName.textContent = creditsCalender.month;
-    yearName.textContent = creditsCalender.year;
+    formatDate();
 
     captionContent.style.display = 'flex';
     headlineContent.style.display = 'none';
@@ -180,12 +182,12 @@ headCopyBtns.forEach((btn) => {
 // & EVENT LISTENER FOR SEND-BTN CLICK
 sendPrompt.addEventListener('click', () => {
     if (userPrompt.value.trim() === '') { return };
-    
+
     // REMOVE WELCOME MESSAGE FROM CHAT CONTAINER
     if (chatsContainer.contains(chatWelcome)) {
         chatWelcome.remove();
     }
-    
+
     renderPrompt(userPrompt.value.trim());
     handleSendButtonClick("response-sys", userPrompt.value.trim());
     userPrompt.value = "";
@@ -195,7 +197,7 @@ sendPrompt.addEventListener('click', () => {
 userPrompt.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && e.ctrlKey) {
         if (userPrompt.value.trim() === '') { return };
-        
+
         // REMOVE WELCOME MESSAGE FROM CHAT CONTAINER
         if (chatsContainer.contains(chatWelcome)) {
             chatWelcome.remove();

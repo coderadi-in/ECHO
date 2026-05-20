@@ -28,6 +28,9 @@ encoder = Bcrypt()
 migrator = Migrate()
 logger = LoginManager()
 
+# ! PLANS LIST
+ACCOUNT_PLANS = { "pro": 5000, }
+
 # * FUNCTION TO BIND PLUGINS TO THE SERVER
 def bind_plugins(server: Flask) -> None:
     """
@@ -139,8 +142,62 @@ def get_response(system_prompt: str, message: str, personality_prompt: str|None 
     
 # * FUNCTION TO RESET USER CREDITS
 def reset_credits():
-    if (current_user.last_reset_month != date.today().month) and (current_user.plan == "Free"):
-        current_user.last_reset_month = date.today().month
-        current_user.left_credits = 50
+    """
+    Resets user credits.
+    Works if user has "Free" plan and last reset is 30 days ago.
+    """
+
+    # CHECK IF USER HAS FREE PLAN AND RENEWAL DATE HAS PASSED
+    if (current_user.plan.lower() == "free") and (date.today() >= current_user.renewal_date + timedelta(days=1)):
+        current_user.total_credits, current_user.left_credits = 50, 50
+        current_user.renewal_date = date.today() + timedelta(days=30)
         db.session.commit()
-        flash("Credits got reset just now.", "thumb_up")
+        return { "status": 200, "message": "User's credits has been reset." }
+    
+    return { "status": 400, "message": "User has paid plan or renewal hasn't passed." }
+
+# * FUNCTION TO UPGRADE USER PLAN
+def upgrade_plan(plan: str = "pro"):
+    """
+    Upgrades user's credits if user upgrades plan, according to generations.
+    """
+
+    plan = plan.lower()
+
+    # CHECK IF PLAN TYPE IS VALID
+    if (plan not in ACCOUNT_PLANS.keys()):
+        return { "status": 422, "message": "Invalid plan type." }
+
+    # SET VALUE
+    T1 = current_user.total_credits # Old total credits of user
+    L1 = current_user.left_credits  # Old left credits of user
+    T2 = ACCOUNT_PLANS[plan]        # New total credits of user
+
+    # PUT VALUES IN FORMULA
+    G = T1 - L1 # G = Total number of generations.
+    L2 = T2 - G # L2 = New left credits of user.
+
+    # SAVE NEW VALUES IN USER MODEL
+    current_user.plan = plan
+    current_user.total_credits = T2
+    current_user.left_credits = L2
+    current_user.renewal_date = date.today() + timedelta(days=30)
+    db.session.commit()
+    { "status": 200, "message": "User's plan type upgraded." }
+
+# * FUNCTION TO DOWNGRADE USER PLAN
+def downgrade_plan():
+    """
+    Downgrades user's plan if renewal date is passed.
+    """
+
+    # CHECK IF USER HAS FREE PLAN OR RENEWAL HAS NOT PASSED
+    if (current_user.plan.lower() == "free") or (date.today() < current_user.renewal_date + timedelta(days=1)):
+        return { "status": 400, "message": "User has free plan or renewal date hasn't passed." }
+
+    # DOWNGRADE USER'S PLAN
+    current_user.plan = "free"
+    current_user.total_credits, current_user.total_credits = 50, 50
+    current_user.renewal_date = date.today() + timedelta(days=30)
+    db.session.commit()
+    return { "status": 200, "message": "User's plan has been downgraded." }

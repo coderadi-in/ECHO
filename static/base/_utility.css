@@ -52,6 +52,9 @@
     --color-accent-main: #2364AA;
     --color-accent-alt: #3482D5;
 
+    --color-chart-border: #2A78CB;
+    --color-chart-background: #2364AA57;
+
     --color-surface-main: #12131757;
     --color-surface-alt: #ACBED8A0;
     --color-border: #333533;
@@ -81,16 +84,25 @@
 .accent-blue {
     --color-accent-main: #2364AA;
     --color-accent-alt: #3482D5;
+
+    --color-chart-border: #2A78CB;
+    --color-chart-background: #2364AA57;
 }
 
 .accent-green {
     --color-accent-main: #12664F;
     --color-accent-alt: #65B891;
+
+    --color-chart-border: #059669;
+    --color-chart-background: #72A27657;
 }
 
 .accent-red {
     --color-accent-main: #B22222;
     --color-accent-alt: #DE5454;
+
+    --color-chart-border: #800E13;
+    --color-chart-background: #AD283157;
 }
 
 * {

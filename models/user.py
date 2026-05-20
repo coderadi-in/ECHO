@@ -39,10 +39,9 @@ class User(db.Model, UserMixin):
 
     total_credits = db.Column(db.Integer, default=50)
     left_credits = db.Column(db.Integer, default=50)
-    last_reset_month = db.Column(db.Integer, default=date.today().month)
 
     plan = db.Column(db.String, default="Free")
-    renewal_date = db.Column(db.Date)
+    renewal_date = db.Column(db.Date, default=date.today() + timedelta(days=1))
 
     captions = db.relationship('Caption', backref='author', lazy=True)
     headlines = db.relationship('Headline', backref='author', lazy=True)
