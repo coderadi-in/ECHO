@@ -9,6 +9,7 @@ from flask import Flask
 from .app import app
 from .auth import auth
 from .billing import billing
+from .store import store
 
 # * FUNCTION TO BIND ALL ROUTERS TO THE SERVER
 def bind_routers(server: Flask) -> None:
@@ -30,3 +31,4 @@ def bind_routers(server: Flask) -> None:
     server.register_blueprint(app)
     server.register_blueprint(auth)
     server.register_blueprint(billing)
+    server.register_blueprint(store)

@@ -9,7 +9,7 @@ Manages the routes of billing.
 # ==================================================
 
 # ? IMPORTS
-from flask import Blueprint, render_template, jsonify, send_file, request
+from flask import Blueprint, render_template, jsonify, redirect, url_for, send_file, request
 from uuid import uuid4
 from io import BytesIO
 import pandas as pd
@@ -66,11 +66,15 @@ def create_order():
 def check_payment_status():
     order_id = request.args.get('order_id')
     response = cashfree.PGFetchOrder(order_id)
+
     order_status = response.data.order_status
     amount = response.data.order_amount
     currency = response.data.order_currency
     relevant_page = order_status.lower()
-    today = date.today()
+
+    if (Payment.query.filter_by(order_id=order_id).first()):
+        flash("The payment was already processed.", "check")
+        return redirect(url_for('app.dashboard'))
 
     payment = Payment(
         order_id=order_id,

@@ -333,12 +333,3 @@ def delete_account():
 
     flash("Your account has been deleted completely from ECHO.", "delete_forever")
     return redirect('/')
-
-# & STORE ROUTE
-@app.route('/store')
-def store():
-    if (not current_user.site_url):
-        flash("You have't integrated your store yet.", 'error')
-        return redirect(url_for('app.dashboard'))
-    
-    return render_template('pages/store.html')
