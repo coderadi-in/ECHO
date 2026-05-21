@@ -9,8 +9,10 @@ Manages the routes of billing.
 # ==================================================
 
 # ? IMPORTS
-from flask import Blueprint, render_template, jsonify, flash, redirect, url_for, request
+from flask import Blueprint, render_template, jsonify, send_file, request
 from uuid import uuid4
+from io import BytesIO
+import pandas as pd
 from plugins import *
 from models import *
 
@@ -92,3 +94,28 @@ def check_payment_status():
             "currency": currency,
             "id": payment.id
         })
+    
+# & EXPORT HISTORY ROUTE
+@billing.route('/history/export')
+@login_required
+def export_history():
+    payments_history = current_user.payments
+    buffer = BytesIO()
+
+    payments_df = pd.DataFrame({
+        'date': payment.date,
+        'order_id': payment.order_id,
+        'plan': payment.plan,
+        'amount': payment.amount,
+        'status': payment.status,
+        'processed': payment.processed
+    } for payment in payments_history)
+    payments_df.to_csv(buffer)
+
+    buffer.seek(0)
+    return send_file(
+        buffer,
+        as_attachment=True,
+        download_name='payments.csv',
+        mimetype='text/csv'
+    )

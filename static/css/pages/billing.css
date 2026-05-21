@@ -1,4 +1,10 @@
 /* ================================================== */
+/* BASIC */
+/* ================================================== */
+
+.main { height: calc(100dvh - 88px); }
+
+/* ================================================== */
 /* INFO-GRID */
 /* ================================================== */
 
@@ -14,3 +20,26 @@
 /* ================================================== */
 
 .pricing { grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); }
+
+/* ================================================== */
+/* PAYMENTS HISTORY */
+/* ================================================== */
+
+.payments-history .payments-table {
+    overflow-y: auto;
+    flex: 1;
+}
+
+.payments-history .payments-table .payment-row:first-child {
+    border-radius: 8px 8px 0 0;
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(4px);
+}
+
+.payments-history .payments-table .payment-row:last-child { border-radius: 0 0 8px 8px; }
+
+.payments-history .payments-table .payment-row:nth-child(odd) { background-color: var(--color-surface-main); }
+.payments-history .payments-table .payment-row:nth-child(even) { background-color: var(--color-surface-alt); }
+
+.payments-history .payments-table .payment-row:not(:last-child) { border-bottom: 1px solid var(--color-bg-card); }

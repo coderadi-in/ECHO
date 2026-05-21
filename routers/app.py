@@ -14,7 +14,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from models import *
 from plugins import *
 import pandas as pd
-from zipfile import ZipFile
+import zipfile as zf
 from io import BytesIO
 
 # ! ROUTER INIT
@@ -165,8 +165,12 @@ def handle_data(function):
         return redirect(url_for('app.dashboard'))
     
     elif (function == 'export'):
-        # CREATE A DF CONTAINING GENERATED CAPTIONS
+        # DATA BUFFERS
         selected_captions = current_user.captions
+        captions_buf = BytesIO()
+        headlines_buf = BytesIO()
+
+        # CREATE A DF CONTAINING GENERATED CAPTIONS
         captions_dataframe = pd.DataFrame({
             "title": caption.title,
             "desc": caption.desc,
@@ -174,7 +178,7 @@ def handle_data(function):
             "caption": caption.caption,
             "created_at": caption.created_at
         } for caption in selected_captions)
-        captions_dataframe.to_csv("captions.csv")
+        captions_dataframe.to_csv(captions_buf)
         
         # CREATE A DF CONTAINING GENERATED HEADLINES
         selected_headlines = current_user.headlines
@@ -186,22 +190,24 @@ def handle_data(function):
             "sub-headline": headline.gen_desc,
             "created_at": headline.created_at
         } for headline in selected_headlines)        
-        headlines_dataframe.to_csv("headlines.csv")
+        headlines_dataframe.to_csv(headlines_buf)
 
         # BIND CSVs IN ZIP
-        files_to_bind = [ "captions.csv", "headlines.csv" ]
+        files_to_bind = {
+            "captions.csv": captions_buf,
+            "headlines.csv": headlines_buf
+        }
+
         stream = BytesIO()
 
-        with ZipFile(stream, 'w') as zf:
-            for file in files_to_bind:
-                zf.write(file, os.path.basename(file))
+        with zf.ZipFile(stream, 'a', zf.ZIP_DEFLATED, False) as f:
+            for filename, buffer in files_to_bind.items():
+                buffer.seek(0)
+                f.writestr(filename, buffer.read())
 
         stream.seek(0)
-        os.remove("captions.csv")
-        os.remove("headlines.csv")
 
         # RETURN OUTPUT FILE
-        flash("The data has been exported to your device.", "file_export")
         return send_file(
             stream,
             as_attachment=True,
