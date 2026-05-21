@@ -20,6 +20,9 @@ import os
 from sqlalchemy import extract
 from datetime import date, timedelta
 from typing import Literal
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
 
 # ! INITS
 db = SQLAlchemy()
@@ -201,3 +204,28 @@ def downgrade_plan():
     current_user.renewal_date = date.today() + timedelta(days=30)
     db.session.commit()
     return { "status": 200, "message": "User's plan has been downgraded." }
+
+# * FUNCTION TO SCRAPE USER'S STORE
+def scrape_store() -> bool|pd.DataFrame:
+    """
+    Scrapes the store of user and get product insights.
+    """
+    store_url = current_user.site_url
+    if (not store_url): return False
+
+    response = requests.get(store_url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    products = {
+        "Title": [],
+        "Price": [],
+        "Desc": []
+    }
+
+    cards = soup.find_all(attrs={'class': 'product_card'})
+
+    for card in cards:
+        products["Title"].append(card.find(attrs={'class': 'product_title'}).text)
+        products["Price"].append(card.find(attrs={'class': 'product_price'}).text)
+        products["Desc"].append(card.find(attrs={'class': 'product_desc'}).text)
+
+    return pd.DataFrame(products)

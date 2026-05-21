@@ -12,7 +12,6 @@ Manages the routes of billing.
 from flask import Blueprint, render_template, jsonify, redirect, url_for, send_file, request
 from uuid import uuid4
 from io import BytesIO
-import pandas as pd
 from plugins import *
 from models import *
 

@@ -48,18 +48,20 @@ function closeOutputFrame() {
 }
 
 // * FUNCTION TO HANDLE SEND-BUTTON CLICK
-function handleSendButtonClick(event, message) {
+function handleSendButtonClick(event, message, referred=false) {
     // UPDATE SEND-BTN
     sendBtn.disabled = true;
     sendBtn.textContent = 'progress_activity';
     sendBtn.classList.add('anim-rotate');
 
     // DATA VALIDATION
-    if (titleInput.value.trim() === '' || priceInput.value.trim() === '' || descInput.value.trim() === '') {
-        sendBtn.disabled = false;
-        sendBtn.textContent = 'send';
-        sendBtn.classList.remove('anim-rotate');
-        return;
+    if (!referred) {
+        if (titleInput.value.trim() === '' || priceInput.value.trim() === '' || descInput.value.trim() === '') {
+            sendBtn.disabled = false;
+            sendBtn.textContent = 'send';
+            sendBtn.classList.remove('anim-rotate');
+            return;
+        }
     }
 
     // SEND MESSAGE TO SERVER
@@ -73,11 +75,6 @@ function resetPromptArea() {
     priceInput.value = '';
     descInput.value = '';
 
-    // CLEAR INPUT FIELDS
-    titleInput.value = '';
-    priceInput.value = '';
-    descInput.value = '';
-
     // UPDATE SEND-BTN
     sendBtn.disabled = false;
     sendBtn.textContent = 'send';
@@ -86,12 +83,32 @@ function resetPromptArea() {
     setTimeout(() => { outputFrame.style.opacity = '1'; }, 100);
 }
 
+// * FUNCTION TO SEND GENERATION REQUEST TO SERVER IF URL HAS GENERATION PARAMETER
+function sendGenParam() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const refer = urlParams.get("refer");
+
+    if (refer === 'store') {
+        const productData = JSON.parse(localStorage.getItem("pending_generation"));
+        const message = {
+            title: productData.title,
+            price: productData.price,
+            desc: productData.desc
+        };
+        handleSendButtonClick('headlines-sys', message, true);
+        localStorage.removeItem("pending_generation");
+    }
+}
+
 // ==================================================
 // EVENT LISTENERS
 // ==================================================
 
 // & EVENT LISTENER FOR DOM-CONTENT-LOAD
-document.addEventListener('DOMContentLoaded', applyRandomBackgroundColor);
+document.addEventListener('DOMContentLoaded', () => {
+    applyRandomBackgroundColor();
+    sendGenParam();
+});
 
 // & EVENT LISTENER FOR COPY-BUTTON CLICK
 copyBtn.addEventListener('click', () => {

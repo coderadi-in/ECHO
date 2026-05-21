@@ -10,6 +10,10 @@ from .captions import Caption
 from .headlines import Headline
 from .saved_gen import SavedGen
 from .payments import Payment
+from .products import Product
 
 # ! ALL
-__all__ = [ "User", "Caption", "Headline", "SavedGen", "Payment" ]
+__all__ = [
+    "User", "Caption", "Headline", 
+    "SavedGen", "Payment", "Product"
+]

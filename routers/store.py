@@ -9,11 +9,21 @@ Manages the routes of store.
 # ==================================================
 
 # ? IMPORTS
-from flask import Blueprint, render_template, jsonify, redirect, url_for, send_file, request
+from flask import Blueprint, render_template, redirect, url_for, request
 from plugins import *
+from models import *
 
 # ! ROUTER INIT
 store = Blueprint('store', __name__, url_prefix='/store')
+
+# * FUNCTION TO CHECK IF USER HAS INTEGRATED HIS STORE
+def check_store_integration():
+    """
+    Checks if store is integrated or not
+    """
+    if (not current_user.site_url):
+        flash("You have't integrated your store yet.", 'error')
+        return redirect(url_for('app.dashboard'))
 
 # ==================================================
 # ROUTES
@@ -21,9 +31,31 @@ store = Blueprint('store', __name__, url_prefix='/store')
 
 # & STORE ROUTE
 @store.route('/')
+@login_required
 def store_page():
-    if (not current_user.site_url):
-        flash("You have't integrated your store yet.", 'error')
-        return redirect(url_for('app.dashboard'))
-    
+    check_store_integration()    
     return render_template('pages/store.html')
+
+# & SYNC STORE ROUTE
+@store.route('/sync')
+@login_required
+def sync_store():
+    check_store_integration()
+    products = scrape_store()
+    product_list = products.values.tolist()
+
+    for product in product_list:
+        price = "".join(char for char in product[1] if char.isdigit())
+
+        new_product = Product(
+            user=current_user.id,
+            title=product[0],
+            price=float(price),
+            desc=product[2]
+        )
+
+        db.session.add(new_product)
+    
+    db.session.commit()
+    flash("Your store is synced with the application.", "store")
+    return redirect(url_for('store.store_page'))

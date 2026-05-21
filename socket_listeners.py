@@ -15,7 +15,7 @@ def generate_captions(product: dict) -> str:
     # REFRESH USER'S PLAN AND CREDITS
     reset_credits()
     downgrade_plan()
-
+    
     # CHECK CREDITS
     if (current_user.left_credits <= 0):
         socket.emit("captions-cl", "You're out of credits!")

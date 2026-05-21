@@ -5,6 +5,7 @@ description = "An AI branding and sales agent for E-commerce businesses."
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "bs4>=0.0.2",
     "cashfree-pg>=6.0.1",
     "certifi>=2026.4.22",
     "dotenv>=0.9.9",
@@ -19,4 +20,5 @@ dependencies = [
     "gunicorn>=26.0.0",
     "openai>=2.34.0",
     "pandas>=3.0.3",
+    "requests>=2.34.2",
 ]

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,8 +10,9 @@
     <title>Store &bull; ECHO</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='base/_utility.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/account.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/store.css') }}">
 </head>
+
 <body>
     {% include 'components/msg.html' %}
 
@@ -21,15 +23,47 @@
         <section class="section p-48 column gap-20">
             <div class="head res-row h-sb gap-12">
                 <h1 class="h1">Your store</h1>
-                
+
                 <div class="actions row gap-12">
-                    <a href="/store/sync" class="link row gap-4">
+                    <a href="{{ url_for('store.sync_store') }}" class="link row gap-4">
                         <span class="symbol">sync</span>
                         <span class="text">Sync</span>
                     </a>
                 </div>
             </div>
+
+            <div class="body">
+                {% if current_user.products | length == 0 %}
+                <div class="column gap-4 h-full center">
+                    <h1 class="h1 text-muted text-center">No products yet</h1>
+                    <span class="text text-muted text-center">Click [<span class="symbol">sync</span> Sync] button to
+                        sync your store.</span>
+                </div>
+                {% else %}
+
+                <div class="products-grid grid cols-auto-400 gap-24">
+                    {% for product in current_user.products %}
+                    <div class="product column h-en gap-12 rounded-32 p-20 bg-card">
+                        <span class="text fs-24 fw-500 product-title">{{ product.title }}</span>
+                        <p class="para product-desc">{{ product.desc }}</p>
+
+                        <span class="text tag pv-8 ph-12 rounded-full w-fit product-price">{{ product.price }}</span>
+
+                        <div class="actions row gap-12">
+                            <button class="link btn fl w-full pv-12 rounded-full cap-gen-btn">Caption</button>
+                            <button class="link btn fl w-full pv-12 rounded-full hed-gen-btn">Headline</button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                {% endif %}
+            </div>
         </section>
     </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    <script type="module" src="{{ url_for('static', filename='js/pages/store.js') }}"></script>
 </body>
+
 </html>

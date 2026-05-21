@@ -47,3 +47,4 @@ class User(db.Model, UserMixin):
     headlines = db.relationship('Headline', backref='author', lazy=True)
     saved = db.relationship('SavedGen', backref='author', lazy=True)
     payments = db.relationship('Payment', backref='author', lazy=True)
+    products = db.relationship('Product', backref='author', lazy=True)

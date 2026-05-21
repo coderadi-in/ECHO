@@ -13,7 +13,6 @@ from plugins import login_required, current_user, extract
 from flask import Blueprint, render_template, request, redirect, url_for, flash, send_file
 from models import *
 from plugins import *
-import pandas as pd
 import zipfile as zf
 from io import BytesIO
 
