@@ -41,9 +41,16 @@ def store_page():
 @login_required
 def sync_store():
     check_store_integration()
+
+    # DELETE ALL OLD PRODUCTS
+    for product in Product.query.filter_by(user=current_user.id).all():
+        db.session.delete(product)
+
+    # SCRAPE USER'S STORE
     products = scrape_store()
     product_list = products.values.tolist()
 
+    # ADD NEW PRODUCTS TO DB
     for product in product_list:
         price = "".join(char for char in product[1] if char.isdigit())
 
@@ -56,6 +63,7 @@ def sync_store():
 
         db.session.add(new_product)
     
+    # COMMIT AND RETURN
     db.session.commit()
     flash("Your store is synced with the application.", "store")
     return redirect(url_for('store.store_page'))
