@@ -1,4 +1,28 @@
 /* ================================================== */
+/* SYNCING ANIMATION */
+/* ================================================== */
+
+.syncing-animation {
+    position: fixed;
+    inset: 0;
+    backdrop-filter: blur(4px);
+    background-color: #12131705;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.syncing-animation .line-illustration { width: 96px; }
+
+.syncing-animation .line {
+    height: 4px;
+    width: 100%;
+    background-color: var(--color-border);
+    transition: transform 1s ease-out;
+    transform: scaleX(0);
+}
+
+/* ================================================== */
 /* BASIC */
 /* ================================================== */
 
@@ -31,6 +55,10 @@
 /* PRODUCTS GRID */
 /* ================================================== */
 
-.main .body .products-grid .product { aspect-ratio: 1 / 1; }
+.main .body .products-grid .product {
+    aspect-ratio: 1 / 1;
+    transition: transform 0.3s;
+}
 
+.main .body .products-grid .product:hover { transform: translateY(-8px); }
 .main .products-grid .product .tag { background-color: var(--color-surface-main); }

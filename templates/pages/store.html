@@ -19,13 +19,25 @@
     {% include 'components/header.html' %}
     {% include 'components/controls.html' %}
 
+    <div class="syncing-animation center">
+        <div class="content center gap-24">
+            <span class="symbol fs-48">store</span>
+            
+            <div class="line-illustration">
+                <div class="line rounded-4"></div>
+            </div>
+
+            <span class="symbol fs-48">apps</span>
+        </div>
+    </div>
+
     <main class="main">
         <section class="section p-48 column gap-20">
             <div class="head res-row h-sb gap-12">
                 <h1 class="h1">Your store</h1>
 
                 <div class="actions row gap-12">
-                    <a href="{{ url_for('store.sync_store') }}" class="link row gap-4">
+                    <a href="{{ url_for('store.sync_store') }}" class="link row gap-4" id="startSync">
                         <span class="symbol">sync</span>
                         <span class="text">Sync</span>
                     </a>

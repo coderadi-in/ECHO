@@ -4,8 +4,13 @@
 
 const products = document.querySelectorAll('.product');
 const colors = [ '#F6DECBA0', '#FCC5D2A0', '#DFDDE3A0', '#CCF5F5A0', '#C2EDFFA0' ];
+
 const capGenBtns = document.querySelectorAll('.cap-gen-btn');
 const HedGenBtns = document.querySelectorAll('.hed-gen-btn');
+
+const startSync = document.getElementById('startSync')
+const syncingAnimation = document.querySelector('.syncing-animation');
+const animationLine = document.querySelector('.syncing-animation .line');
 
 // ==================================================
 // FUNCTIONS
@@ -28,6 +33,19 @@ function getProductData(btn) {
     const desc = productCard.querySelector('.product-desc').textContent;
 
     return { title: title, price: price, desc: desc };
+}
+
+// * FUNCTION TO START SYNCING ANIMATION
+function startSyncingAnimation() {
+    animationLine.style.transformOrigin = 'left';
+    animationLine.style.transform = 'scaleX(1)';
+
+    setTimeout(() => {
+        animationLine.style.transformOrigin = 'right';
+        animationLine.style.transform = 'scaleX(0)';
+    }, 1000);
+
+    setTimeout(() => { startSyncingAnimation(); }, 2000);
 }
 
 // ==================================================
@@ -53,4 +71,12 @@ HedGenBtns.forEach(btn => {
         localStorage.setItem('pending_generation', JSON.stringify(message));             
         window.location.href = '/app/headlines?refer=store';
     });
+});
+
+// & EVENT LISTENER FOR START-SYNC-BTN CLICK
+startSync.addEventListener('click', () => {
+    syncingAnimation.style.display = 'flex';
+    syncingAnimation.style.opacity = '1';
+
+    setTimeout(() => { startSyncingAnimation() }, 300);
 });
