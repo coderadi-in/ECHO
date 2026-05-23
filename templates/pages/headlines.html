@@ -21,11 +21,18 @@
     {% include 'components/controls.html' %}
 
     <div class="output-frame p-20 rounded-16 column gap-24">
-        <button class="btn symbol" id="closeFrame">close</button>
+        <div class="head row gap-16">
+            <button class="btn symbol" id="closeFrame">close</button>
+            <span class="text fs-24">Generating caption</span>
+        </div>
         
-        <div class="column gap-8">
+        <div class="text-content column gap-8">
             <h2 class="h2" id="outputHeadline"></h2>
             <p class="para" id="outputDesc"></p>
+
+            <div class="line line1"></div>
+            <div class="line line2"></div>
+            <div class="line line3"></div>
         </div>
         
         <button class="btn symbol" id="copyBtn">content_copy</button>

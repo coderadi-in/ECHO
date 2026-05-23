@@ -8,6 +8,8 @@ const outputFrame = document.querySelector('.output-frame');
 const copyBtn = document.getElementById('copyBtn');
 const closeFrameBtn = document.getElementById('closeFrame');
 const outputResponse = document.getElementById('outputResponse');
+const lines = document.querySelectorAll('.output-frame .line');
+let clearAnimation;
 
 const titleInput = document.getElementsByName('title')[0];
 const priceInput = document.getElementsByName('price')[0];
@@ -98,6 +100,30 @@ function sendGenParam() {
     }
 }
 
+// * FUNCTION TO DISPLAY GENERATION SKELETON
+function showGenSkeleton() {
+    outputFrame.style.display = 'flex';
+    setTimeout(() => { outputFrame.style.opacity = '1'; }, 100);
+}
+
+// * FUNCTION TO ANIMATE GENERATION SKELETON
+function animateGenSkeleton() {
+    const intervalId = setInterval(() => {
+        lines.forEach(line => {
+            const lineWidth = Math.floor(Math.random() * (80 - 20 + 1)) + 20;
+            line.style.width = `${lineWidth}%`;
+        })
+    }, 600);
+
+    return () => {
+        lines.forEach(line => {
+            document.querySelector('.output-frame .head .fs-24').style.display = 'none';
+            line.style.display = 'none';
+            clearInterval(intervalId);
+        })
+    }
+}
+
 // ==================================================
 // EVENT LISTENERS
 // ==================================================
@@ -119,6 +145,9 @@ closeFrameBtn.addEventListener('click', closeOutputFrame);
 
 // & EVENT LISTENER FOR SEND-BUTTON CLICK
 sendBtn.addEventListener('click', () => {
+    showGenSkeleton();
+    clearAnimation = animateGenSkeleton();
+    
     // CREATE MESSAGE OBJECT
     const message = {
         title: titleInput.value.trim(),
@@ -136,7 +165,6 @@ sendBtn.addEventListener('click', () => {
 // | EVENT FOR RECEIVING NEW CAPTION
 socket.on('captions-cl', (data) => {
     outputResponse.textContent = data;
-    outputFrame.style.display = 'flex';
-
+    clearAnimation();
     resetPromptArea();
 });

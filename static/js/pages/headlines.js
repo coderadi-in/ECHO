@@ -7,6 +7,8 @@ const cards = document.querySelectorAll('.card');
 const outputFrame = document.querySelector('.output-frame');
 const copyBtn = document.getElementById('copyBtn');
 const closeFrameBtn = document.getElementById('closeFrame');
+const lines = document.querySelectorAll('.output-frame .line');
+let clearAnimation;
 
 const outputHeadline = document.getElementById('outputHeadline');
 const outputDesc = document.getElementById('outputDesc');
@@ -100,6 +102,30 @@ function sendGenParam() {
     }
 }
 
+// * FUNCTION TO DISPLAY GENERATION SKELETON
+function showGenSkeleton() {
+    outputFrame.style.display = 'flex';
+    setTimeout(() => { outputFrame.style.opacity = '1'; }, 100);
+}
+
+// * FUNCTION TO ANIMATE GENERATION SKELETON
+function animateGenSkeleton() {
+    const intervalId = setInterval(() => {
+        lines.forEach(line => {
+            const lineWidth = Math.floor(Math.random() * (80 - 20 + 1)) + 20;
+            line.style.width = `${lineWidth}%`;
+        })
+    }, 600);
+
+    return () => {
+        lines.forEach(line => {
+            document.querySelector('.output-frame .head .fs-24').style.display = 'none';
+            line.style.display = 'none';
+            clearInterval(intervalId);
+        })
+    }
+}
+
 // ==================================================
 // EVENT LISTENERS
 // ==================================================
@@ -121,6 +147,9 @@ closeFrameBtn.addEventListener('click', closeOutputFrame);
 
 // & EVENT LISTENER FOR SEND-BUTTON CLICK
 sendBtn.addEventListener('click', () => {
+    showGenSkeleton();
+    clearAnimation = animateGenSkeleton();
+    
     // CREATE MESSAGE OBJECT
     const message = {
         title: titleInput.value.trim(),
@@ -137,6 +166,8 @@ sendBtn.addEventListener('click', () => {
 
 // | EVENT FOR RECEIVING NEW HEADLINE
 socket.on('headlines-cl', (data) => {
+    clearAnimation();
+    
     try {
         outputHeadline.textContent = data.headline;
         outputDesc.textContent = data.desc;    
@@ -144,8 +175,6 @@ socket.on('headlines-cl', (data) => {
         outputHeadline.textContent = "Generation Error";
         outputDesc.textContent = data;
     }
-
-    outputFrame.style.display = 'flex';
 
     resetPromptArea();
 });

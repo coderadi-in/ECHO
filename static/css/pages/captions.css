@@ -47,3 +47,15 @@
 /* ================================================== */
 
 .main .card { aspect-ratio: 2 / 3; }
+
+/* ================================================== */
+/* OUTPUT FRAME */
+/* ================================================== */
+
+.output-frame .line {
+    width: 0;
+    height: 4px;
+    background-color: var(--color-text-main);
+    border-radius: 4px;
+    transition: width 0.5s;
+}
