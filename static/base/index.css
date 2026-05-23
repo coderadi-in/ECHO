@@ -21,6 +21,7 @@
     background-size: cover;
     background-position: center;
     color: var(--color-bg-main);
+    height: 100dvh !important;
 }
 
 .main .content {

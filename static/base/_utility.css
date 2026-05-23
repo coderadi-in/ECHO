@@ -143,6 +143,18 @@ html {
     margin: 0 auto;
 }
 
+@media (max-width: 1440px) {
+    body {
+        overflow: auto;
+        height: 100%;
+    }
+
+    .main {
+        height: auto !important;
+        overflow: auto;
+    }
+}
+
 @media (max-width: 568px) {
     .section.p-48 { padding: 20px !important; }
 }

@@ -1,0 +1,4 @@
+@media (max-width: 568px) {
+    .prompt-area .top { flex-direction: column; }
+    .prompt-area textarea { height: 100px; }
+}

@@ -26,7 +26,7 @@
                     <span class="symbol p-16 rounded-8 h-fit" style="--bg: #044389;">topic</span>
 
                     <div class="text-content column gap-4">
-                        <h1 class="h1">{{ current_user.plan }}</h1>
+                        <h2 class="h2">{{ current_user.plan }}</h2>
                         <span class="text">Selected plan</span>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                     <span class="symbol p-16 rounded-8 h-fit" style="--bg: #C3423F;">bolt</span>
 
                     <div class="text-content column gap-4">
-                        <h1 class="h1">{{ current_user.left_credits }}</h1>
+                        <h2 class="h2">{{ current_user.left_credits }}</h2>
                         <span class="text">Credits left</span>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                     <span class="symbol p-16 rounded-8 h-fit" style="--bg: #218380;">trending_up</span>
 
                     <div class="text-content column gap-4">
-                        <h1 class="h1" id="renewalDate">{{ current_user.renewal_date }}</h1>
+                        <h2 class="h2" id="renewalDate">{{ current_user.renewal_date }}</h2>
                         <span class="text">Next renewal date</span>
                     </div>
                 </div>
@@ -100,7 +100,7 @@
 
                     {% for payment in current_user.payments %}
                     <div class="payment-row grid cols-3 p-12">
-                        <span class="text">{{ payment.date }}</span>
+                        <span class="text date-text">{{ payment.date }}</span>
                         <span class="text text-center">{{ payment.amount }}</span>
                         <span class="text text-right">{{ payment.status }}</span>
                     </div>

@@ -1,0 +1,10 @@
+@media (max-width: 1696px) { .main .left-panel { display: none; } }
+
+@media (max-width: 1024px) {
+    .main .bottom-section { flex-direction: column; }
+    .main .bottom-section .chat-area { aspect-ratio: 16 / 9; }
+}
+
+@media (max-width: 568px) {
+    .main .bottom-section .chat-area { aspect-ratio: 1 / 1; }
+}

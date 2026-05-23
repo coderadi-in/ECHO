@@ -5,6 +5,7 @@
 const upgradeProBtn = document.getElementById('upgradePro');
 const renewalDate = document.getElementById('renewalDate');
 const cashfree = Cashfree({ mode: "sandbox" });
+const paymentRows = document.querySelectorAll('.payment-row');
 
 // ==================================================
 // FUNCTIONS
@@ -23,6 +24,26 @@ function formatDate() {
     renewalDate.textContent = formattedDate;
 }
 
+// * FUNCTION TO CREATE AN INTERSECTION OBSERVER FOR SIMPLIFYING DATE IN PAYMENTS TABLE
+function startSimpler() {
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const dateElement = entry.target.querySelector('.date-text');
+                
+                if (dateElement) {
+                    const processableString = dateElement.textContent.slice(2);
+                    const dateText = processableString.split('-').reverse().join('/');
+                    dateElement.textContent = dateText;
+                    observer.unobserve(entry.target);
+                }
+            }
+        });
+    });
+    
+    paymentRows.forEach(row => { observer.observe(row); });
+}
+
 // ==================================================
 // EVENT LISTENERS
 // ==================================================
@@ -30,14 +51,17 @@ function formatDate() {
 // & INITIAL DISPLAY SETTINGS
 document.addEventListener('DOMContentLoaded', () => {
     formatDate();
+    startSimpler();
 });
 
 // & EVENT LISTENERS FOR UPGRADE-BUTTON CLICK
-upgradeProBtn.addEventListener('click', async () => {
-    const response = await fetch('/billing/create-order', {method: "POST"});
-    const data = await response.json();
-    cashfree.checkout({
-        paymentSessionId: data.payment_session_id,
-        redirectTarget: "_self"
+if (upgradeProBtn) {
+    upgradeProBtn.addEventListener('click', async () => {
+        const response = await fetch('/billing/create-order', { method: "POST" });
+        const data = await response.json();
+        cashfree.checkout({
+            paymentSessionId: data.payment_session_id,
+            redirectTarget: "_self"
+        });
     });
-});
+}

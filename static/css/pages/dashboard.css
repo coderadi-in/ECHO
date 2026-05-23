@@ -58,7 +58,7 @@ main { height: calc(100dvh - 90px); }
 .recent-gens .body .generated.headline .text {
     display: -webkit-box;
     -webkit-line-clamp: 1;
-    line-clamp: 2;
+    line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
