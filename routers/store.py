@@ -43,11 +43,22 @@ def sync_store():
     check_store_integration()
 
     # DELETE ALL OLD PRODUCTS
-    for product in Product.query.filter_by(user=current_user.id).all():
+    for product in current_user.products:
         db.session.delete(product)
+
+    # CHECK IF USER HAS INTEGRATED ANY STORE
+    if (not current_user.site_url):
+        db.session.commit()
+        flash("You haven't integrated any site URL.", "error")
+        return redirect(url_for('store.store_page'))
 
     # SCRAPE USER'S STORE
     products = scrape_store()
+    
+    if (isinstance(products, bool)):
+        flash("Can't fetch products.", "error")
+        return redirect(url_for('store.store_page'))
+    
     product_list = products.values.tolist()
 
     # ADD NEW PRODUCTS TO DB
