@@ -50,6 +50,9 @@ export function closeOutputFrame() {
 
 // * FUNCTION TO HANDLE SEND-BUTTON CLICK
 export function handleSendButtonClick(event, message, referred=false) {
+    showGenSkeleton();
+    clearAnimation = animateGenSkeleton();
+
     // UPDATE SEND-BTN
     sendBtn.disabled = true;
     sendBtn.textContent = 'progress_activity';
@@ -146,10 +149,7 @@ copyBtn.addEventListener('click', () => {
 closeFrameBtn.addEventListener('click', closeOutputFrame);
 
 // & EVENT LISTENER FOR SEND-BUTTON CLICK
-sendBtn.addEventListener('click', () => {
-    showGenSkeleton();
-    clearAnimation = animateGenSkeleton();
-    
+sendBtn.addEventListener('click', () => {    
     // CREATE MESSAGE OBJECT
     const message = {
         title: titleInput.value.trim(),

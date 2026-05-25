@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#08090D" />
     <link rel="pre-connect" href="https://fonts.googleapis.com">
 
     <link rel="shortcut icon" href="{{ url_for('static', filename='assets/icons/favicon.ico') }}" type="image/x-icon">
@@ -11,6 +12,8 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='base/_utility.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/account.css') }}">
+
+    <link rel="manifest" href="/static/manifest.json" />
 </head>
 
 <body>
@@ -130,7 +133,8 @@
                     them.</p>
 
                 <form action="/app/settings/update/store" method="post" class="form column gap-12">
-                    <input required type="url" name="store_link" placeholder="Your store page url" class="input" style="max-width: 500px;" value="{{ current_user.site_url }}">
+                    <input required type="url" name="store_link" placeholder="Your store page url" class="input"
+                        style="max-width: 500px;" value="{{ current_user.site_url }}">
                     <button type="submit" class="link btn fl rounded-8 pv-12 ph-20">Integrate</button>
                 </form>
             </div>
