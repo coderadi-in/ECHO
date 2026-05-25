@@ -15,7 +15,10 @@
 
 <body>
     {% include 'components/msg.html' %}
+    <div class="toast-container column gap-12"></div>
+
     {% include 'components/header.html' %}
+    {% include 'components/controls.html' %}
 
     <main class="main">
         <section class="section p-48 column gap-32 min-h-0">
@@ -111,6 +114,7 @@
     </main>
 
     <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+    <script type="module" src="{{ url_for('static', filename='js/components/toast.js') }}"></script>
     <script type="module" src="{{ url_for('static', filename='js/pages/billing.js') }}"></script>
 </body>
 

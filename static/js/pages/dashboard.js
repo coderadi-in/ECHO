@@ -35,6 +35,7 @@ const randomMessage = messagesArray[Math.floor(Math.random() * messagesArray.len
 // ==================================================
 
 import { socket, sendMessage } from '../base/socket_listeners.js';
+import { sendToastNotification } from '../components/toast.js';
 
 // ==================================================
 // FUNCTIONS
@@ -166,6 +167,7 @@ capCopyBtns.forEach((btn) => {
         const captionText = e.target.closest('.caption').querySelector('.para').textContent;
         navigator.clipboard.writeText(captionText);
         btn.textContent = 'check';
+        sendToastNotification('Caption copied to clipboard!', 'check', 'var(--color-state-green)');
     });
 });
 
@@ -176,6 +178,7 @@ headCopyBtns.forEach((btn) => {
         const headlineDesc = e.target.closest('.headline').querySelector('.mini').textContent;
         navigator.clipboard.writeText(headlineText + "\n" + headlineDesc);
         btn.textContent = 'check';
+        sendToastNotification('Headline copied to clipboard!', 'check', 'var(--color-state-green)');
     });
 });
 

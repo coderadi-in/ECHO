@@ -25,6 +25,7 @@ const colors = [ '#F6DECBA0', '#FCC5D2A0', '#DFDDE3A0', '#CCF5F5A0', '#C2EDFFA0'
 // ==================================================
 
 import { socket, sendMessage } from '../base/socket_listeners.js';
+import { sendToastNotification } from '../components/toast.js';
 
 // ==================================================
 // FUNCTIONS
@@ -140,6 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
 copyBtn.addEventListener('click', () => {
     copyToClipboard(outputHeadline.textContent + "\n" + outputDesc.textContent);
     copyBtn.textContent = 'check';
+    sendToastNotification('Headline copied to clipboard!', 'check', 'var(--color-state-green)');
 });
 
 // & EVENT LISTENER FOR CLOSE-FRAME-BUTTON CLICK
@@ -177,4 +179,5 @@ socket.on('headlines-cl', (data) => {
     }
 
     resetPromptArea();
+    sendToastNotification('Headline generated successfully!', 'thumb_up', 'var(--color-state-green)');
 });

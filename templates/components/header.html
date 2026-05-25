@@ -70,10 +70,11 @@
     </div>
 </header>
 
-<script>
+<script type="module">
     const openControls = document.getElementById('openControls');
     const themeControl = document.getElementById('themeControl');
     const settingsOptions = document.getElementById('settingsOptions');
+    import { sendToastNotification } from '../static/js/components/toast.js';
 
     function toggleTheme() {
         document.body.classList.toggle('dark-theme');
@@ -83,6 +84,8 @@
         } else {
             localStorage.setItem('theme', 'dark');
         }
+
+        sendToastNotification('Theme toggled successfully!', 'contrast', 'var(--color-status-green)');
     }
 
     function setTheme() {

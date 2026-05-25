@@ -16,6 +16,7 @@
 
 <body>
     {% include 'components/msg.html' %}
+    <div class="toast-container column gap-12"></div>
 
     {% include 'components/header.html' %}
     {% include 'components/controls.html' %}
@@ -115,6 +116,7 @@
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    <script type="module" src="{{ url_for('static', filename='js/components/toast.js') }}"></script>
     <script type="module" src="{{ url_for('static', filename='js/pages/captions.js') }}"></script>
 </body>
 

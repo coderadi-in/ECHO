@@ -20,6 +20,12 @@ const showHeadlines = document.getElementById('showHeadlines');
 const showSaved = document.getElementById('showSaved');
 
 // ==================================================
+// IMPORTS
+// ==================================================
+
+import { sendToastNotification } from '../components/toast.js';
+
+// ==================================================
 // FUNCTIONS
 // ==================================================
 
@@ -36,6 +42,7 @@ function copyToClipboard(btnElement) {
     const content = btnElement.dataset.content;
     navigator.clipboard.writeText(content);
     btnElement.textContent = 'check';
+    sendToastNotification('Content copied to clipboard!', 'check', 'var(--color-state-green)');
 }
 
 // * FUNCTION TO CREATE HREF OF A TAG FOR DELETION

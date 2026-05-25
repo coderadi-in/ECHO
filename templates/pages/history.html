@@ -15,6 +15,7 @@
 
 <body>
     {% include 'components/msg.html' %}
+    <div class="toast-container column gap-12"></div>
 
     {% include 'components/header.html' %}
     {% include 'components/controls.html' %}
@@ -101,6 +102,7 @@
         </section>
     </main>
 
+    <script type="module" src="{{ url_for('static', filename='js/components/toast.js') }}"></script>
     <script type="module" src="{{ url_for('static', filename='js/pages/history.js') }}"></script>
 </body>
 

@@ -10,6 +10,12 @@ const toggleTheme = document.getElementById('themeToggle');
 const accentInputs = document.querySelectorAll('.accent-input');
 
 // ==================================================
+// IMPORTS
+// ==================================================
+
+import { sendToastNotification } from '../components/toast.js';
+
+// ==================================================
 // FUNCTIONS
 // ==================================================
 
@@ -86,12 +92,16 @@ settingsPopovers.forEach(popover => {
 });
 
 // & EVENT LISTENER FOR THEME-TOGGLE CLICK
-toggleTheme.addEventListener('click', setColorTheme);
+toggleTheme.addEventListener('click', () => {
+    setColorTheme();
+    sendToastNotification('Theme toggled successfully!', 'contrast', 'var(--color-status-green)');
+});
 
 // & EVENT LISTENER FOR ACCENT-INPUT CLICK
 accentInputs.forEach(accent => {
     accent.addEventListener('click', () => {
         const selectedAccent = accent.id;
         setAccentColor(selectedAccent);
+        sendToastNotification('Accent color updated successfully!', 'palette', 'var(--color-status-green)');
     });
 });
