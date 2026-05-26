@@ -9,10 +9,7 @@ Binds everything at one place.
 # ==================================================
 
 # ! LOAD VENV
-import os, certifi
 from dotenv import load_dotenv
-
-os.environ['SSL_CERT_FILE'] = certifi.where()
 load_dotenv('.venv/vars.env')
 
 # ==================================================
