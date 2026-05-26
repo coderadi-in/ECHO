@@ -221,15 +221,11 @@ def scrape_store() -> bool|pd.DataFrame:
     store_url = current_user.site_url
     if (not store_url): return False
 
-    try:
-        fetch_session = requests.Session()
-        fetch_session.mount("https://", HTTPAdapter(max_retries=3))
-        response = fetch_session.get(store_url, timeout=(5, 5))
-    
-    except Exception as e:
-        print(e, flush=True)
-        return False
-    
+    # fetch_session = requests.Session()
+    # fetch_session.mount("https://", HTTPAdapter(max_retries=3))
+    # response = fetch_session.get(store_url, timeout=(5, 5))
+    response = requests.get(store_url)
+        
     soup = BeautifulSoup(response.text, 'html.parser')
     products = {
         "Title": [],
