@@ -23,6 +23,8 @@ from typing import Literal
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+from requests.adapters import HTTPAdapter
+from requests.exceptions import RetryError
 
 # ! INITS
 db = SQLAlchemy()
@@ -30,6 +32,12 @@ socket = SocketIO()
 encoder = Bcrypt()
 migrator = Migrate()
 logger = LoginManager()
+
+# ! HTTPS ERROR MESSAGES
+ERR_MESSAGES = {
+    requests.exceptions.ConnectTimeout: ["Can't connect with the store!", "error"],
+    requests.exceptions.ReadTimeout: ["Can't get data of the store!", "error"],
+}
 
 # ! PLANS LIST
 ACCOUNT_PLANS = { "pro": 5000, }
@@ -213,7 +221,14 @@ def scrape_store() -> bool|pd.DataFrame:
     store_url = current_user.site_url
     if (not store_url): return False
 
-    response = requests.get(store_url)
+    try:
+        fetch_session = requests.Session()
+        fetch_session.mount("https://", HTTPAdapter(max_retries=3))
+        response = fetch_session.get(store_url, timeout=(5, 5))
+    
+    except:
+        return False
+    
     soup = BeautifulSoup(response.text, 'html.parser')
     products = {
         "Title": [],

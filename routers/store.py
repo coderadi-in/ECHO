@@ -56,7 +56,7 @@ def sync_store():
     products = scrape_store()
     
     if (isinstance(products, bool)):
-        flash("Can't fetch products.", "error")
+        flash("Unable to sync.", "error")
         return redirect(url_for('store.store_page'))
     
     product_list = products.values.tolist()
