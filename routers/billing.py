@@ -17,7 +17,7 @@ from models import *
 
 # ! INITS
 billing = Blueprint('billing', __name__, url_prefix='/billing')
-cashfree = CashFree()
+cf_client = CF_client()
 
 # ==================================================
 # ROUTES
@@ -53,7 +53,7 @@ def create_order():
         order_meta=order_meta
     )
 
-    response = cashfree.PGCreateOrder(order)
+    response = cf_client.PGCreateOrder(order)
 
     return jsonify({
         "payment_session_id": response.data.payment_session_id
@@ -64,7 +64,7 @@ def create_order():
 @login_required
 def check_payment_status():
     order_id = request.args.get('order_id')
-    response = cashfree.PGFetchOrder(order_id)
+    response = cf_client.PGFetchOrder(order_id)
 
     order_status = response.data.order_status
     amount = response.data.order_amount

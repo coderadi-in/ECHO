@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     startSimpler();
 });
 
-// & EVENT LISTENERS FOR UPGRADE-BUTTON CLICK
+// & EVENT LISTENER FOR UPGRADE-BUTTON CLICK
 if (upgradeProBtn) {
     upgradeProBtn.addEventListener('click', async () => {
         const response = await fetch('/billing/create-order', { method: "POST" });

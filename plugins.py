@@ -58,7 +58,7 @@ def bind_plugins(server: Flask) -> None:
     logger.init_app(server)
 
 # * FUNCTION TO CREATE A CASHFREE INSTANCE
-def CashFree(env = Cashfree.SANDBOX):
+def CF_client(env = Cashfree.SANDBOX):
     """
     Creates a Cashfree instance.
 
@@ -69,13 +69,13 @@ def CashFree(env = Cashfree.SANDBOX):
     2. Cashfree.PRODUCTION - for production
     """
 
-    cashfree = Cashfree(
+    cf_client = Cashfree(
         XEnvironment=Cashfree.SANDBOX,
         XClientId=os.getenv("CASHFREE_ID"),
         XClientSecret=os.getenv("CASHFREE_SEC")
     )
 
-    return cashfree
+    return cf_client
 
 # * FUNCTION TO SEND MESSAGE TO MODEL
 def get_response(system_prompt: str, message: str, personality_prompt: str|None = None, token_size: int = 250) -> str:
