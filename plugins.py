@@ -226,9 +226,7 @@ def scrape_store() -> bool|pd.DataFrame:
         fetch_session.mount("https://", HTTPAdapter(max_retries=3))
         response = fetch_session.get(store_url, timeout=(5, 5))
     
-    except Exception as e:
-        print(e, flush=True)
-        return False
+    except: return False
     
     soup = BeautifulSoup(response.text, 'html.parser')
     products = {
