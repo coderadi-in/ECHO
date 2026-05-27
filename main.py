@@ -8,10 +8,6 @@ Binds everything at one place.
 # ENVIRONMENT SETUP
 # ==================================================
 
-import ssl, urllib3, requests
-urllib3.util.ssl_.DEFAULT_CIPHERS = None
-requests.packages.urllib3.util.ssl_.create_urllib3_context = lambda **kw: ssl.create_default_context()
-
 # ! LOAD VENV
 from dotenv import load_dotenv
 load_dotenv('.venv/vars.env')
