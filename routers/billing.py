@@ -17,7 +17,6 @@ from models import *
 
 # ! INITS
 billing = Blueprint('billing', __name__, url_prefix='/billing')
-cf_client = CF_client()
 
 # ==================================================
 # ROUTES
@@ -33,30 +32,10 @@ def plans():
 @billing.route('/create-order', methods=['POST'])
 @login_required
 def create_order():
-    order_id = f"order_{uuid4()}"
-
-    customer_details = CustomerDetails(
-        customer_id=f"00{current_user.id}",
-        customer_email=current_user.email,
-        customer_phone=current_user.phone
-    )
-
-    order_meta = OrderMeta(
-        return_url=f"http://127.0.0.1:5000/billing/payments?order_id={order_id}"
-    )
-
-    order = CreateOrderRequest(
-        order_id=order_id,
-        order_amount=1,
-        order_currency="INR",
-        customer_details=customer_details,
-        order_meta=order_meta
-    )
-
-    response = cf_client.PGCreateOrder(order)
+    session_id = initiate_cf_order()
 
     return jsonify({
-        "payment_session_id": response.data.payment_session_id
+        "payment_session_id": session_id,
     })
 
 # & PAYMENTS ROUTE
@@ -64,11 +43,11 @@ def create_order():
 @login_required
 def check_payment_status():
     order_id = request.args.get('order_id')
-    response = cf_client.PGFetchOrder(order_id)
+    response = fetch_cf_status(order_id)
 
-    order_status = response.data.order_status
-    amount = response.data.order_amount
-    currency = response.data.order_currency
+    order_status = response.get('order_status')
+    amount = response.get('order_amount')
+    currency = response.get('order_currency')
     relevant_page = order_status.lower()
 
     if (Payment.query.filter_by(order_id=order_id).first()):
@@ -77,7 +56,7 @@ def check_payment_status():
 
     payment = Payment(
         order_id=order_id,
-        user=current_user.id,
+        user=current_user.id, 
         status=order_status,
         processed=True,
         amount=amount

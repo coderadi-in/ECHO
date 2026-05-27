@@ -12,10 +12,6 @@ from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate, migrate, upgrade, init as init_migrator
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
 from openai import OpenAI
-from cashfree_pg.api_client import Cashfree
-from cashfree_pg.models.create_order_request import CreateOrderRequest
-from cashfree_pg.models.customer_details import CustomerDetails
-from cashfree_pg.models.order_meta import OrderMeta
 import os
 from sqlalchemy import extract
 from datetime import date, timedelta
@@ -25,6 +21,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from requests.adapters import HTTPAdapter
 from requests.exceptions import RetryError
+from uuid import uuid4
 
 # ! INITS
 db = SQLAlchemy()
@@ -32,12 +29,6 @@ socket = SocketIO()
 encoder = Bcrypt()
 migrator = Migrate()
 logger = LoginManager()
-
-# ! HTTPS ERROR MESSAGES
-ERR_MESSAGES = {
-    requests.exceptions.ConnectTimeout: ["Can't connect with the store!", "error"],
-    requests.exceptions.ReadTimeout: ["Can't get data of the store!", "error"],
-}
 
 # ! PLANS LIST
 ACCOUNT_PLANS = { "pro": 5000, }
@@ -65,25 +56,62 @@ def bind_plugins(server: Flask) -> None:
     migrator.init_app(server, db)
     logger.init_app(server)
 
-# * FUNCTION TO CREATE A CASHFREE INSTANCE
-def CF_client(env = Cashfree.SANDBOX):
+# * FUNCTION TO CREATE A CASHFREE ORDER
+def initiate_cf_order():
     """
-    Creates a Cashfree instance.
-
-    :param env: The environment type.
-
-    ## Environment types
-    1. Cashfree.SANDBOX - for development
-    2. Cashfree.PRODUCTION - for production
+    Creates a cashfree order.
     """
 
-    cf_client = Cashfree(
-        XEnvironment=Cashfree.SANDBOX,
-        XClientId=os.getenv("CASHFREE_ID"),
-        XClientSecret=os.getenv("CASHFREE_SEC")
-    )
+    url = "https://sandbox.cashfree.com/pg/orders"
+    order_id = f"order_{uuid4()}"
 
-    return cf_client
+    payload = {
+        "order_id": order_id,
+        "order_currency": "INR",
+        "order_amount": 299,
+        "customer_details": {
+            "customer_id": f"00{current_user.id}",
+            "customer_phone": current_user.phone
+        },
+        "order_meta": {
+            "return_url": f"{os.getenv('APP_URL')}/billing/payments?order_id={order_id}"
+        }
+    }
+
+    headers = {
+        "x-api-version": "2025-01-01",
+        "x-client-id": os.getenv("CASHFREE_ID"),
+        "x-client-secret": os.getenv("CASHFREE_SEC"),
+        "Content-Type": "application/json"
+    }
+
+    response = requests.post(url, json=payload, headers=headers)
+
+    return response.json().get("payment_session_id")
+
+# * FUNCTION TO GET CASHFREE ORDER STATUS
+def fetch_cf_status(order_id: str) -> dict:
+    """
+    Fetches a cashfree order status
+    """
+
+    url = f"https://sandbox.cashfree.com/pg/orders/{order_id}"
+
+    headers = {
+        "x-api-version": "2025-01-01",
+        "x-client-id": os.getenv("CASHFREE_ID"),
+        "x-client-secret": os.getenv("CASHFREE_SEC"),
+        "Content-Type": "application/json"
+    }
+
+    response = requests.get(url, headers=headers)
+    data = response.json()
+
+    return {
+        "order_status": data.get("order_status"),
+        "order_amount": data.get("order_amount"),
+        "order_currency": data.get("order_currency"),
+    }
 
 # * FUNCTION TO SEND MESSAGE TO MODEL
 def get_response(system_prompt: str, message: str, personality_prompt: str|None = None, token_size: int = 250) -> str:

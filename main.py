@@ -8,19 +8,6 @@ Binds everything at one place.
 # ENVIRONMENT SETUP
 # ==================================================
 
-import ssl
-
-_original_init = ssl.SSLContext.__init__
-
-def _patched_init(self, protocol=ssl.PROTOCOL_TLS_CLIENT, *args, **kwargs):
-    _original_init(self, protocol, *args, **kwargs)
-    try:
-        self.minimum_version = ssl.TLSVersion.TLSv1_2
-    except (AttributeError, ssl.SSLError):
-        pass
-
-ssl.SSLContext.__init__ = _patched_init
-
 # ! LOAD VENV
 from dotenv import load_dotenv
 load_dotenv('.venv/vars.env')
