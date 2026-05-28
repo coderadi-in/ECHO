@@ -27,6 +27,7 @@ app = Blueprint("app", __name__, url_prefix='/app')
 # & DASHBOARD ROUTE
 @app.route("/dashboard")
 @login_required
+@limiter.limit("30 per minute")
 def dashboard():
     # REFRESH USER'S PLAN AND CREDITS
     reset_credits()
@@ -73,24 +74,28 @@ def dashboard():
 # & CAPTIONS ROUTE
 @app.route('/captions')
 @login_required
+@limiter.limit("30 per minute")
 def captions():
     return render_template('pages/captions.html')
 
 # & HEADLINES ROUTE
 @app.route('/headlines')
 @login_required
+@limiter.limit("30 per minute")
 def headlines():
     return render_template('pages/headlines.html')
 
 # & SETTINGS ROUTE
 @app.route('/settings')
 @login_required
+@limiter.limit("30 per minute")
 def settings():
     return render_template('pages/settings.html')
 
 # | SETTINGS UPDATE ROUTE
 @app.route('/settings/update/<field>', methods=['POST'])
 @login_required
+@limiter.limit("30 per minute")
 def update_settings(field):
     if (field == 'profile'):
         name = request.form.get('name', current_user.name)
@@ -165,6 +170,7 @@ def update_settings(field):
 # | SETTINGS DATA ROUTE
 @app.route('/settings/data/<function>')
 @login_required
+@limiter.limit("30 per minute")
 def handle_data(function):
     if (function == 'clear'):
         for caption in current_user.captions:
@@ -235,12 +241,14 @@ def handle_data(function):
 # & HISTORY ROUTE
 @app.route('/history')
 @login_required
+@limiter.limit("30 per minute")
 def history():
     return render_template('pages/history.html')
 
 # | DELETE GENERATION ROUTE
 @app.route('/history/delete/<category>')
 @login_required
+@limiter.limit("30 per minute")
 def delete_generation(category):
     gen, gen_id = None, request.args.get('id')
 
@@ -267,6 +275,7 @@ def delete_generation(category):
 # & ACCOUNT ROUTE
 @app.route('/account')
 @login_required
+@limiter.limit("30 per minute")
 def account():
     # COUNT TOTAL GENERATIONS
     total_captions_count = Caption.query.filter(
@@ -319,6 +328,7 @@ def account():
 # | DELETE ACCOUNT ROUTE
 @app.route('/account/delete', methods=['POST'])
 @login_required
+@limiter.limit("30 per minute")
 def delete_account():
     # FORM VALIDATION
     password = request.form.get('password')

@@ -11,8 +11,10 @@ from flask_socketio import SocketIO
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate, migrate, upgrade, init as init_migrator
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from openai import OpenAI
-import os
+import os, time
 from sqlalchemy import extract
 from datetime import date, timedelta
 from typing import Literal
@@ -30,6 +32,7 @@ socket = SocketIO()
 encoder = Bcrypt()
 migrator = Migrate()
 logger = LoginManager()
+limiter = Limiter( get_remote_address, default_limits=[ "200 per day", "50 per hour" ] )
 
 # ! PLANS LIST
 ACCOUNT_PLANS = { "pro": 5000, }
@@ -78,6 +81,7 @@ def bind_plugins(server: Flask) -> None:
     encoder.init_app(server)
     migrator.init_app(server, db)
     logger.init_app(server)
+    limiter.init_app(server)
 
 # * FUNCTION TO CREATE A CASHFREE ORDER
 def initiate_cf_order():
@@ -170,6 +174,17 @@ def get_response(system_prompt: str, message: str, personality_prompt: str|None 
         }
 
     try:
+        # RATE LIMITING
+        if (current_user.last_generation) and (time.time() - current_user.last_generation < 5):
+            logging.warning(f"Got frequent request from user {current_user.id}")
+            return {
+                "output": "Too many requests, try again after 10 seconds.",
+                "status": 429
+            }
+        
+        current_user.last_generation = time.time()
+        db.session.commit()
+
         model = OpenAI(
             base_url="https://openrouter.ai/api/v1",
             api_key=api_key,

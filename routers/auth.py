@@ -14,6 +14,7 @@ auth = Blueprint("auth", __name__, url_prefix='/auth')
 
 # & SIGNUP ROUTE
 @auth.route('/signup', methods=['POST'])
+@limiter.limit("30 per minute")
 def signup():
     # ACCESS FORM DATA
     name = request.form.get('name')
@@ -47,6 +48,7 @@ def signup():
 
 # & LOGIN ROUTE
 @auth.route('/login', methods=['POST'])
+@limiter.limit("30 per minute")
 def login():
     # ACCESS FORM DATA
     email = request.form.get('email')
@@ -75,6 +77,7 @@ def login():
 
 # & LOGOUT ROUTE
 @auth.route('/logout')
+@limiter.limit("30 per minute")
 def logout():
     logout_user()
     flash("You account has been logged out.", "info")

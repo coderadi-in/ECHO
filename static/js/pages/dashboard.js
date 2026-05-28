@@ -199,7 +199,7 @@ sendPrompt.addEventListener('click', () => {
 // & EVENT LISTENER TO SEND MESSAGE ON `CTRL+ENTER` KEYPRESS
 userPrompt.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && e.ctrlKey) {
-        if (userPrompt.value.trim() === '') { return };
+        if (userPrompt.value.trim() === '' || sendPrompt.disabled) { return };
 
         // REMOVE WELCOME MESSAGE FROM CHAT CONTAINER
         if (chatsContainer.contains(chatWelcome)) {

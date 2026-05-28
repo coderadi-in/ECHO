@@ -26,6 +26,7 @@ class User(db.Model, UserMixin):
     """
     
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    last_generation = db.Column(db.Float)
 
     name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)

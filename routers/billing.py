@@ -25,12 +25,14 @@ billing = Blueprint('billing', __name__, url_prefix='/billing')
 # & BILLING PAGE ROUTE
 @billing.route('/')
 @login_required
+@limiter.limit("30 per minute")
 def plans():
     return render_template('pages/billing.html')
 
 # & UPGRADE ROUTE
 @billing.route('/create-order', methods=['POST'])
 @login_required
+@limiter.limit("5 per minute")
 def create_order():
     session_id = initiate_cf_order()
 
@@ -41,6 +43,7 @@ def create_order():
 # & PAYMENTS ROUTE
 @billing.route('/payments')
 @login_required
+@limiter.limit("5 per minute")
 def check_payment_status():
     order_id = request.args.get('order_id')
     response = fetch_cf_status(order_id)
@@ -80,6 +83,7 @@ def check_payment_status():
 # & EXPORT HISTORY ROUTE
 @billing.route('/history/export')
 @login_required
+@limiter.limit("30 per minute")
 def export_history():
     payments_history = current_user.payments
     buffer = BytesIO()

@@ -32,6 +32,7 @@ def check_store_integration():
 # & STORE ROUTE
 @store.route('/')
 @login_required
+@limiter.limit("30 per minute")
 def store_page():
     check_store_integration()    
     return render_template('pages/store.html')
@@ -39,6 +40,7 @@ def store_page():
 # & SYNC STORE ROUTE
 @store.route('/sync')
 @login_required
+@limiter.limit("30 per minute")
 def sync_store():
     check_store_integration()
 
