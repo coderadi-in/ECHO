@@ -15,6 +15,7 @@ from models import *
 from plugins import *
 import zipfile as zf
 from io import BytesIO
+import httpx, asyncio
 
 # ! ROUTER INIT
 app = Blueprint("app", __name__, url_prefix='/app')
@@ -350,7 +351,6 @@ def delete_account():
 @app.route('/test-request')
 def test_request():
     session = requests.Session()
-    adapter = HTTPAdapter(max_retries=3)
-    session.mount("https://", adapter)
-    response = session.get("https://google.com", timeout=(5, 5))
-    return (response.status_code)
+    session.mount("https://", HTTPAdapter(20, max_retries=3))
+    res = session.get("https://www.google.com", timeout=(3, 5))
+    return str(res.status_code)

@@ -5,8 +5,12 @@ Binds everything at one place.
 """
 
 # ==================================================
-# ENVIRONMENT SETUP
+# ENVIRONMENT & SSL SETUP
 # ==================================================
+
+# ! SETUP MONKEY PATCH
+import gevent.monkey
+gevent.monkey.patch_all()
 
 # ! LOAD VENV
 from dotenv import load_dotenv
