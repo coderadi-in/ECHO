@@ -63,6 +63,11 @@ def login():
         flash("The provided email is not linked with any ECHO account.", "error")
         return redirect('/')
     
+    # PASSWORD VALIDATION
+    if (not encoder.check_password_hash(logged_user.password, password)):
+        flash("Password mismatched!", "error")
+        return redirect('/')
+    
     # LOGIN AND REDIRECT
     login_user(logged_user)
     flash("Logged in! Welcome to ECHO.", "waving_hand")
