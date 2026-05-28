@@ -42,7 +42,7 @@ def signup():
     db.session.commit()
 
     # LOGIN AND REDIRECT
-    login_user(new_user)
+    login_user(new_user, remember=True)
     flash("Logged in! Welcome to ECHO.", "waving_hand")
     return redirect(url_for('app.dashboard'))
 
@@ -71,7 +71,7 @@ def login():
         return redirect('/')
     
     # LOGIN AND REDIRECT
-    login_user(logged_user)
+    login_user(logged_user, remember=True)
     flash("Logged in! Welcome to ECHO.", "waving_hand")
     return redirect(url_for('app.dashboard'))
 

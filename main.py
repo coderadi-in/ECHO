@@ -33,6 +33,8 @@ server = Flask(__name__)
 server.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DB_URI")
 server.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 server.config['SECRET_KEY'] = os.getenv("SEC_KEY")
+server.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=30)
+server.config['SESSION_PERMANENT'] = True
 
 # ==================================================
 # PLUGINS AND DATABASE

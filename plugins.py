@@ -174,6 +174,13 @@ def get_response(system_prompt: str, message: str, personality_prompt: str|None 
         }
 
     try:
+        # USER AUTHENTICATION
+        if (not current_user.is_authenticated):
+            return {
+                "output": "You need to log in to get AI responses.",
+                "status": 401
+            }
+
         # RATE LIMITING
         if (current_user.last_generation) and (time.time() - current_user.last_generation < 5):
             logging.warning(f"Got frequent request from user {current_user.id}")
