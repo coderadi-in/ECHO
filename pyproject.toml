@@ -22,4 +22,5 @@ dependencies = [
     "pandas>=3.0.3",
     "requests>=2.34.2",
     "urllib3>=2.3.0",
+    "flask-limiter>=4.1.1",
 ]

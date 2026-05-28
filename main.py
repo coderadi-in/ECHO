@@ -43,10 +43,11 @@ bind_plugins(server)
 bind_routers(server)
 bind_apis(server)
 
-# & DATABASE INIT
+# & DATABASE & LOGGING INIT
 with server.app_context():
     if (not os.path.exists('migrations')): init_migrator()
     db.create_all()
+    init_logging_setup()
 
 # ==================================================
 # AUTHENTICATION AND ROUTE REDIRECTION

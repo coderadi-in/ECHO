@@ -5,7 +5,7 @@ Manages all Flask-plugins.
 """
 
 # ? IMPORTS
-from flask import Flask, flash
+from flask import Flask, flash, current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO
 from flask_bcrypt import Bcrypt
@@ -22,6 +22,7 @@ import pandas as pd
 from requests.adapters import HTTPAdapter
 from requests.exceptions import RetryError
 from uuid import uuid4
+import logging
 
 # ! INITS
 db = SQLAlchemy()
@@ -32,6 +33,28 @@ logger = LoginManager()
 
 # ! PLANS LIST
 ACCOUNT_PLANS = { "pro": 5000, }
+
+# * FUNCTION TO INITIALIZE LOGGING SETUP
+def init_logging_setup():
+    """
+    Creates basic logging setup.
+    """
+
+    # CHECK FOR LOGS FILE
+    os.makedirs("logs", exist_ok=True)
+    logs_file_path = os.path.join(current_app.root_path, "logs", "errors.log")
+    if (not os.path.exists(logs_file_path)): 
+        with open(logs_file_path, 'w') as f: pass
+
+    # SETUP LOGGING
+    logging.basicConfig(
+        level=logging.ERROR,
+        format="%(asctime)s - %(levelname)s - %(message)s",
+        handlers=[
+            logging.FileHandler("logs/errors.log"),
+            logging.StreamHandler()
+        ]
+    )
 
 # * FUNCTION TO BIND PLUGINS TO THE SERVER
 def bind_plugins(server: Flask) -> None:
@@ -85,7 +108,10 @@ def initiate_cf_order():
         "Content-Type": "application/json"
     }
 
-    response = requests.post(url, json=payload, headers=headers)
+    try:
+        response = requests.post(url, json=payload, headers=headers)
+    except Exception as e:
+        logging.error(str(e))
 
     return response.json().get("payment_session_id")
 
@@ -104,8 +130,11 @@ def fetch_cf_status(order_id: str) -> dict:
         "Content-Type": "application/json"
     }
 
-    response = requests.get(url, headers=headers)
-    data = response.json()
+    try:
+        response = requests.get(url, headers=headers)
+        data = response.json()
+    except Exception as e:
+        logging.error(str(e))
 
     return {
         "order_status": data.get("order_status"),
@@ -173,7 +202,8 @@ def get_response(system_prompt: str, message: str, personality_prompt: str|None 
             "status": 200
         }
 
-    except:
+    except Exception as e:
+        logging.error(str(e))
         return {
             "output": "Something went wrong while generating response!",
             "status": 500
@@ -254,7 +284,9 @@ def scrape_store() -> bool|pd.DataFrame:
         fetch_session.mount("https://", HTTPAdapter(max_retries=3))
         response = fetch_session.get(store_url, timeout=(5, 5))
     
-    except: return False
+    except Exception as e:
+        logging.error(str(e))
+        return False
     
     soup = BeautifulSoup(response.text, 'html.parser')
     products = {
