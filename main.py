@@ -68,7 +68,31 @@ def index():
 # ERROR HANDLES
 # ==================================================
 
+# & UNAUTHORIZED
 @server.errorhandler(401)
 def handle_401(error):
     flash("Login required", "error")
     return redirect('/')
+
+# & BAD REQUEST
+@server.errorhandler(400)
+def handle_400(error = None):
+    flash("Something wen't wrong on our side!", "error")
+    return redirect('/')
+
+# & NOT FOUND
+@server.errorhandler(404)
+def handle_404(error = None):
+    return render_template('err/404.html')
+
+# & TOO MANY REQUESTS
+@server.errorhandler(429)
+def handle_429(error = None):
+    logout_user()
+    flash("Too many requests from your side.", "error")
+    return redirect('/')
+
+# & INTERNAL SERVER ERROR
+@server.errorhandler(500)
+def handle_500(error):
+    return render_template("err/500.html")

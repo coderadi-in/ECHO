@@ -1,0 +1,68 @@
+/* ================================================== */
+/* BASIC */
+/* ================================================== */
+
+* { color: #F4F4F6; }
+.main { flex: 1; }
+
+.h1 { opacity: 0.8; }
+
+/* ================================================== */
+/* IMAGE */
+/* ================================================== */
+
+.img {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    object-fit: cover;
+    height: 100dvh;
+}
+
+.img.phone { display: none; }
+
+@media (max-width: 768px) {
+    .img.desktop { display: none; }
+    .img.phone { display: block; }
+}
+
+/* ================================================== */
+/* BUTTONS */
+/* ================================================== */
+
+.btn {
+    background-color: #12131757;
+    color: #F4F4F6;
+    backdrop-filter: blur(4px);
+    position: relative;
+    transition: transform 0.4s;
+    overflow: hidden;
+    border: 1px solid #121317;
+}
+
+.btn:hover { transform: scale(1.05); }
+
+.btn::before,
+.btn::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    width: 40%;
+    height: 40%;
+    background-color: var(--color-accent-main);
+    filter: blur(14px);
+}
+
+.btn::before {
+    bottom: 0;
+    left: 0;
+    border-radius: 10vw 50vw 10vw 0;
+    opacity: 0.8;
+}
+
+.btn::after {
+    top: 0;
+    right: 0;
+    border-radius: 10vw 0 10vw 50vw;
+    opacity: 0.5;
+}

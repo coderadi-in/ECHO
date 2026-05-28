@@ -347,10 +347,7 @@ def delete_account():
     flash("Your account has been deleted completely from ECHO.", "delete_forever")
     return redirect('/')
 
-# ! TEST ROUTE
-@app.route('/test-request')
-def test_request():
-    session = requests.Session()
-    session.mount("https://", HTTPAdapter(20, max_retries=3))
-    res = session.get("https://www.google.com", timeout=(3, 5))
-    return str(res.status_code)
+# ! ERR
+@app.route('/err/<code>')
+def return_error(code):
+    return render_template(f"err/{code}.html")

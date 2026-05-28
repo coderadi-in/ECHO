@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#08090D" />
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/icons/favicon.ico') }}" type="image/x-icon">
+    <title>404 &bull; ECHO</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='base/_utility.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='base/err.css') }}">
+</head>
+
+<body class="column h-screen">
+    <img src="{{ url_for('static', filename='assets/images/404-desktop.webp') }}" alt="Background Image"
+        class="img desk">
+    <img src="{{ url_for('static', filename='assets/images/404-phone.webp') }}" alt="Background Image"
+        class="img phone">
+
+    <div class="main column center gap-12 p-12">
+        <h1 class="h1 text-center">Looks like you went somewhere you weren't supposed to be</h1>
+        <div class="actions res-row center gap-12">
+            <a href="{{ url_for('app.dashboard') }}" class="link btn rounded-full ph-20 pv-12">
+                <span class="symbol">home</span>
+                <span class="text">Back home</span>
+            </a>
+
+            <a href="mailto:adi@coderadi.in" class="link btn rounded-full ph-20 pv-12">
+                <span class="symbol">support_agent</span>
+                <span class="text">Contact support</span>
+            </a>
+        </div>
+    </div>
+
+    <span class="text text-center footer p-20">AUVORA ECHO</span>
+</body>
+
+</html>
