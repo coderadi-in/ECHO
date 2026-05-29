@@ -89,13 +89,13 @@ def initiate_cf_order():
     Creates a cashfree order.
     """
 
-    url = "https://sandbox.cashfree.com/pg/orders"
+    url = "https://api.cashfree.com/pg/orders"
     order_id = f"order_{uuid4()}"
 
     payload = {
         "order_id": order_id,
         "order_currency": "INR",
-        "order_amount": 299,
+        "order_amount": 1,
         "customer_details": {
             "customer_id": f"00{current_user.id}",
             "customer_phone": current_user.phone
