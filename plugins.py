@@ -117,6 +117,7 @@ def initiate_cf_order():
     except Exception as e:
         logging.error(str(e))
 
+    print(response.text, flush=True)
     return response.json().get("payment_session_id")
 
 # * FUNCTION TO GET CASHFREE ORDER STATUS
