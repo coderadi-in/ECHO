@@ -53,6 +53,9 @@ def check_payment_status():
     currency = response.get('order_currency')
     relevant_page = order_status.lower()
 
+    order_meta = response.get('order_meta')
+    payment_method = order_meta.get('payment_methods')
+
     if (Payment.query.filter_by(order_id=order_id).first()):
         flash("The payment was already processed.", "check")
         return redirect(url_for('app.dashboard'))
@@ -62,7 +65,8 @@ def check_payment_status():
         user=current_user.id, 
         status=order_status,
         processed=True,
-        amount=amount
+        amount=amount,
+        payment_method=payment_method
     )
 
     db.session.add(payment)
@@ -77,7 +81,10 @@ def check_payment_status():
             "status": order_status,
             "amount": amount,
             "currency": currency,
-            "id": payment.id
+            "id": payment.id,
+            "date": payment.date,
+            "method": payment_method,
+            "credits": ACCOUNT_PLANS["pro"],
         })
     
 # & EXPORT HISTORY ROUTE

@@ -140,10 +140,12 @@ def fetch_cf_status(order_id: str) -> dict:
     except Exception as e:
         logging.error(str(e))
 
+
     return {
         "order_status": data.get("order_status"),
         "order_amount": data.get("order_amount"),
         "order_currency": data.get("order_currency"),
+        "order_meta": data.get("order_meta")
     }
 
 # * FUNCTION TO SEND MESSAGE TO MODEL

@@ -1,0 +1,15 @@
+body {background-color: #F7F5FF !important;}
+.main .section { max-width: 568px; }
+.highlight {color: #6C4CF1 !important;}
+
+.invoice-overview .symbol,
+.payment-summary {
+    background-color: #EDE8FF;
+}
+
+#download {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 8;
+}

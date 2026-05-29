@@ -32,3 +32,4 @@ class Payment(db.Model):
     status = db.Column(db.String)
     amount = db.Column(db.Float, nullable=False)
     processed = db.Column(db.Boolean)
+    payment_method = db.Column(db.String)
