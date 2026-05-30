@@ -7,6 +7,7 @@ Manages all API routers in the applications.
 # ? IMPORTS
 from flask import Flask
 from .user import user
+from .admin import admin
 
 # * FUNCTION TO BIND ALL APIs TO THE SERVER
 def bind_apis(server: Flask):
@@ -26,3 +27,4 @@ def bind_apis(server: Flask):
     """
 
     server.register_blueprint(user)
+    server.register_blueprint(admin)
