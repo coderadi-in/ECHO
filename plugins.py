@@ -35,7 +35,7 @@ logger = LoginManager()
 limiter = Limiter( get_remote_address, default_limits=[ "200 per day", "50 per hour" ] )
 
 # ! PLANS LIST
-ACCOUNT_PLANS = { "pro": 5000, }
+ACCOUNT_PLANS = { "pro": 1500, }
 
 # * FUNCTION TO INITIALIZE LOGGING SETUP
 def init_logging_setup():
@@ -89,7 +89,7 @@ def initiate_cf_order():
     Creates a cashfree order.
     """
 
-    url = "https://api.cashfree.com/pg/orders"
+    url = "https://sandbox.cashfree.com/pg/orders"
     order_id = f"order_{uuid4()}"
 
     payload = {
@@ -107,8 +107,8 @@ def initiate_cf_order():
 
     headers = {
         "x-api-version": "2025-01-01",
-        "x-client-id": os.getenv("CASHFREE_ID"),
-        "x-client-secret": os.getenv("CASHFREE_SEC"),
+        "x-client-id": os.getenv("CASHFREE_ID_DEV"),
+        "x-client-secret": os.getenv("CASHFREE_SEC_DEV"),
         "Content-Type": "application/json"
     }
 
@@ -130,8 +130,8 @@ def fetch_cf_status(order_id: str) -> dict:
 
     headers = {
         "x-api-version": "2025-01-01",
-        "x-client-id": os.getenv("CASHFREE_ID"),
-        "x-client-secret": os.getenv("CASHFREE_SEC"),
+        "x-client-id": os.getenv("CASHFREE_ID_DEV"),
+        "x-client-secret": os.getenv("CASHFREE_SEC_DEV"),
         "Content-Type": "application/json"
     }
 

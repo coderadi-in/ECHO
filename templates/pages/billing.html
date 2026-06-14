@@ -76,7 +76,9 @@
                 <div class="upgrade-btn center">
                     {% if current_user.phone %}
                     {% if current_user.plan.lower() == "free" %}
-                    <button class="link btn fl rounded-full pv-16 ph-32" id="upgradePro">Upgrade to Pro</button>
+                    <button class="link btn fl rounded-full pv-16 ph-32" id="upgradePro">
+                        <span class="text">Upgrade to Pro</span>
+                    </button>
                     {% else %}
                     <span class="text">You're already a Pro user.</span>
                     {% endif %}

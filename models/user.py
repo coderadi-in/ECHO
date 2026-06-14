@@ -20,7 +20,6 @@ class User(db.Model, UserMixin):
             email="adi@coderadi.in",
             password="<password>",
             site_url="coderadi.in",
-            config_pass="<get_from_dev>"
         )
     ```
     """
@@ -42,7 +41,7 @@ class User(db.Model, UserMixin):
     left_credits = db.Column(db.Integer, default=50)
 
     plan = db.Column(db.String, default="Free")
-    renewal_date = db.Column(db.Date, default=date.today() + timedelta(days=1))
+    renewal_date = db.Column(db.Date, default=date.today() + timedelta(days=30))
 
     captions = db.relationship('Caption', backref='author', lazy=True)
     headlines = db.relationship('Headline', backref='author', lazy=True)

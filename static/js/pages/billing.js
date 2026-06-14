@@ -3,6 +3,8 @@
 // ==================================================
 
 const upgradeProBtn = document.getElementById('upgradePro');
+const upgradeProText = document.querySelector('#upgradePro span');
+
 const renewalDate = document.getElementById('renewalDate');
 const cashfree = Cashfree({ mode: "sandbox" });
 const paymentRows = document.querySelectorAll('.payment-row');
@@ -57,8 +59,14 @@ document.addEventListener('DOMContentLoaded', () => {
 // & EVENT LISTENER FOR UPGRADE-BUTTON CLICK
 if (upgradeProBtn) {
     upgradeProBtn.addEventListener('click', async () => {
+        upgradeProBtn.disabled = true;
+        upgradeProText.classList.add('symbol');
+        upgradeProText.textContent = 'progress_activity';
+        upgradeProText.classList.add('anim-rotate');
+
         const response = await fetch('/billing/create-order', { method: "POST" });
         const data = await response.json();
+        
         cashfree.checkout({
             paymentSessionId: data.payment_session_id,
             redirectTarget: "_self"
