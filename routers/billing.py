@@ -112,3 +112,41 @@ def export_history():
         download_name='payments.csv',
         mimetype='text/csv'
     )
+
+# & PROMO CODE ROUTE
+@billing.route('/promo-code', methods=['POST'])
+@login_required
+@limiter.limit("10 per hour")
+def apply_promo_code():
+    # ACCESS FORM DATA
+    promo_code = request.form.get('promo')
+
+    # FORM VALIDATION
+    if (not promo_code):
+        flash("Probably you haven't entered any promo code.", "error")
+        return redirect(url_for('billing.plans'))
+
+    # PROMO CODE FETCHING
+    promo_codes = PromoCode.query.filter(
+        PromoCode.expiry >= date.today(),
+        PromoCode.users < PromoCode.limit,
+    ).all()
+
+    # MATCHING PROMO CODE
+    for code in promo_codes:
+        if (
+            promo_code == code.code and
+            current_user not in code.users_list
+        ):
+            current_user.total_credits += code.credits
+            current_user.left_credits += code.credits
+            code.users += 1
+            code.users_list.append(current_user)
+            
+            db.session.commit()
+            flash("Promo code applied to your credit balance.", "redeem")
+            return redirect(url_for('app.dashboard'))
+        
+    # RETURN RESPONSE
+    flash("The promo code you entered is either wrong or been expired!", "error")
+    return redirect(url_for('billing.plans'))

@@ -89,6 +89,16 @@
                 </div>
             </div>
 
+            <div class="promo-code column gap-20 p-16 rounded-16 bg-card">
+                <h2 class="h2">Promo code</h2>
+                <p class="para">Promo code gets you some free credits to use.</p>
+
+                <form action="/billing/promo-code" method="post" class="form gap-12">
+                    <input required type="text" name="promo" placeholder="Enter promo code" class="input">
+                    <button type="submit" class="btn fl rounded-8 ph-20 pv-12">Apply</button>
+                </form>
+            </div>
+
             <div class="payments-history column gap-20 min-h-0">
                 <div class="head res-row h-sb gap-12">
                     <h2 class="h2">Payments history</h2>

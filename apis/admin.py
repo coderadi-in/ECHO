@@ -12,13 +12,16 @@ Manages the routes of admin api.
 from flask import Blueprint, jsonify, request, send_file
 from plugins import *
 from models import *
+from io import BytesIO
+from functools import wraps
 
 # ! ROUTER INIT
 admin = Blueprint('admin', __name__, url_prefix='/api/admin')
 
 # & DECORATOR FOR CHECKING AUTHENTICATION
 def admin_authentication_required(func):
-    def wrapper():
+    @wraps(func)
+    def wrapper(*args, **kwargs):
         admin_id = request.headers.get('admin-id')
         admin_key = request.headers.get('admin-key')
 
@@ -34,14 +37,15 @@ def admin_authentication_required(func):
                 "message": "You have admin ID but you need a specific admin KEY to get admin access."
             }), 403
         
-        return func()
+        return func(*args, **kwargs)
 
     return wrapper
 
 # ==================================================
-# SETUP
+# LOGS API ENDPOINTS
 # ==================================================
 
+# & DOWNLOAD
 @admin.route('/logs/download')
 @admin_authentication_required
 def download_logs():
@@ -65,3 +69,94 @@ def download_logs():
         mimetype="text/plain",
         as_attachment=True
     )
+
+# ==================================================
+# PROMO API ENDPOINTS
+# ==================================================
+
+# & ALL PROMO
+@admin.route('/promo/all')
+@admin_authentication_required
+def all_promo():
+    promo_df = pd.read_sql_table('promo_code', db.engine)
+    return promo_df.to_dict(), 200
+
+# & NEW PROMO
+@admin.route('/promo/new', methods=['POST'])
+@admin_authentication_required
+def create_promo():
+    # ACCESS FORM DATA
+    code = request.json.get('code')
+    sponsor = request.json.get('sponsor')
+    credits = request.json.get('credits')
+    limit = request.json.get('limit')
+    expiry = request.json.get('expiry')
+
+    # TYPECASTING & SPLITTING
+    credits = int(credits)
+    limit = int(limit)
+    
+    exp_y, exp_m, exp_d = expiry.split("/")
+    expiry = date(
+        int(exp_y),
+        int(exp_m),
+        int(exp_d)
+    )
+
+    # CREATE NEW PROMO
+    new_promo = PromoCode(
+        code=code,
+        sponsor=sponsor,
+        credits=credits,
+        limit=limit,
+        expiry=expiry,
+    )
+
+    db.session.add(new_promo)
+    db.session.commit()
+
+    return jsonify({
+        "status": 200,
+        "message": "New promo created successfully",
+        "promo_details": {
+            "id": new_promo.id,
+            "code": code,
+            "sponsor": sponsor,
+            "credits": credits,
+            "limit": limit,
+            "expiry": expiry
+        }
+    }), 200
+
+# & DELETE PROMO
+@admin.route('/promo/delete')
+@admin_authentication_required
+def delete_promo():
+    # ACCESS URL DATA
+    promo_id = request.args.get('promo-id')
+
+    # PARAM VALIDATION
+    if (not promo_id):
+        return jsonify({
+            "status": 422,
+            "message": "Promo ID is invalid"
+        }), 422
+    
+    # DATABASE FILTER
+    promo = PromoCode.query.filter_by(id=int(promo_id)).first()
+
+    # ROW VALIDATION
+    if (not promo):
+        return jsonify({
+            "status": 400,
+            "message": "Promo ID does not exist"
+        }), 400
+    
+    # DELETE PROMO
+    db.session.delete(promo)
+    db.session.commit()
+
+    return jsonify({
+        "status": 200,
+        "message": "Promo deleted successfully"
+    }), 200

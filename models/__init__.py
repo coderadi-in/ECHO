@@ -11,9 +11,11 @@ from .headlines import Headline
 from .saved_gen import SavedGen
 from .payments import Payment
 from .products import Product
+from .promo import PromoCode
 
 # ! ALL
 __all__ = [
     "User", "Caption", "Headline", 
-    "SavedGen", "Payment", "Product"
+    "SavedGen", "Payment", "Product",
+    "PromoCode"
 ]

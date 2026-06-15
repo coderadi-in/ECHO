@@ -2,7 +2,8 @@
 /* BASIC */
 /* ================================================== */
 
-.main { height: calc(100dvh - 88px); }
+body { overflow: auto !important; }
+/* .main { height: calc(100dvh - 88px); } */
 
 /* ================================================== */
 /* INFO-GRID */
@@ -20,6 +21,18 @@
 /* ================================================== */
 
 .pricing { grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); }
+
+/* ================================================== */
+/* PROMO CODE */
+/* ================================================== */
+
+.promo-code .form {
+    display: flex;
+    align-items: stretch;
+    flex-wrap: wrap;
+}
+
+.promo-code .form * { align-self: stretch; }
 
 /* ================================================== */
 /* PAYMENTS HISTORY */
