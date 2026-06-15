@@ -85,5 +85,13 @@ if (upgradeProBtn) {
             paymentSessionId: data.payment_session_id,
             redirectTarget: "_self"
         });
+
+        setTimeout(() => {
+            sendToastNotification("Timeout: Processing your order took too long.", "error", "var(--color-state-red)");
+            upgradeProBtn.disabled = false;
+            upgradeProText.classList.remove('symbol');
+            upgradeProText.textContent = 'Upgrade to Pro';
+            upgradeProText.classList.remove('anim-rotate');
+        }, 10000);
     });
 }
