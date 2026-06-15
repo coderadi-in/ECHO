@@ -10,6 +10,12 @@ const cashfree = Cashfree({ mode: "sandbox" });
 const paymentRows = document.querySelectorAll('.payment-row');
 
 // ==================================================
+// IMPORTS
+// ==================================================
+
+import { sendToastNotification } from '../components/toast.js';
+
+// ==================================================
 // FUNCTIONS
 // ==================================================
 
@@ -66,7 +72,15 @@ if (upgradeProBtn) {
 
         const response = await fetch('/billing/create-order', { method: "POST" });
         const data = await response.json();
-        
+
+        if (!data.payment_session_id) {
+            sendToastNotification("Something went wrong while processing your order!", "error", "var(--color-state-red)");
+            upgradeProBtn.disabled = false;
+            upgradeProText.classList.remove('symbol');
+            upgradeProText.textContent = 'Upgrade to Pro';
+            upgradeProText.classList.remove('anim-rotate');
+        }
+
         cashfree.checkout({
             paymentSessionId: data.payment_session_id,
             redirectTarget: "_self"

@@ -39,7 +39,7 @@ def create_order():
     return jsonify({
         "payment_session_id": session_id,
     })
-
+    
 # & PAYMENTS ROUTE
 @billing.route('/payments')
 @login_required
