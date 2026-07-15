@@ -89,7 +89,7 @@ def initiate_cf_order():
     Creates a cashfree order.
     """
 
-    url = "https://sandbox.cashfree.com/pg/orders"
+    url = "https://api.cashfree.com/pg/orders"
     order_id = f"order_{uuid4()}"
 
     payload = {
@@ -107,8 +107,8 @@ def initiate_cf_order():
 
     headers = {
         "x-api-version": "2025-01-01",
-        "x-client-id": os.getenv("CASHFREE_ID_DEV"),
-        "x-client-secret": os.getenv("CASHFREE_SEC_DEV"),
+        "x-client-id": os.getenv("CASHFREE_ID"),
+        "x-client-secret": os.getenv("CASHFREE_SEC"),
         "Content-Type": "application/json"
     }
 
