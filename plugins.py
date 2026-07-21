@@ -95,7 +95,7 @@ def initiate_cf_order():
     payload = {
         "order_id": order_id,
         "order_currency": "INR",
-        "order_amount": 1,
+        "order_amount": 199,
         "customer_details": {
             "customer_id": f"00{current_user.id}",
             "customer_phone": current_user.phone
@@ -128,12 +128,12 @@ def fetch_cf_status(order_id: str) -> dict:
     Fetches a cashfree order status
     """
 
-    url = f"https://sandbox.cashfree.com/pg/orders/{order_id}"
+    url = f"https://api.cashfree.com/pg/orders/{order_id}"
 
     headers = {
         "x-api-version": "2025-01-01",
-        "x-client-id": os.getenv("CASHFREE_ID_DEV"),
-        "x-client-secret": os.getenv("CASHFREE_SEC_DEV"),
+        "x-client-id": os.getenv("CASHFREE_ID"),
+        "x-client-secret": os.getenv("CASHFREE_SEC"),
         "Content-Type": "application/json"
     }
 
