@@ -30,7 +30,6 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String, nullable=False)
-    phone = db.Column(db.String, unique=True)
     site_url = db.Column(db.String)
 
     ai_tone = db.Column(db.String, default='Mentor')

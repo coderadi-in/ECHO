@@ -74,17 +74,12 @@
                 </div>
 
                 <div class="upgrade-btn center">
-                    {% if current_user.phone %}
                     {% if current_user.plan.lower() == "free" %}
                     <button class="link btn fl rounded-full pv-16 ph-32" id="upgradePro">
                         <span class="text">Upgrade to Pro</span>
                     </button>
                     {% else %}
                     <span class="text">You're already a Pro user.</span>
-                    {% endif %}
-                    {% else %}
-                    <p class="para">Please add your phone number in <a href="{{ url_for('app.settings') }}"
-                            class="ulink">settings</a> before upgrading.</p>
                     {% endif %}
                 </div>
             </div>
