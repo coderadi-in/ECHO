@@ -25,6 +25,7 @@ from requests.adapters import HTTPAdapter
 from requests.exceptions import RetryError
 from uuid import uuid4
 import logging
+from razorpay import Client
 
 # ! INITS
 db = SQLAlchemy()
@@ -32,7 +33,8 @@ socket = SocketIO()
 encoder = Bcrypt()
 migrator = Migrate()
 logger = LoginManager()
-limiter = Limiter( get_remote_address, default_limits=[ "200 per day", "50 per hour" ] )
+limiter = Limiter(get_remote_address, default_limits=[ "200 per day", "50 per hour" ])
+client = Client(auth=(os.getenv("RZP_ID_TEST"), os.getenv("RZP_SECRET_TEST")))
 
 # ! PLANS LIST
 ACCOUNT_PLANS = { "pro": 1500, }
@@ -83,73 +85,63 @@ def bind_plugins(server: Flask) -> None:
     logger.init_app(server)
     limiter.init_app(server)
 
-# * FUNCTION TO CREATE A CASHFREE ORDER
-def initiate_cf_order():
+# * FUNCTION TO CREATE A PAYMENT ORDER
+def initiate_payment_order():
     """
-    Creates a cashfree order.
+    Creates a Payment order using Razorpay.
     """
 
-    url = "https://api.cashfree.com/pg/orders"
-    order_id = f"order_{uuid4()}"
+    try:
+        order = client.order.create({
+            "amount": 100,
+            "currency": "INR",
+            "notes": {
+                "user_id": current_user.id,
+                "plan": "Pro"
+            }
+        })
 
-    payload = {
-        "order_id": order_id,
-        "order_currency": "INR",
-        "order_amount": 199,
-        "customer_details": {
-            "customer_id": f"00{current_user.id}",
-            "customer_phone": current_user.phone
-        },
-        "order_meta": {
-            "return_url": f"{os.getenv('APP_URL')}/billing/payments?order_id={order_id}"
+        return {
+            "status": 200,
+            "order": order
         }
-    }
 
-    headers = {
-        "x-api-version": "2025-01-01",
-        "x-client-id": os.getenv("CASHFREE_ID"),
-        "x-client-secret": os.getenv("CASHFREE_SEC"),
-        "Content-Type": "application/json"
-    }
-
-    try:
-        response = requests.post(url, json=payload, headers=headers)
     except Exception as e:
         logging.error(str(e))
+        return {
+            "status": 500,
+            "order": None
+        }
 
-    if (response.status_code == 200):
-        return response.json().get("payment_session_id")
-    else:
-        return None
-
-# * FUNCTION TO GET CASHFREE ORDER STATUS
-def fetch_cf_status(order_id: str) -> dict:
+# * FUNCTION TO GET PAYMENT STATUS
+def fetch_payment_status(payment_id: str):
     """
-    Fetches a cashfree order status
+    Fetches payment status using razorpay.
     """
-
-    url = f"https://api.cashfree.com/pg/orders/{order_id}"
-
-    headers = {
-        "x-api-version": "2025-01-01",
-        "x-client-id": os.getenv("CASHFREE_ID"),
-        "x-client-secret": os.getenv("CASHFREE_SEC"),
-        "Content-Type": "application/json"
-    }
 
     try:
-        response = requests.get(url, headers=headers)
-        data = response.json()
+        payment = client.payment.fetch(payment_id)
+        return {
+            "status": 200,
+            "payment": {
+                "id": payment["id"],
+                "status": payment["status"],
+                "amount": payment["amount"] / 100,
+                "currency": payment["currency"],
+                "method": payment["method"],
+                "email": payment.get("email"),
+                "contact": payment.get("contact"),
+                "captured": payment["captured"],
+                "order_id": payment["order_id"]
+            }
+        }
+
     except Exception as e:
         logging.error(str(e))
-
-
-    return {
-        "order_status": data.get("order_status"),
-        "order_amount": data.get("order_amount"),
-        "order_currency": data.get("order_currency"),
-        "order_meta": data.get("order_meta")
-    }
+        return {
+            "status": 500,
+            "payment": None
+        }
 
 # * FUNCTION TO SEND MESSAGE TO MODEL
 def get_response(system_prompt: str, message: str, personality_prompt: str|None = None, token_size: int = 250) -> str:

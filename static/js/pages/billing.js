@@ -6,7 +6,6 @@ const upgradeProBtn = document.getElementById('upgradePro');
 const upgradeProText = document.querySelector('#upgradePro span');
 
 const renewalDate = document.getElementById('renewalDate');
-const cashfree = Cashfree({ mode: "sandbox" });
 const paymentRows = document.querySelectorAll('.payment-row');
 
 // ==================================================
@@ -38,7 +37,7 @@ function startSimpler() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const dateElement = entry.target.querySelector('.date-text');
-                
+
                 if (dateElement) {
                     const processableString = dateElement.textContent.slice(2);
                     const dateText = processableString.split('-').reverse().join('/');
@@ -48,7 +47,7 @@ function startSimpler() {
             }
         });
     });
-    
+
     paymentRows.forEach(row => { observer.observe(row); });
 }
 
@@ -73,7 +72,7 @@ if (upgradeProBtn) {
         const response = await fetch('/billing/create-order', { method: "POST" });
         const data = await response.json();
 
-        if (!data.payment_session_id) {
+        if (!data.success) {
             sendToastNotification("Something went wrong while processing your order!", "error", "var(--color-state-red)");
             upgradeProBtn.disabled = false;
             upgradeProText.classList.remove('symbol');
@@ -81,10 +80,30 @@ if (upgradeProBtn) {
             upgradeProText.classList.remove('anim-rotate');
         }
 
-        cashfree.checkout({
-            paymentSessionId: data.payment_session_id,
-            redirectTarget: "_self"
-        });
+        const options = {
+            key: data.key,
+            order_id: data.order_id,
+            amount: data.amount,
+            currency: data.currency,
+            name: "AUVORA ECHO",
+            description: "Pro Plan",
+            handler: function (response) {
+                window.location =
+                    `/billing/payments?order_id=${response.razorpay_order_id}&payment_id=${response.razorpay_payment_id}&signature=${response.razorpay_signature}`;
+            },
+            modal: {
+                ondismiss: function () {
+                    upgradeProBtn.disabled = false;
+                    upgradeProText.classList.remove('symbol');
+                    upgradeProText.textContent = 'Upgrade to Pro';
+                    upgradeProText.classList.remove('anim-rotate');
+
+                }
+            }
+        };
+
+        const razorpay = new Razorpay(options);
+        razorpay.open();
 
         setTimeout(() => {
             sendToastNotification("Timeout: Processing your order took too long.", "error", "var(--color-state-red)");

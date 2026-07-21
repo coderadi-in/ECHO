@@ -30,14 +30,27 @@ def plans():
     return render_template('pages/billing.html')
 
 # & UPGRADE ROUTE
-@billing.route('/create-order', methods=['POST'])
+@billing.route("/create-order", methods=["POST"])
 @login_required
 @limiter.limit("5 per minute")
 def create_order():
-    session_id = initiate_cf_order()
+    response = initiate_payment_order()
 
+    # Fetch response status
+    if (response["status"] != 200):
+        return jsonify({
+            "success": False
+        }), 500
+
+    order = response["order"]
+
+    # Return order details
     return jsonify({
-        "payment_session_id": session_id,
+        "success": True,
+        "key": os.getenv("RZP_ID_TEST"),
+        "order_id": order["id"],
+        "amount": order["amount"],
+        "currency": order["currency"]
     })
     
 # & PAYMENTS ROUTE
@@ -45,25 +58,40 @@ def create_order():
 @login_required
 @limiter.limit("5 per minute")
 def check_payment_status():
-    order_id = request.args.get('order_id')
-    response = fetch_cf_status(order_id)
-
-    order_status = response.get('order_status')
-    amount = response.get('order_amount')
-    currency = response.get('order_currency')
-    relevant_page = order_status.lower()
-
-    order_meta = response.get('order_meta')
-    payment_method = order_meta.get('payment_methods')
+    # Fetch URL args
+    order_id = request.args.get("order_id")
+    payment_id = request.args.get("payment_id")
+    signature = request.args.get("signature")
 
     if (Payment.query.filter_by(order_id=order_id).first()):
         flash("The payment was already processed.", "check")
         return redirect(url_for('app.dashboard'))
+    
+    # Signature verification
+    try:
+        client.utility.verify_payment_signature({
+            "razorpay_order_id": order_id,
+            "razorpay_payment_id": payment_id,
+            "razorpay_signature": signature
+        })
 
+    except Exception:
+        flash("Payment verification failed.", "error")
+        return redirect(url_for("billing.billing"))
+    
+    # Fetch status
+    response = fetch_payment_status(payment_id)
+    info = response['payment']
+    payment_status = info['status']
+    amount = info['amount']
+    payment_method = info['method']
+    currency = info['currency']
+
+    # Add to DB
     payment = Payment(
         order_id=order_id,
         user=current_user.id, 
-        status=order_status,
+        status=payment_status,
         processed=True,
         amount=amount,
         payment_method=payment_method
@@ -72,13 +100,14 @@ def check_payment_status():
     db.session.add(payment)
     db.session.commit()
 
-    if (order_status == "PAID"):
+    # Return response
+    if (payment_status == "captured"):
         upgrade_plan()
 
-        return render_template(f"events/{relevant_page}.html", data={
+        return render_template(f"events/paid.html", data={
             "order_id": order_id,
             "plan": "Pro",
-            "status": order_status,
+            "status": payment_status,
             "amount": amount,
             "currency": currency,
             "id": payment.id,
@@ -86,6 +115,11 @@ def check_payment_status():
             "method": payment_method,
             "credits": ACCOUNT_PLANS["pro"],
         })
+    
+    else:
+        flash("We can't process your payment.", "error")
+        flash("If the amount is deducted, it'll be refunded within 2 business days.", "check")
+        return redirect(url_for('app.dashboard'))
     
 # & EXPORT HISTORY ROUTE
 @billing.route('/history/export')
