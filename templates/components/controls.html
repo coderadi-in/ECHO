@@ -38,8 +38,14 @@
 <script>
     const closeControls = document.getElementById('closeControls');
     const controls = document.querySelector('.controls');
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const showControls = localStorage.getItem('controls');
+        controls.classList.toggle('hidden', showControls === 'hidden');
+    })
     
     closeControls.addEventListener('click', () => {
+        localStorage.setItem('controls', 'hidden');
         controls.classList.add('hidden');
     })
 </script>

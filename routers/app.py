@@ -100,20 +100,14 @@ def update_settings(field):
     if (field == 'profile'):
         name = request.form.get('name', current_user.name)
         email = request.form.get('email', current_user.email)
-        phone = request.form.get('phone', current_user.phone)
         site_url = request.form.get('site_url', current_user.site_url)
 
-        if (User.query.filter_by(phone=phone).first() and current_user.phone != phone):
-            flash("The provided phone number is already linked with an Echo account.", "error")
-            return redirect(url_for('app.settings'))
-        
         if (User.query.filter_by(email=email).first() and current_user.email != email):
             flash("The provided email address is already linked with an Echo account.", "error")
             return redirect(url_for('app.settings'))
         
         current_user.name = name
         current_user.email = email
-        current_user.phone = phone
         current_user.site_url = site_url
         db.session.commit()
 

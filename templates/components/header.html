@@ -103,6 +103,7 @@
 
     openControls.addEventListener('click', () => {
         controls.classList.remove('hidden');
+        localStorage.setItem('controls', 'visible');
     });
 
     settingsOptions.addEventListener('beforetoggle', () => {
