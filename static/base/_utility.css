@@ -394,7 +394,7 @@ html {
 /* EFFECTS */
 /* ================================================== */
 
-.shadow { box-shadow: 5px 5px 10px -5px var(--color-accent-alt); }
+.shadow { box-shadow: 2px 2px 10px -5px #808080; }
 
 /* ================================================== */
 /* COLORS */

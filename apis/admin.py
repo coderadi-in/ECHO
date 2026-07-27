@@ -160,3 +160,38 @@ def delete_promo():
         "status": 200,
         "message": "Promo deleted successfully"
     }), 200
+
+# ==================================================
+# CREDITS API ENDPOINTS
+# ==================================================
+
+# & INCREASE USER CREDITS
+@admin.route('/credits/increase', methods=['POST'])
+@admin_authentication_required
+def increase_credits():
+    # ACCESS JSON DATA AND USER ROW
+    data = request.json
+    user = User.query.filter_by(email=data['email']).first()
+
+    # USER VALIDATION
+    if (not user):
+        return jsonify({
+            "status": 404,
+            "message": "User not found!"
+        }), 404
+
+    # INCREASE CREDITS
+    user.total_credits += int(data['credits'])
+    user.left_credits += int(data['credits'])
+    db.session.commit()
+
+    # RETURN RESPONSE
+    return jsonify({
+        "status": 200,
+        "message": "Credits increase successfully!",
+        "details": {
+            "user_email": user.email,
+            "increase_credits": data['credits'],
+            "total_credits": user.total_credits
+        }
+    }), 200
