@@ -13,7 +13,7 @@ from flask_migrate import Migrate, migrate, upgrade, init as init_migrator
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-from openai import OpenAI
+from openai import OpenAI, APIConnectionError
 import os, time
 from sqlalchemy import extract
 from datetime import date, timedelta
@@ -221,11 +221,17 @@ def get_response(system_prompt: str, message: str, personality_prompt: str|None 
             "status": 200
         }
 
+    except APIConnectionError:
+        return {
+            "output": "There're some network issue.",
+            "status": 500
+        }
+
     except Exception as e:
         logging.error(str(e))
         return {
             "output": "Something went wrong while generating response!",
-            "status": 500
+            "status": 408
         }
     
 # * FUNCTION TO RESET USER CREDITS
