@@ -101,6 +101,13 @@
         document.body.classList.add(savedAccent);
     }
 
+    function setShadow() {
+        const shadow = localStorage.getItem('shadow') === 'enabled';
+        if (!shadow) return;
+
+        document.body.classList.add('shadow-enabled');
+    }
+
     openControls.addEventListener('click', () => {
         controls.classList.remove('hidden');
         localStorage.setItem('controls', 'visible');
@@ -114,5 +121,6 @@
     document.addEventListener('DOMContentLoaded', () => {
         setTheme();
         setAccent();
+        setShadow();
     });
 </script>

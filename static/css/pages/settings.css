@@ -36,8 +36,26 @@
 }
 
 #appearanceSettings #accentsList.open { transform: scale(1); }
-
 #appearanceSettings #accentsList .sample { background-color: var(--bg); }
+
+#appearanceSettings #toggleShadow .toggle-area {
+    padding: 4px;
+    border: 1px solid var(--color-text-main);
+    border-radius: 9999px;
+    width: 48px;
+    transition: background-color 0.3s;
+}
+
+#appearanceSettings #toggleShadow .toggle-body {
+    width: 16px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background-color: var(--color-accent-main);
+    transition: transform 0.3s;
+}
+
+#appearanceSettings #toggleShadow.enabled .toggle-area { background-color: var(--color-text-main); }
+#appearanceSettings #toggleShadow.enabled .toggle-body { transform: translateX(20px); }
 
 /* ================================================== */
 /* AI PREFERENCE SETTINGS */

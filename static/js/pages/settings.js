@@ -8,6 +8,7 @@ const settingsPopovers = document.querySelectorAll('#appearanceSettings [popover
 
 const toggleTheme = document.getElementById('themeToggle');
 const accentInputs = document.querySelectorAll('.accent-input');
+const toggleShadow = document.getElementById('toggleShadow');
 
 // ==================================================
 // IMPORTS
@@ -69,6 +70,16 @@ function setAccentColor(color) {
 // EVENT LISTENERS
 // ==================================================
 
+// & INITIAL DISPLAY SETTINGS
+document.addEventListener('DOMContentLoaded', () => {
+    const shadowEnabled = localStorage.getItem('shadow') === 'enabled';
+    if (shadowEnabled) {
+        toggleShadow.classList.add('enabled');
+    } else {
+        toggleShadow.classList.remove('enabled');
+    }
+});
+
 // & EVENT LISTENER FOR CARD-BUTTON CLICK
 allBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -104,4 +115,15 @@ accentInputs.forEach(accent => {
         setAccentColor(selectedAccent);
         sendToastNotification('Accent color updated successfully!', 'palette', 'var(--color-status-green)');
     });
+});
+
+// & EVENT LISTENER FOR SHADOW-TOGGLE CLICK
+toggleShadow.addEventListener('click', () => {
+    toggleShadow.classList.toggle('enabled');
+
+    if (localStorage.getItem('shadow') === 'enabled') {
+        localStorage.setItem('shadow', 'disabled');
+    } else {
+        localStorage.setItem('shadow', 'enabled');
+    }
 });
