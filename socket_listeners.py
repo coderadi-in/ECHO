@@ -22,12 +22,12 @@ def generate_captions(product: dict) -> str:
         return
 
     # ACCESS DATA
-    title = product["title"]
-    desc = product["desc"]
-    price = product["price"]
+    title = product.get("title")
+    desc = product.get("desc")
+    price = product.get("price")
 
     # DATA VALIDATION
-    if (not title) or (not desc) or (not price):
+    if (not title) or (not desc):
         socket.emit("captions-cl", "The inputs aren't filled properly.")
         return
 
@@ -47,7 +47,7 @@ def generate_captions(product: dict) -> str:
             user=current_user.id,
             title=title,
             desc=desc,
-            price=float(price),
+            price=float(price) if price else 0.0,
             caption=response['output'],
         )
 
@@ -69,12 +69,12 @@ def generate_headlines(product: dict) -> str:
         return
     
     # ACCESS DATA
-    title = product["title"]
-    desc = product["desc"]
-    price = product["price"]
+    title = product.get("title")
+    desc = product.get("desc")
+    price = product.get('price')
 
     # DATA VALIDATION
-    if (not title) or (not desc) or (not price):
+    if (not title) or (not desc):
         socket.emit("headlines-cl", {"headline": "Input Error", "desc": "The inputs aren't filled properly."})
         return
 
@@ -96,7 +96,7 @@ def generate_headlines(product: dict) -> str:
             user=current_user.id,
             title=title,
             desc=desc,
-            price=float(price),
+            price=float(price) if price else 0.0,
             gen_headline=output_headline,
             gen_desc=output_desc
         )

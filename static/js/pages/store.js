@@ -6,7 +6,7 @@ const products = document.querySelectorAll('.product');
 const colors = [ '#F6DECBA0', '#FCC5D2A0', '#DFDDE3A0', '#CCF5F5A0', '#C2EDFFA0' ];
 
 const capGenBtns = document.querySelectorAll('.cap-gen-btn');
-const HedGenBtns = document.querySelectorAll('.hed-gen-btn');
+const HeadGenBtns = document.querySelectorAll('.hed-gen-btn');
 
 const startSync = document.getElementById('startSync')
 const syncingAnimation = document.querySelector('.syncing-animation');
@@ -64,8 +64,8 @@ capGenBtns.forEach(btn => {
     });
 });
 
-// & EVENT LISTENER FOR HED-GEN-BUTTONS CLICK
-HedGenBtns.forEach(btn => {
+// & EVENT LISTENER FOR HEAD-GEN-BUTTONS CLICK
+HeadGenBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         const message = getProductData(btn);
         localStorage.setItem('pending_generation', JSON.stringify(message));             

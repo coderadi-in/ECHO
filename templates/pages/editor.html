@@ -24,6 +24,27 @@
     {% include 'components/header.html' %}
     {% include 'components/controls.html' %}
 
+    <div class="output-frame p-20 rounded-16 column gap-24">
+        <div class="head row gap-16">
+            <button class="btn symbol" id="closeFrame">close</button>
+            <span class="text fs-24">Generating headline</span>
+        </div>
+        
+        <div class="text-content column gap-8">
+            <h2 class="h2" id="outputHeadline"></h2>
+            <p class="para" id="outputDesc"></p>
+
+            <div class="line line1"></div>
+            <div class="line line2"></div>
+            <div class="line line3"></div>
+        </div>
+        
+        <div class="actions row gap-12">
+            <button class="btn symbol" id="keepBtn">keep</button>
+            <button class="btn symbol" id="regenBtn">refresh</button>
+        </div>
+    </div>
+
     <main class="main flex gap-20 p-20">
 
         <div class="history column gap-20 p-16 rounded-16 shadow bg-card" id="historyTab">
@@ -50,21 +71,41 @@
             </div>
         </div>
 
-        <div class="workspace column gap-16 p-16 rounded-16 shadow w-full bg-card" id="workspaceTab">
+        <div class="workspace column gap-16 p-16 rounded-16 shadow w-full bg-card min-h-0" id="workspaceTab">
             <div class="head center">
                 <span class="text fs-20 fw-500">Workspace</span>
             </div>
 
-            <div class="canvas h-full"></div>
+            <div class="canvas h-full center min-h-0 m-auto">
+                <img src="" class="img" id="imagePreview">
+
+                <div class="column gap-4 text-content p-8 rounded-8" id="textPreview">
+                    <h2 class="h2" id="postHeadline"></h2>
+                    <span class="text" id="postDescription"><span>
+                </div>
+            </div>
 
             <div class="tools row gap-12">
-                <button class="btn icon-fl rounded-8 pv-4 ph-8">
+                <button class="btn icon-fl rounded-8 pv-4 ph-8" id="photoBtn">
+                    <input type="file" id="photoInput" accept="image/*">
                     <span class="symbol">image</span>
                     <span class="text">Photo</span>
                 </button>
+
+                <button class="btn icon-fl rounded-8 pv-4 ph-8" id="clearCanvas">
+                    <span class="symbol">clear</span>
+                    <span class="text">Clear</span>
+                </button>
                 
-                <button class="btn icon-fl rounded-8 pv-4 ph-8">
-                    <span class="symbol">download</span>
+                <div class="row gap-8 rounded-8">
+                    <button class="btn fl symbol p-4" id="increaseWidth">add</button>
+                    <span class="text">Width</span>
+                    <button class="btn fl symbol p-4" id="decreaseWidth">remove</button>
+                </div>
+
+                <div class="spare-element w-full"></div>
+                <button class="btn icon-fl rounded-8 pv-4 ph-8" id="exportBtn">
+                    <span class="symbol">publish</span>
                     <span class="text">Export</span>
                 </button>
             </div>
@@ -90,7 +131,7 @@
                         <p class="para product-desc">{{ product.desc }}</p>
 
                         <div class="actions">
-                            <button class="link btn ot w-full pv-12 rounded-full hed-gen-btn">Generate</button>
+                            <button class="link btn ot w-full pv-12 rounded-full head-gen-btn">Generate</button>
                         </div>
                     </div>
                     {% endfor %}
@@ -101,7 +142,10 @@
         </div>
     </main>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script type="module" src="{{ url_for('static', filename='js/components/toast.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/pages/editor.js') }}"></script>
 </body>
 
 </html>

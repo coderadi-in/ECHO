@@ -6,6 +6,32 @@ main { height: calc(100dvh - 90px); }
 .history, .generate { max-width: max(360px, 25%); }
 
 /* ================================================== */
+/* OUTPUT FRAME */
+/* ================================================== */
+
+.output-frame {
+    position: fixed;
+    z-index: 1;
+    width: min(768px, 80vw);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    backdrop-filter: blur(4px);
+    background-color: var(--color-surface-main);
+    display: none;
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+
+.output-frame .line {
+    width: 0;
+    height: 4px;
+    background-color: var(--color-text-main);
+    border-radius: 4px;
+    transition: width 0.5s;
+}
+
+/* ================================================== */
 /* HISTORY TAB */
 /* ================================================== */
 
@@ -32,7 +58,42 @@ main { height: calc(100dvh - 90px); }
 /* WORKSPACE */
 /* ================================================== */
 
-.workspace .tools .btn { background-color: var(--color-surface-main); }
+/* ----- CANVAS ----- */
+.workspace .canvas { height: auto; }
+
+.workspace .canvas .img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.workspace .canvas .text-content {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    cursor: grab;
+    user-select: none;
+}
+
+.workspace .canvas .text-content:active { cursor: grabbing; }
+
+/* ----- TOOLS ----- */
+.workspace .tools .btn {
+    background-color: var(--color-surface-main);
+    position: relative;
+}
+
+.workspace .tools #photoBtn input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.workspace .tools #increaseWidth { border-radius: 4px 0 0 4px; }
+.workspace .tools #decreaseWidth { border-radius: 0 4px 4px 0; }
 
 /* ================================================== */
 /* PRODUCTS TAB */
