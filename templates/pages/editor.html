@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#08090D" />
+    <link rel="pre-connect" href="https://fonts.googleapis.com">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/icons/favicon.ico') }}" type="image/x-icon">
+    <title>Editor &bull; ECHO</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='base/_utility.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/editor.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='res/gen.css') }}">
+
+    <link rel="manifest" href="/static/manifest.json" />
+</head>
+
+<body>
+    {% include 'components/msg.html' %}
+    <div class="toast-container column gap-12"></div>
+
+    {% include 'components/header.html' %}
+    {% include 'components/controls.html' %}
+
+    <main class="main flex gap-20 p-20">
+
+        <div class="history column gap-20 p-16 rounded-16 shadow bg-card" id="historyTab">
+            <div class="head row h-sb">
+                <span class="text fs-20 fw-500">Generations</span>
+                <!-- <span class="symbol link" id="closeHistoryTab">resize</span> -->
+            </div>
+
+            <div class="headlines column gap-8">
+                {% for headline in current_user.headlines %}
+                {% if not headline.deleted %}
+                <div class="generated headline row h-sb gap-8 p-8" data-head-id="{{ headline.id }}">
+                    <div class="column gap-4">
+                        <span class="text fs-20 fw-500">{{ headline.gen_headline }}</span>
+                        <span class="mini">{{ headline.gen_desc }}</span>
+                    </div>
+
+                    <div class="headline-actions row gap-8">
+                        <button class="link btn symbol add-btn" title="Add content">add</button>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="workspace column gap-16 p-16 rounded-16 shadow w-full bg-card" id="workspaceTab">
+            <div class="head center">
+                <span class="text fs-20 fw-500">Workspace</span>
+            </div>
+
+            <div class="canvas h-full"></div>
+
+            <div class="tools row gap-12">
+                <button class="btn icon-fl rounded-8 pv-4 ph-8">
+                    <span class="symbol">image</span>
+                    <span class="text">Photo</span>
+                </button>
+                
+                <button class="btn icon-fl rounded-8 pv-4 ph-8">
+                    <span class="symbol">download</span>
+                    <span class="text">Export</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="generate column gap-20 p-16 rounded-16 shadow bg-card h-full min-h-0" id="generateTab">
+            <div class="head row h-sb">
+                <span class="text fs-20 fw-500">Generate new</span>
+                <!-- <span class="symbol link" id="closeGenerationTab">resize</span> -->
+            </div>
+
+            <div class="products min-h-0">
+                {% if current_user.products | length == 0 %}
+                <div class="column gap-4 h-full center">
+                    <h1 class="h1 text-muted text-center">No products yet</h1>
+                </div>
+                {% else %}
+
+                <div class="products-grid grid cols-auto-400 gap-24">
+                    {% for product in current_user.products %}
+                    <div class="product column h-en gap-12 p-8">
+                        <span class="text uppercase fw-500 product-title">{{ product.title }}</span>
+                        <p class="para product-desc">{{ product.desc }}</p>
+
+                        <div class="actions">
+                            <button class="link btn ot w-full pv-12 rounded-full hed-gen-btn">Generate</button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="{{ url_for('static', filename='js/components/toast.js') }}"></script>
+</body>
+
+</html>

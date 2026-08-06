@@ -20,17 +20,21 @@
 </style>
 
 <section class="controls column gap-20 p-16 rounded-12">
-    <div class="column gap-12" id="appControls">
+    <div class="column gap-12" id="toolControls">
         <a href="{{ url_for('app.captions') }}" class="link symbol" title="Captions">subtitles</a>
         <a href="{{ url_for('app.headlines') }}" class="link symbol" title="Headlines">text_ad</a>
-        <a href="{{ url_for('store.store_page') }}" class="link symbol" title="Store">store</a>
-        <a href="{{ url_for('app.settings') }}" class="link symbol" title="Settings">settings</a>
+        <a href="{{ url_for('app.editor') }}" class="link symbol" title="Editor">format_image_right</a>
     </div>
+    <hr class="divider">
 
+    <div class="column gap-12" id="appControls">
+        <a href="{{ url_for('store.store_page') }}" class="link symbol" title="Store">store</a>
+        <a href="{{ url_for('app.dashboard') }}" class="link symbol" title="Dashboard">dashboard</a>
+    </div>    
     <hr class="divider">
     
     <div class="column gap-12" id="selfControls">
-        <a href="{{ url_for('app.dashboard') }}" class="link symbol" title="Dashboard">dashboard</a>
+        <a href="{{ url_for('app.settings') }}" class="link symbol" title="Settings">settings</a>
         <button class="link btn symbol" title="Close Controls" id="closeControls">close</button>
     </div>
 </section>

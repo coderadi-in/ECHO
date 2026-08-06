@@ -85,6 +85,13 @@ def captions():
 def headlines():
     return render_template('pages/headlines.html')
 
+# & HEADLINES ROUTE
+@app.route('/editor')
+@login_required
+@limiter.limit("30 per minute")
+def editor():
+    return render_template('pages/editor.html')
+
 # & SETTINGS ROUTE
 @app.route('/settings')
 @login_required
