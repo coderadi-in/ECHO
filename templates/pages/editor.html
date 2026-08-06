@@ -29,7 +29,7 @@
             <button class="btn symbol" id="closeFrame">close</button>
             <span class="text fs-24">Generating headline</span>
         </div>
-        
+
         <div class="text-content column gap-8">
             <h2 class="h2" id="outputHeadline"></h2>
             <p class="para" id="outputDesc"></p>
@@ -38,7 +38,7 @@
             <div class="line line2"></div>
             <div class="line line3"></div>
         </div>
-        
+
         <div class="actions row gap-12">
             <button class="btn symbol" id="keepBtn">keep</button>
             <button class="btn symbol" id="regenBtn">refresh</button>
@@ -47,13 +47,18 @@
 
     <main class="main flex gap-20 p-20">
 
-        <div class="history column gap-20 p-16 rounded-16 shadow bg-card" id="historyTab">
+        <div class="history w-full column gap-20 p-16 rounded-16 shadow bg-card" id="historyTab">
             <div class="head row h-sb">
                 <span class="text fs-20 fw-500">Generations</span>
                 <!-- <span class="symbol link" id="closeHistoryTab">resize</span> -->
             </div>
 
             <div class="headlines column gap-8">
+                {% if current_user.headlines | length == 0 %}
+                <div class="column gap-4 h-full center">
+                    <h1 class="h1 text-muted text-center">No generations yet</h1>
+                </div>
+                {% else %}
                 {% for headline in current_user.headlines %}
                 {% if not headline.deleted %}
                 <div class="generated headline row h-sb gap-8 p-8" data-head-id="{{ headline.id }}">
@@ -68,6 +73,7 @@
                 </div>
                 {% endif %}
                 {% endfor %}
+                {% endif %}
             </div>
         </div>
 
@@ -96,7 +102,7 @@
                     <span class="symbol">clear</span>
                     <span class="text">Clear</span>
                 </button>
-                
+
                 <div class="row gap-8 rounded-8">
                     <button class="btn fl symbol p-4" id="increaseWidth">add</button>
                     <span class="text">Width</span>
@@ -111,7 +117,7 @@
             </div>
         </div>
 
-        <div class="generate column gap-20 p-16 rounded-16 shadow bg-card h-full min-h-0" id="generateTab">
+        <div class="generate w-full column gap-20 p-16 rounded-16 shadow bg-card h-full min-h-0" id="generateTab">
             <div class="head row h-sb">
                 <span class="text fs-20 fw-500">Generate new</span>
                 <!-- <span class="symbol link" id="closeGenerationTab">resize</span> -->
@@ -142,7 +148,9 @@
         </div>
     </main>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+        integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+        crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script type="module" src="{{ url_for('static', filename='js/components/toast.js') }}"></script>
     <script type="module" src="{{ url_for('static', filename='js/pages/editor.js') }}"></script>
