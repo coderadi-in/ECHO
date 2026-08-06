@@ -123,7 +123,9 @@ toggleShadow.addEventListener('click', () => {
 
     if (localStorage.getItem('shadow') === 'enabled') {
         localStorage.setItem('shadow', 'disabled');
+        sendToastNotification('Shadow disabled successfully!', 'ev_shadow', 'var(--color-status-green)');
     } else {
         localStorage.setItem('shadow', 'enabled');
+        sendToastNotification('Shadow enabled successfully!', 'ev_shadow', 'var(--color-status-green)');
     }
 });
