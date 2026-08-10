@@ -11,6 +11,8 @@ const imageInput = document.getElementById('photoInput');
 const clearCanvasBtn = document.getElementById('clearCanvas');
 const increaseTextWidthBtn = document.getElementById('increaseWidth');
 const decreaseTextWidthBtn = document.getElementById('decreaseWidth');
+const headlineColorInput = document.querySelector('#headlineColor input');
+const headlineColorSymbol = document.querySelector('#headlineColor .symbol');
 const exportBtn = document.getElementById('exportBtn');
 
 const addBtns = document.querySelectorAll('.add-btn');
@@ -205,6 +207,15 @@ function regenerate() {
     sendMessage("headlines-sys", cachedData);
 }
 
+// * FUNCTION TO UPDATE COLOR VALUE OF HEADLINE
+function updateHeadlineColor() {
+    const color = headlineColorInput.value;
+    
+    headlineColorSymbol.style.color = color;
+    postHeadline.style.color = color;
+    postDescription.style.color = color;
+}
+
 // ==================================================
 // EVENT LISTENERS
 // ==================================================
@@ -250,6 +261,9 @@ increaseTextWidthBtn.addEventListener('mouseup', () => {
 decreaseTextWidthBtn.addEventListener('mouseup', () => {
     clearInterval(intervalId);
 });
+
+// & EVENT LISTENER FOR HEADLINE COLOR INPUT
+headlineColorInput.addEventListener('input', updateHeadlineColor);
 
 // & EVENT LISTENER FOR EXPORT BUTTON
 exportBtn.onclick = downloadElement;
