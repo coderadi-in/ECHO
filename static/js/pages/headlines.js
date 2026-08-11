@@ -26,6 +26,7 @@ const colors = [ '#F6DECBA0', '#FCC5D2A0', '#DFDDE3A0', '#CCF5F5A0', '#C2EDFFA0'
 
 import { socket, sendMessage } from '../base/socket_listeners.js';
 import { sendToastNotification } from '../components/toast.js';
+import { showNotification } from '../base/notifications.js';
 
 // ==================================================
 // FUNCTIONS
@@ -180,4 +181,5 @@ socket.on('headlines-cl', (data) => {
 
     resetPromptArea();
     sendToastNotification('Headline generated successfully!', 'thumb_up', 'var(--color-state-green)');
+    showNotification('Headline generated successfully!', 'Your headline has been generated and is ready to use.', 'headline-gen', '/app/headlines');
 });

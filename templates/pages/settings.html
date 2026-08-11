@@ -33,6 +33,7 @@
                 <button class="link btn pv-12 ph-24 fs-16 rounded-12 w-full text-left" id="aiPreferenceNav" data-section="aiPreferenceSettings">AI Preference</button>
                 <button class="link btn pv-12 ph-24 fs-16 rounded-12 w-full text-left" id="securityNav" data-section="securitySettings">Security</button>
                 <button class="link btn pv-12 ph-24 fs-16 rounded-12 w-full text-left" id="dataNav" data-section="dataSettings">Data</button>
+                <button class="link btn pv-12 ph-24 fs-16 rounded-12 w-full text-left" id="appNav" data-section="appSettings">The Software</button>
             </div>
 
             <div class="settings-cards w-full">
@@ -205,6 +206,30 @@
                         <span class="symbol fl-icon">download_2</span>
                         <span class="text">Export data</span>
                     </a>
+                </div>
+
+                <div class="settings-card p-20 rounded-16 bg-card column gap-20 h-fit w-full" id="appSettings">
+                    <h1 class="h1">The Software</h1>
+
+                    <button class="link btn res-row gap-12" id="toggleNotifications">
+                        <span class="text">Notifications</span>
+                        
+                        <div class="toggle-area">
+                            <div class="toggle-body"></div>
+                        </div>
+
+                        <span class="mini info hidden"></span>
+                    </button>
+                    
+                    <button class="link btn res-row gap-12" id="toggleBetaMode">
+                        <span class="text">Beta Mode</span>
+                        
+                        <div class="toggle-area">
+                            <div class="toggle-body"></div>
+                        </div>
+
+                        <span class="mini info">Beta mode unlocks features that're currently in development phase, it can cause crashes, but it won't cause any data loss.</span>
+                    </button>
                 </div>
             </div>
         </section>

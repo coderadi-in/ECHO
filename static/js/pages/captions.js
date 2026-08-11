@@ -23,7 +23,8 @@ const colors = ['#F6DECBA0', '#FCC5D2A0', '#DFDDE3A0', '#CCF5F5A0', '#C2EDFFA0']
 // ==================================================
 
 import { socket, sendMessage } from '../base/socket_listeners.js';
-    import { sendToastNotification } from '../components/toast.js';
+import { sendToastNotification } from '../components/toast.js';
+import { showNotification } from '../base/notifications.js';
 
 // ==================================================
 // FUNCTIONS
@@ -170,4 +171,5 @@ socket.on('captions-cl', (data) => {
     clearAnimation();
     resetPromptArea();
     sendToastNotification('Caption generated successfully!', 'thumb_up', 'var(--color-state-green)');
+    showNotification('Caption generated successfully!', 'Your caption has been generated and is ready to use.', 'caption-gen', '/app/captions');
 });
