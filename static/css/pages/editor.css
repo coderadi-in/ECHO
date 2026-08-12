@@ -4,6 +4,7 @@
 
 main { height: calc(100dvh - 90px); }
 .history, .generate { max-width: max(360px, 25%); }
+.hidden { display: none !important; }
 
 /* ================================================== */
 /* OUTPUT FRAME */
@@ -104,9 +105,52 @@ main { height: calc(100dvh - 90px); }
     inset: 0;
 }
 
+.workspace .tools #exportBtn { margin-left: auto; }
+
 /* ================================================== */
 /* PRODUCTS TAB */
 /* ================================================== */
 
 .products { overflow-y: auto; }
 .products-grid .product:not(:last-child) { border-bottom: 1px solid var(--color-border); }
+
+@media (max-width: 1440px) {
+    body {
+        overflow: hidden !important;
+        height: 100%;
+    }
+
+    main {
+        height: calc(100dvh - 90px) !important;
+        overflow: hidden;
+    }
+}
+
+@media (max-width: 1240px) {
+    #toggleHistoryTab, #toggleGenerationTab,
+    #closeHistoryTab, #closeGenerationTab { display: inline !important; }
+
+    .history,
+    .generate {
+        position: fixed;
+        transition: transform 0.3s ease-out;
+        transform: scale(0);
+        background-color: var(--color-tertiary);
+        z-index: 1;
+        height: calc(100vh - 130px);
+        bottom: 20px;
+    }
+
+    .history {
+        transform-origin: top left;
+        left: 20px;
+    }
+
+    .generate {
+        transform-origin: top right;
+        right: 20px;
+    }
+
+    .history.active,
+    .generate.active { transform: scale(1); }
+}

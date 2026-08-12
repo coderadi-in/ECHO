@@ -50,7 +50,7 @@
         <div class="history w-full column gap-20 p-16 rounded-16 shadow bg-card" id="historyTab">
             <div class="head row h-sb">
                 <span class="text fs-20 fw-500">Generations</span>
-                <!-- <span class="symbol link" id="closeHistoryTab">resize</span> -->
+                <span class="symbol link hidden toggleHistoryTab" id="closeHistoryTab">close</span>
             </div>
 
             <div class="headlines column gap-8">
@@ -78,8 +78,10 @@
         </div>
 
         <div class="workspace column gap-16 p-16 rounded-16 shadow w-full bg-card min-h-0" id="workspaceTab">
-            <div class="head center">
-                <span class="text fs-20 fw-500">Workspace</span>
+            <div class="head row h-sb w-full">
+                <span class="symbol link hidden toggleHistoryTab" id="toggleHistoryTab">menu</span>
+                <span class="text fs-20 fw-500 m-auto">Workspace</span>
+                <span class="symbol link hidden toggleGenerationTab" id="toggleGenerationTab">menu</span>
             </div>
 
             <div class="canvas h-full center min-h-0 m-auto">
@@ -91,7 +93,7 @@
                 </div>
             </div>
 
-            <div class="tools row gap-12">
+            <div class="tools res-row gap-12">
                 <button class="btn icon-fl rounded-8 pv-4 ph-8" id="photoBtn">
                     <input type="file" id="photoInput" accept="image/*">
                     <span class="symbol">image</span>
@@ -114,7 +116,7 @@
                     <input type="color">
                 </div>
 
-                <div class="spare-element w-full"></div>
+                <!-- <div class="spare-element w-full"></div> -->
                 <button class="btn icon-fl rounded-8 pv-4 ph-8" id="exportBtn">
                     <span class="symbol">publish</span>
                     <span class="text">Export</span>
@@ -125,7 +127,7 @@
         <div class="generate w-full column gap-20 p-16 rounded-16 shadow bg-card h-full min-h-0" id="generateTab">
             <div class="head row h-sb">
                 <span class="text fs-20 fw-500">Generate new</span>
-                <!-- <span class="symbol link" id="closeGenerationTab">resize</span> -->
+                <span class="symbol link hidden toggleGenerationTab" id="closeGenerationTab">close</span>
             </div>
 
             <div class="products min-h-0">

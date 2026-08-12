@@ -30,6 +30,9 @@ const lines = document.querySelectorAll('.output-frame .line');
 const outputHeadline = document.getElementById('outputHeadline');
 const outputDesc = document.getElementById('outputDesc');
 
+const toggleHistoryTab = document.querySelectorAll('.toggleHistoryTab');
+const toggleGenerationTab = document.querySelectorAll('.toggleGenerationTab');
+
 // ==================================================
 // STATES
 // ==================================================
@@ -48,6 +51,15 @@ import { sendToastNotification } from '../components/toast.js';
 // ==================================================
 // FUNCTIONS
 // ==================================================
+
+// * FUNCTION TO ADD EVENT LISTENER FOR TOGGLING TABS
+function toggleTabListener(triggers, tab) {
+    triggers.forEach(trigger => {
+        trigger.addEventListener('click', () => {
+            tab.classList.toggle('active');
+        });
+    });
+}
 
 // * FUNCTION TO DISPLAY GENERATION SKELETON
 function showGenSkeleton() {
@@ -284,6 +296,10 @@ regenBtn.onclick = regenerate;
 // & EVENT LISTENER FOR CLOSE OUTPUT FRAME BUTTON
 closeFrameBtn.onclick = closeOutputFrame;
 
+// & EVENT LISTENER FOR TOGGLING HISTORY & GENERATION TABS
+toggleTabListener(toggleHistoryTab, document.querySelector('.history'));
+toggleTabListener(toggleGenerationTab, document.querySelector('.generate'));
+
 // & EVENT LISTENER FOR DRAGGING TEXT PREVIEW
 textPreview.addEventListener('mousedown', (e) => {
     // Calculate the initial cursor offset relative to the element
@@ -307,6 +323,35 @@ textPreview.addEventListener('mousedown', (e) => {
     // Clean up listeners when the mouse button is released
     document.addEventListener('mouseup', () => {
         document.removeEventListener('mousemove', onMouseMove);
+    }, { once: true }); // Automatically unsubscribes after one run
+});
+
+// & EVENT LISTENER FOR DRAGGING TEXT PREVIEW (FOR MOBILE DEVICES)
+textPreview.addEventListener('touchstart', (e) => {
+    // Calculate the initial cursor offset relative to the element
+    const startX = e.touches[0].clientX;
+    const startY = e.touches[0].clientY;
+
+    let shiftX = startX - textPreview.getBoundingClientRect().left;
+    let shiftY = startY - textPreview.getBoundingClientRect().top;
+
+    // Move the element under the cursor coordinates
+    function moveAt(pageX, pageY) {
+        textPreview.style.left = pageX - shiftX + 'px';
+        textPreview.style.top = pageY - shiftY + 'px';
+    }
+
+    // Handle touch movement
+    function onMouseMove(e) {
+        moveAt(e.pageX, e.pageY);
+    }
+
+    // Attach the touchstart listener to the document to prevent losing tracking
+    document.addEventListener('touchstart', onMouseMove);
+
+    // Clean up listeners when the touch is released
+    document.addEventListener('touchend', () => {
+        document.removeEventListener('touchstart', onMouseMove);
     }, { once: true }); // Automatically unsubscribes after one run
 });
 

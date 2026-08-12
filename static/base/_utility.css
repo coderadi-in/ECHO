@@ -45,6 +45,8 @@
 :root {
     --color-bg-main: #EAECF2;
     --color-bg-card: #FDFDFF;
+
+    --color-tertiary: #FFF9EF;
     
     --color-text-main: #242423;
     --color-text-alt: #525251;
@@ -66,6 +68,8 @@
 .dark-theme {
     --color-bg-main: #08090D;
     --color-bg-card: #101119;
+
+    --color-tertiary: #0F1115;
     
     --color-text-main: #F8F7FF;
     --color-text-alt: #CFC3D5;
@@ -150,7 +154,7 @@ html {
     }
 
     .main {
-        height: auto !important;
+        height: auto;
         overflow: auto;
     }
 }
