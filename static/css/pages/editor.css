@@ -76,11 +76,17 @@ main { height: calc(100dvh - 90px); }
     left: 20px;
     cursor: grab;
     user-select: none;
+    touch-action: none;
 }
 
 .workspace .canvas .text-content:active { cursor: grabbing; }
 
 /* ----- TOOLS ----- */
+.workspace .tools * {
+    touch-action: none;
+    user-select: none;
+}
+
 .workspace .tools .btn {
     background-color: var(--color-surface-main);
     position: relative;

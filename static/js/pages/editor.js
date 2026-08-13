@@ -257,26 +257,26 @@ addBtns.forEach((btn) => {
 textPreview.addEventListener('click', selectTextContent);
 
 // & EVENT LISTENER FOR INCREASE TEXT-PREVIEW WIDTH BUTTON
-increaseTextWidthBtn.addEventListener('mousedown', () => {
+increaseTextWidthBtn.addEventListener('pointerdown', () => {
     intervalId = setInterval(() => {
         updateTextPreviewWidth(20);
     }, 100);
 });
 
 // & EVENT LISTENER FOR DECREASE TEXT-PREVIEW WIDTH BUTTON
-decreaseTextWidthBtn.addEventListener('mousedown', () => {
+decreaseTextWidthBtn.addEventListener('pointerdown', () => {
     intervalId = setInterval(() => {
         updateTextPreviewWidth(-20);
     }, 100);
 });
 
 // & EVENT LISTENER FOR INCREASE TEXT-PREVIEW WIDTH BUTTON
-increaseTextWidthBtn.addEventListener('mouseup', () => {
+increaseTextWidthBtn.addEventListener('pointerup', () => {
     clearInterval(intervalId);
 });
 
 // & EVENT LISTENER FOR DECREASE TEXT-PREVIEW WIDTH BUTTON
-decreaseTextWidthBtn.addEventListener('mouseup', () => {
+decreaseTextWidthBtn.addEventListener('pointerup', () => {
     clearInterval(intervalId);
 });
 
@@ -328,62 +328,34 @@ promptTrigger.addEventListener('click', () => {
 toggleTabListener(toggleHistoryTab, document.querySelector('.history'));
 toggleTabListener(toggleGenerationTab, document.querySelector('.generate'));
 
-// & EVENT LISTENER FOR DRAGGING TEXT PREVIEW
-textPreview.addEventListener('mousedown', (e) => {
-    // Calculate the initial cursor offset relative to the element
+textPreview.addEventListener('pointerdown', (e) => {
+    e.preventDefault(); // Prevent default touch behavior
+    textPreview.setPointerCapture(e.pointerId); // Capture the pointer
+    
     let shiftX = e.clientX - textPreview.getBoundingClientRect().left;
     let shiftY = e.clientY - textPreview.getBoundingClientRect().top;
 
-    // Move the element under the cursor coordinates
-    function moveAt(pageX, pageY) {
-        textPreview.style.left = pageX - shiftX + 'px';
-        textPreview.style.top = pageY - shiftY + 'px';
+    function moveAt(clientX, clientY) {
+        textPreview.style.left = clientX - shiftX + 'px';
+        textPreview.style.top = clientY - shiftY + 'px';
     }
 
-    // Handle mouse movement
-    function onMouseMove(e) {
-        moveAt(e.pageX, e.pageY);
+    function onPointerMove(e) {
+        e.preventDefault(); // Prevent scrolling during drag
+        moveAt(e.clientX, e.clientY);
     }
 
-    // Attach the mousemove listener to the document to prevent losing tracking
-    document.addEventListener('mousemove', onMouseMove);
+    function onPointerUp(e) {
+        document.removeEventListener('pointermove', onPointerMove);
+        document.removeEventListener('pointerup', onPointerUp);
+        document.removeEventListener('pointercancel', onPointerUp);
+        textPreview.releasePointerCapture(e.pointerId);
+    }
 
-    // Clean up listeners when the mouse button is released
-    document.addEventListener('mouseup', () => {
-        document.removeEventListener('mousemove', onMouseMove);
-    }, { once: true }); // Automatically unsubscribes after one run
+    document.addEventListener('pointermove', onPointerMove);
+    document.addEventListener('pointerup', onPointerUp);
+    document.addEventListener('pointercancel', onPointerUp); // Handle interruptions
 });
-
-// & EVENT LISTENER FOR DRAGGING TEXT PREVIEW (FOR MOBILE DEVICES)
-textPreview.addEventListener('touchstart', (e) => {
-    // Calculate the initial cursor offset relative to the element
-    const startX = e.touches[0].clientX;
-    const startY = e.touches[0].clientY;
-
-    let shiftX = startX - textPreview.getBoundingClientRect().left;
-    let shiftY = startY - textPreview.getBoundingClientRect().top;
-
-    // Move the element under the cursor coordinates
-    function moveAt(pageX, pageY) {
-        textPreview.style.left = pageX - shiftX + 'px';
-        textPreview.style.top = pageY - shiftY + 'px';
-    }
-
-    // Handle touch movement
-    function onMouseMove(e) {
-        moveAt(e.pageX, e.pageY);
-    }
-
-    // Attach the touchstart listener to the document to prevent losing tracking
-    document.addEventListener('touchstart', onMouseMove);
-
-    // Clean up listeners when the touch is released
-    document.addEventListener('touchend', () => {
-        document.removeEventListener('touchstart', onMouseMove);
-    }, { once: true }); // Automatically unsubscribes after one run
-});
-
-textPreview.ondragstart = () => false;
 
 // ==================================================
 // SOCKET EVENTS
