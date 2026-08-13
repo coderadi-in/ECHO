@@ -116,11 +116,28 @@
                     <input type="color">
                 </div>
 
-                <!-- <div class="spare-element w-full"></div> -->
+                <div class="link" id="customPrompt">
+                    <span class="symbol fl-icon">chat</span>
+                </div>
+
                 <button class="btn icon-fl rounded-8 pv-4 ph-8" id="exportBtn">
                     <span class="symbol">publish</span>
                     <span class="text">Export</span>
                 </button>
+            </div>
+
+            <div class="prompt-area rounded-16" id="promptArea">
+                <div class="prompt-content p-12 rounded-16 flex gap-12">
+                    <div class="prompt-inputs column w-full gap-8">
+                        <span class="text fs-20">Custom Product</span>
+                        <input type="text" name="title" placeholder="Product title" class="input w-full">
+                        <textarea name="desc" placeholder="Product description" class="input"></textarea>
+                    </div>
+
+                    <div class="prompt-controls column h-en">
+                        <button class="btn fl rounded-full p-12 symbol" id="sendBtn">send</button>
+                    </div>
+                </div>
             </div>
         </div>
 

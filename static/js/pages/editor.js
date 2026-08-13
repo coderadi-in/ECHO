@@ -33,6 +33,12 @@ const outputDesc = document.getElementById('outputDesc');
 const toggleHistoryTab = document.querySelectorAll('.toggleHistoryTab');
 const toggleGenerationTab = document.querySelectorAll('.toggleGenerationTab');
 
+const promptTrigger = document.getElementById('customPrompt');
+const promptArea = document.getElementById('promptArea');
+const customProductTitle = document.querySelector('.prompt-inputs input');
+const customProductDesc = document.querySelector('.prompt-inputs textarea');
+const customProductSend = document.getElementById('sendBtn');
+
 // ==================================================
 // STATES
 // ==================================================
@@ -130,7 +136,6 @@ function showHeadline(btn) {
     let textXCoord = imagePreview.x + 20
     let textYCoord = imagePreview.y + imagePreview.offsetHeight - 20 - textPreview.offsetHeight;
     let textWidth = imagePreview.offsetWidth - 40;
-    console.log(textWidth);
 
     textPreview.style.left = `${textXCoord}px`;
     textPreview.style.top = `${textYCoord}px`;
@@ -244,6 +249,7 @@ imageInput.addEventListener('change', (event) => {
 addBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
         showHeadline(btn);
+        document.querySelector(".history").classList.remove('active');
     });
 });
 
@@ -284,17 +290,39 @@ exportBtn.onclick = downloadElement;
 headGenBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         handleGenDuration(btn);
-    })
-})
+        document.querySelector('.generate').classList.remove('active');
+    });
+});
+
+// & EVENT LISTENER FOR CUSTOM PROMPT SEND BUTTON
+customProductSend.addEventListener('click', () => {
+    const productTitle = customProductTitle.value;
+    const productDesc = customProductDesc.value;
+
+    if (productTitle.trim() === '' || productDesc.trim() === '') return;
+
+    showGenSkeleton();
+    clearAnimation = animateGenSkeleton();
+
+    const productData = { title: productTitle, desc: productDesc }
+    cachedData = { title: productTitle, desc: productDesc }
+
+    sendMessage("headlines-sys", productData);
+});
 
 // & EVENT LISTENER FOR KEEP BUTTON
-keepBtn.onclick = keepHeadlines;
+keepBtn.addEventListener('click', keepHeadlines);
 
 // & EVENT LISTENER FOR REGENERATE BUTTON
-regenBtn.onclick = regenerate;
+regenBtn.addEventListener('click', regenerate);
 
 // & EVENT LISTENER FOR CLOSE OUTPUT FRAME BUTTON
-closeFrameBtn.onclick = closeOutputFrame;
+closeFrameBtn.addEventListener('click', closeOutputFrame);
+
+// & EVENT LISTENER FOR PROMPT-TRIGGER CLICK
+promptTrigger.addEventListener('click', () => {
+    promptArea.classList.toggle('active');
+})
 
 // & EVENT LISTENER FOR TOGGLING HISTORY & GENERATION TABS
 toggleTabListener(toggleHistoryTab, document.querySelector('.history'));
