@@ -432,8 +432,11 @@ html {
 }
 
 textarea.input {
-    height: 148px;
-    resize: vertical;
+    field-sizing: content;
+    resize: none;
+    max-height: 148px;
+    height: 100%;
+    min-height: 60px;
 }
 
 .btn {
