@@ -28,7 +28,7 @@
 /* ACCOUNT ACTIONS */
 /* ================================================== */
 
-.account-action { background-color: #FF58589C; }
+.account-action { border: 2px solid #FF58589C; }
 
 .account-action #clearConfirmation,
 .account-action #deleteConfirmation {
