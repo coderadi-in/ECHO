@@ -58,6 +58,15 @@ import { sendToastNotification } from '../components/toast.js';
 // FUNCTIONS
 // ==================================================
 
+// * FUNCTION TO GET SCALE FACTOR
+function getScaleFactor(targetWidth, targetHeight, baseWidth, baseHeight) {
+    // Calculate scale needed to reach target dimensions
+    const scaleX = targetWidth / baseWidth;
+    const scaleY = targetHeight / baseHeight;
+    // Use the smaller scale to maintain aspect ratio
+    return Math.min(scaleX, scaleY);
+}
+
 // * FUNCTION TO ADD EVENT LISTENER FOR TOGGLING TABS
 function toggleTabListener(triggers, tab) {
     triggers.forEach(trigger => {
@@ -150,10 +159,15 @@ function updateTextPreviewWidth(width) {
 
 // * FUNCTION TO DOWNLOAD THE CANVAS AS AN IMAGE
 function downloadElement() {
+    // DISABLED EXPORT BTN
     exportBtn.disabled = true;
-
+    exportBtn.style.opacity = '0.6';
+    
     // Render the element to a canvas object
-    html2canvas(canvas).then(canvas => {
+    html2canvas(canvas, {
+        scale: 2,
+        useCORS: true,
+    }).then(canvas => {
         const imageURL = canvas.toDataURL("image/png");
 
         const link = document.createElement("a");
@@ -164,6 +178,7 @@ function downloadElement() {
     });
     
     exportBtn.disabled = false;
+    exportBtn.style.opacity = '1';
 }
 
 // * FUNCTION TO GET PRODUCT DATA FROM PRODUCT CARD'S BUTTON
@@ -284,7 +299,7 @@ decreaseTextWidthBtn.addEventListener('pointerup', () => {
 headlineColorInput.addEventListener('input', updateHeadlineColor);
 
 // & EVENT LISTENER FOR EXPORT BUTTON
-exportBtn.onclick = downloadElement;
+exportBtn.addEventListener('click', downloadElement);
 
 // & EVENT LISTENER FOR HEAD-GEN-BTN CLICK
 headGenBtns.forEach(btn => {

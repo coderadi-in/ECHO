@@ -5,6 +5,7 @@
 main { height: calc(100dvh - 90px); }
 .history, .generate { max-width: max(360px, 25%); }
 .hidden { display: none !important; }
+.input { background-color: var(--color-bg-main); }
 
 /* ================================================== */
 /* OUTPUT FRAME */
@@ -111,7 +112,10 @@ main { height: calc(100dvh - 90px); }
     inset: 0;
 }
 
-.workspace .tools #exportBtn { margin-left: auto; }
+.workspace .tools #exportBtn {
+    margin-left: auto;
+    transition: opacity 0.3s;
+}
 
 /* ----- PROMPT AREA ----- */
 
@@ -167,7 +171,7 @@ main { height: calc(100dvh - 90px); }
         position: fixed;
         top: 90px;
         width: 100%;
-        bottom: 0;
+        height: calc(100dvh - 90px);
         z-index: 1;
         
         background-color: var(--color-tertiary);
@@ -175,6 +179,7 @@ main { height: calc(100dvh - 90px); }
 
         transition: transform 0.3s ease-out;
         transform: scale(0);
+        box-shadow: none !important;
     }
 
     .history {
