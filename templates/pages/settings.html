@@ -30,7 +30,6 @@
                 <h3 class="h3 uppercase">Controls</h3>
                 <button class="link btn fl pv-12 ph-24 fs-16 rounded-12 w-full text-left" id="profileNav" data-section="profileSettings">Profile</button>
                 <button class="link btn pv-12 ph-24 fs-16 rounded-12 w-full text-left" id="appearanceNav" data-section="appearanceSettings">Appearance</button>
-                <button class="link btn pv-12 ph-24 fs-16 rounded-12 w-full text-left" id="aiPreferenceNav" data-section="aiPreferenceSettings">AI Preference</button>
                 <button class="link btn pv-12 ph-24 fs-16 rounded-12 w-full text-left" id="securityNav" data-section="securitySettings">Security</button>
                 <button class="link btn pv-12 ph-24 fs-16 rounded-12 w-full text-left" id="dataNav" data-section="dataSettings">Data</button>
                 <button class="link btn pv-12 ph-24 fs-16 rounded-12 w-full text-left" id="appNav" data-section="appSettings">The Software</button>
@@ -102,53 +101,6 @@
                             </button>
                         </div>
                     </div>
-                </div>
-                
-                <div class="settings-card p-20 rounded-16 bg-card column gap-20 h-fit w-full" id="aiPreferenceSettings">
-                    <h1 class="h1">AI Preferences</h1>
-
-                    <form action="/app/settings/update/ai-preferences" method="post" class="form column gap-12">
-                        <div class="form-elem column gap-4">
-                            <div class="row gap-16">
-                                <label for="tone">Chatbot Tone</label>
-                                <button type="button" class="link btn symbol fl-icon" popovertarget="toneInfo" id="toneTarget" aria-label="Show chatbot tone info">info</button>
-                            </div>
-
-                            <div class="rounded-12" id="toneInfo" popover>
-                                <p class="para">What do you want your chatbot to talk like. It can be a mentor, a friend, or anything you want.</p>
-                            </div>
-                            
-                            <input type="text" name="tone" id="tone" placeholder="Mentor, Friend, etc." value="{{ current_user.ai_tone }}" class="input">
-                        </div>
-                        
-                        <div class="form-elem column gap-4">
-                            <div class="row gap-16">
-                                <label for="lang">Chatbot Language</label>
-                                <button type="button" class="link btn symbol fl-icon" popovertarget="langInfo" id="langTarget" aria-label="Show chatbot lang info">info</button>
-                            </div>
-
-                            <div class="rounded-12" id="langInfo" popover>
-                                <p class="para">What language you want your AI to talk in.</p>
-                            </div>
-                            
-                            <input type="text" name="lang" id="lang" placeholder="English, Italian, Hindi." value="{{ current_user.ai_lang }}" class="input">
-                        </div>
-                        
-                        <div class="form-elem column gap-4">
-                            <div class="row gap-16">
-                                <label for="creativity">Creativity level</label>
-                                <button type="button" class="link btn symbol fl-icon" id="creativityTarget" popovertarget="creativityInfo" aria-label="Show creativity level info">info</button>
-                            </div>
-
-                            <div class="rounded-12" id="creativityInfo" popover>
-                                <p class="para">What level of creativity you want from your chatbot. 0 is default, means the bot will select on its own. Higher level means longer delay and higher credits usage.</p>
-                            </div>
-
-                            <input type="number" name="creativity" id="creativity" placeholder="0" value="{{ current_user.ai_creativity }}" class="input" min="0" max="10">
-                        </div>
-
-                        <button type="submit" class="btn fl rounded-full ph-32 pv-12">Update settings</button>
-                    </form>
                 </div>
 
                 <div class="settings-card p-20 rounded-16 bg-card column gap-20 h-fit w-full" id="securitySettings">
