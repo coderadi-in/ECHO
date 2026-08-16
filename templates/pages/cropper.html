@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='assets/icons/favicon.ico') }}" type="image/x-icon">
     <title>Cropper &bull; ECHO</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='base/_utility.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base/_utility.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/cropper.css') }}">
 
     <link rel="manifest" href="/static/manifest.json" />
@@ -42,9 +42,14 @@
             </div>
 
             <div class="body center h-full">
-                <div class="unit input-unit empty-unit center p-16 rounded-16 bg-tertiary active">
-                    <span class="text">Upload a document</span>
+                <div class="unit input-unit empty-unit row p-16 rounded-16 gap-12 bg-tertiary active">
                     <input type="file" name="pdfInput" id="pdfInput" accept="application/pdf">
+                    <span class="symbol fs-32">docs</span>
+
+                    <div class="column">
+                        <span class="text fs-20">Upload a document</span>
+                        <span class="mini">PDF only</span>
+                    </div>
                 </div>
 
                 <div class="unit input-unit uploaded-unit row p-16 rounded-16 gap-12 bg-tertiary">
@@ -55,7 +60,7 @@
                         <span class="mini">Ready to crop</span>
                     </div>
                 </div>
-                
+
                 <div class="unit output-unit error-unit row p-16 rounded-16 gap-12 bg-tertiary">
                     <span class="symbol fs-32">error</span>
 
@@ -64,7 +69,7 @@
                         <span class="mini">You can retry or report this error</span>
                     </div>
                 </div>
-                
+
                 <a class="unit output-unit download-unit link row p-16 rounded-16 gap-12 bg-tertiary">
                     <span class="symbol fs-32">docs</span>
 
@@ -92,7 +97,7 @@
                 <div class="input-elem column gap-4">
                     <label for="platformInput">Select a platform</label>
                     <select name="platformInput" id="platformInput" class="input">
-                        <option value="flipkart">Flipkart</option>
+                        <option selected value="flipkart">Flipkart</option>
                         <option value="amazon">Amazon</option>
                         <option value="shopsy">Shopsy</option>
                         <option value="meesho">Meesho</option>
@@ -102,7 +107,7 @@
                 <div class="input-elem column gap-4">
                     <label for="cropModeInput">Select cropping mode</label>
                     <select name="cropModeInput" id="cropModeInput" class="input">
-                        <option value="precision">Precision</option>
+                        <option selected value="precision">Precision</option>
                         <option value="performance">Performance</option>
                     </select>
                 </div>
@@ -110,7 +115,7 @@
                 <div class="input-elem column gap-4">
                     <label for="cropAreaInput">Select cropping area</label>
                     <select name="cropAreaInput" id="cropAreaInput" class="input">
-                        <option value="label">Label</option>
+                        <option selected value="label">Label</option>
                         <option value="invoice">Invoice</option>
                     </select>
                 </div>
@@ -134,10 +139,14 @@
                 </div>
             </div>
 
-            <button class="btn rounded-full ph-24 pv-16 icon-fl" id="cropBtn">
-                <span class="symbol">upload</span>
-                <span class="text">Upload</span>
-            </button>
+            <div class="foot row gap-24">
+                <button class="btn rounded-full ph-24 pv-16 icon-fl" id="cropBtn">
+                    <span class="symbol">crop</span>
+                    <span class="text">Crop</span>
+                </button>
+
+                <p class="para"><span class="text" id="creditAmount">1</span> credit(s)</p>
+            </div>
         </section>
     </main>
 

@@ -131,6 +131,15 @@ pdfInput?.addEventListener('change', validateInput);
 // & EVENT LISTENER FOR CLEAR-BTN CLICK
 clearBtn.addEventListener('click', clearDocWindow);
 
+// & EVENT LISTENER FOR CROP-MODE CLICK
+document.getElementById('cropModeInput').addEventListener('change', (e) => {
+    if (e.target.value === 'precision') {
+        document.getElementById('creditAmount').textContent = '1';
+    } else {
+        document.getElementById('creditAmount').textContent = '0';
+    }
+})
+
 // & EVENT LISTENER FOR CROP-BTN CLICK
 cropBtn.addEventListener('click', async () => {
     if (!inputValidated) sendToastNotification("Add a file to document window.", "docs", "var(--color-state-red)");

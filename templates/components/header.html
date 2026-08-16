@@ -13,10 +13,10 @@
     }
     .header #settingsOptions.open { transform: scale(1); }
 
-    .header #generateOpen { anchor-name: --generateAnchor; }
-    .header #generationOptions {
+    .header #generationOpen { anchor-name: --genAnchor; }
+    .header #generateOptions {
         position: absolute;
-        position-anchor: --generateAnchor;
+        position-anchor: --genAnchor;
         position-area: bottom right;
         border: none;
         background-color: var(--color-surface-alt);
@@ -25,7 +25,7 @@
         transform-origin: top left;
         transform: scale(0);
     }
-    .header #generationOptions.open { transform: scale(1); }
+    .header #generateOptions.open { transform: scale(1); }
 
     @media (max-width: 768px) {
         .header .navlinks { display: none; }
@@ -39,7 +39,7 @@
         </a>
 
         <div class="navlinks row gap-24">
-            <button class="btn" popovertarget="generationOptions" id="generateOpen">
+            <button class="btn" popovertarget="generateOptions" id="generationOpen">
                 <span class="text text-normal">Generate</span>
             </button>
             <a href="{{ url_for('app.editor') }}" class="link">Editor</a>
@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    <div id="generationOptions" class="rounded-16" popover>
+    <div id="generateOptions" class="rounded-16" popover>
         <div class="content column gap-8 rounded-16 p-16">
             <a href="{{ url_for('app.captions') }}" class="link row gap-8">
                 <span class="symbol">subtitles</span>
@@ -104,7 +104,7 @@
     const openControls = document.getElementById('openControls');
     const themeControl = document.getElementById('themeControl');
     const settingsOptions = document.getElementById('settingsOptions');
-    const generateOptions = document.getElementById('generationOptions');
+    const generateOptions = document.getElementById('generateOptions');
     const betaModeEnabled = localStorage.getItem('betaMode') === 'enabled';
     import { sendToastNotification } from '../static/js/components/toast.js';
 
