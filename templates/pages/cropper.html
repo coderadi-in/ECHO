@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#08090D" />
+    <link rel="pre-connect" href="https://fonts.googleapis.com">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/icons/favicon.ico') }}" type="image/x-icon">
+    <title>Cropper &bull; ECHO</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='base/_utility.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/cropper.css') }}">
+
+    <link rel="manifest" href="/static/manifest.json" />
+</head>
+
+<body>
+    {% include 'components/msg.html' %}
+    <div class="toast-container column gap-12"></div>
+
+    {% include 'components/header.html' %}
+    {% include 'components/controls.html' %}
+
+    <div class="cropping-illustration p-20 rounded-16 column gap-24">
+        <div class="head row gap-16">
+            <span class="text fs-24">Cropping</span>
+        </div>
+
+        <div class="text-content column gap-8">
+            <div class="line line1"></div>
+            <div class="line line2"></div>
+            <div class="line line3"></div>
+        </div>
+    </div>
+
+    <main class="main flex gap-20 p-20">
+        <section class="document-window bg-card p-20 rounded-16 shadow w-full column gap-12" id="documentWindow">
+            <div class="head center">
+                <span class="text">Document window</span>
+            </div>
+
+            <div class="body center h-full">
+                <div class="unit input-unit empty-unit center p-16 rounded-16 bg-tertiary active">
+                    <span class="text">Upload a document</span>
+                    <input type="file" name="pdfInput" id="pdfInput" accept="application/pdf">
+                </div>
+
+                <div class="unit input-unit uploaded-unit row p-16 rounded-16 gap-12 bg-tertiary">
+                    <span class="symbol fs-32">docs</span>
+
+                    <div class="column">
+                        <span class="text fs-20">PDF Document</span>
+                        <span class="mini">Ready to crop</span>
+                    </div>
+                </div>
+                
+                <div class="unit output-unit error-unit row p-16 rounded-16 gap-12 bg-tertiary">
+                    <span class="symbol fs-32">error</span>
+
+                    <div class="column">
+                        <span class="text fs-20">Cropping failed</span>
+                        <span class="mini">You can retry or report this error</span>
+                    </div>
+                </div>
+                
+                <a class="unit output-unit download-unit link row p-16 rounded-16 gap-12 bg-tertiary">
+                    <span class="symbol fs-32">docs</span>
+
+                    <div class="column">
+                        <span class="text fs-20">Echo Cropped</span>
+                        <span class="mini">Ready to download</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section class="tools-window bg-card p-20 rounded-16 shadow w-full column gap-24" id="toolsWindow">
+            <div class="head">
+                <span class="text">Tools window</span>
+            </div>
+
+            <div class="body column gap-12">
+                <div class="input-elem column gap-4">
+                    <label for="platformInput">Select a platform</label>
+                    <select name="platformInput" id="platformInput" class="input">
+                        <option value="flipkart">Flipkart</option>
+                        <option value="amazon">Amazon</option>
+                        <option value="shopsy">Shopsy</option>
+                        <option value="meesho">Meesho</option>
+                    </select>
+                </div>
+
+                <div class="input-elem column gap-4">
+                    <label for="cropModeInput">Select cropping mode</label>
+                    <select name="cropModeInput" id="cropModeInput" class="input">
+                        <option value="precision">Precision</option>
+                        <option value="performance">Performance</option>
+                    </select>
+                </div>
+
+                <div class="input-elem column gap-4">
+                    <label for="cropAreaInput">Select cropping area</label>
+                    <select name="cropAreaInput" id="cropAreaInput" class="input">
+                        <option value="label">Label</option>
+                        <option value="invoice">Invoice</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="docs column gap-32 h-full">
+                <div class="column gap-12">
+                    <span class="text">Cropping mode</span>
+                    <ul class="no-list">
+                        <li><span class="text">Precision: Slower, more accurate</span></li>
+                        <li><span class="text">Performance: Faster, less accurate</span></li>
+                    </ul>
+                </div>
+
+                <div class="column gap-12">
+                    <span class="text">Cropping area</span>
+                    <ul class="no-list">
+                        <li><span class="text">Label: Shipping label (on-product)</span></li>
+                        <li><span class="text">Invoice: Bill kept by seller</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <button class="btn rounded-full ph-24 pv-16 icon-fl" id="cropBtn">
+                <span class="symbol">upload</span>
+                <span class="text">Upload</span>
+            </button>
+        </section>
+    </main>
+
+    <script type="module" src="{{ url_for('static', filename='js/pages/cropper.js') }}"></script>
+</body>
+
+</html>

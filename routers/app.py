@@ -10,12 +10,12 @@ Manages the routes of core app functionalities.
 
 # ? IMPORTS
 from plugins import login_required, current_user, extract
-from flask import Blueprint, render_template, request, redirect, url_for, flash, send_file
+from flask import Blueprint, render_template, request, redirect, url_for, flash, send_file, jsonify
 from models import *
 from plugins import *
 import zipfile as zf
 from io import BytesIO
-import httpx, asyncio
+from services.precised_cropper import PrecisedLabelCropper, PrecisedInvoiceCropper
 
 # ! ROUTER INIT
 app = Blueprint("app", __name__, url_prefix='/app')
@@ -85,12 +85,56 @@ def captions():
 def headlines():
     return render_template('pages/headlines.html')
 
-# & HEADLINES ROUTE
+# & EDITOR ROUTE
 @app.route('/editor')
 @login_required
 @limiter.limit("30 per minute")
 def editor():
     return render_template('pages/editor.html')
+
+# & CROPPER ROUTE
+@app.route('/cropper')
+@login_required
+@limiter.limit("30 per minute")
+def cropper():
+    return render_template('pages/cropper.html')
+
+# | CROPPER CROP ROUTE
+@app.route('/cropper/crop', methods=['POST'])
+@login_required
+@limiter.limit("30 per minute")
+def crop():
+    # Access form elements
+    platform = request.form.get('platform')
+    crop_mode = request.form.get('cropMode')
+    crop_area = request.form.get('cropArea')
+    crop_file = request.files.get('pdfFile')
+
+    # Validate inputs
+    if (
+        not platform
+        or not crop_mode
+        or not crop_area
+        or not crop_file
+    ): return jsonify({'error': 'Missing required fields'}), 400
+
+
+    # Crop file
+    if (crop_mode == 'precision') and (crop_area == 'label'):
+        cropper_instance = PrecisedLabelCropper(crop_file)
+
+        if (platform == 'flipkart'): output_file = cropper_instance.crop_flipkart()
+        elif (platform == 'shopsy'): output_file = cropper_instance.crop_shopsy()
+        elif (platform == 'meesho'): output_file = cropper_instance.crop_meesho()
+        else: output_file = cropper_instance.process_amazon()
+
+    return send_file(
+        output_file,
+        as_attachment=True,
+        mimetype="application/pdf",
+        download_name="echo_cropped.pdf"
+    )
+
 
 # & SETTINGS ROUTE
 @app.route('/settings')
@@ -239,6 +283,7 @@ def handle_data(function):
         flash("Couldn't file proper function to handle data.", "error")
         return redirect(url_for('app.settings'))
 
+
 # & HISTORY ROUTE
 @app.route('/history')
 @login_required
@@ -272,6 +317,7 @@ def delete_generation(category):
 
     flash("The generation has been deleted.", "check_circle")
     return redirect(url_for('app.history'))
+
 
 # & ACCOUNT ROUTE
 @app.route('/account')

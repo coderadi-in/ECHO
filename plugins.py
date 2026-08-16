@@ -37,7 +37,7 @@ limiter = Limiter(get_remote_address, default_limits=[ "200 per day", "50 per ho
 client = Client(auth=(os.getenv("RZP_ID_TEST"), os.getenv("RZP_SECRET_TEST")))
 
 # ! PLANS LIST
-ACCOUNT_PLANS = { "pro": 1500, }
+ACCOUNT_PLANS = { "pro": 19900, }
 
 # * FUNCTION TO INITIALIZE LOGGING SETUP
 def init_logging_setup():
@@ -93,7 +93,7 @@ def initiate_payment_order():
 
     try:
         order = client.order.create({
-            "amount": 100,
+            "amount": 19900,
             "currency": "INR",
             "notes": {
                 "user_id": current_user.id,
@@ -277,7 +277,7 @@ def upgrade_plan(plan: str = "pro"):
     current_user.left_credits = L2
     current_user.renewal_date = date.today() + timedelta(days=30)
     db.session.commit()
-    { "status": 200, "message": "User's plan type upgraded." }
+    return { "status": 200, "message": "User's plan type upgraded." }
 
 # * FUNCTION TO DOWNGRADE USER PLAN
 def downgrade_plan():
@@ -291,7 +291,7 @@ def downgrade_plan():
 
     # DOWNGRADE USER'S PLAN
     current_user.plan = "free"
-    current_user.total_credits, current_user.total_credits = 50, 50
+    current_user.total_credits, current_user.left_credits = 50, 50
     current_user.renewal_date = date.today() + timedelta(days=30)
     db.session.commit()
     return { "status": 200, "message": "User's plan has been downgraded." }

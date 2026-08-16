@@ -1,0 +1,65 @@
+/* ================================================== */
+/* BASIC */
+/* ================================================== */
+
+main { height: calc(100dvh - 90px); }
+.input {
+    background-color: var(--color-tertiary);
+    border: 1px solid var(--color-border);
+}
+
+/* ================================================== */
+/* CROPPING ILLUSTRATION */
+/* ================================================== */
+
+.cropping-illustration {
+    position: fixed;
+    z-index: 1;
+    width: min(768px, 80vw);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    backdrop-filter: blur(4px);
+    background-color: var(--color-surface-main);
+    pointer-events: none;
+    opacity: 0;
+    cursor: wait;
+    transition: opacity 0.4s;
+}
+
+.cropping-illustration .line {
+    width: 0;
+    height: 4px;
+    background-color: var(--color-text-main);
+    border-radius: 4px;
+    transition: width 0.5s;
+}
+
+/* ================================================== */
+/* DOCUMENT WINDOW */
+/* ================================================== */
+
+.document-window .unit { display: none; }
+.document-window .unit.active { display: flex; }
+
+.document-window .empty-unit {
+    position: relative;
+    border: 2px solid var(--color-border);
+}
+
+.document-window .empty-unit input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.document-window .uploaded-unit { border: 2px solid var(--color-state-yellow); }
+.document-window .download-unit { border: 2px solid var(--color-state-green); }
+.document-window .error-unit { border: 2px solid var(--color-state-red); }
+
+/* ================================================== */
+/* TOOLS WINDOW */
+/* ================================================== */
+
+.tools-window { max-width: min(480px, 100%); }
