@@ -2,7 +2,7 @@
 // ELEMENT REFERENCE
 // ==================================================
 
-const emptyUnity = document.querySelector('.empty-unit');
+const emptyUnit = document.querySelector('.empty-unit');
 const uploadedUnit = document.querySelector('.uploaded-unit');
 const downloadUnit = document.querySelector('.download-unit');
 const errorUnit = document.querySelector('.error-unit');
@@ -13,7 +13,9 @@ const pdfInput = document.getElementById('pdfInput');
 const platformInput = document.getElementById('platformInput');
 const cropModeInput = document.getElementById('cropModeInput');
 const cropAreaInput = document.getElementById('cropAreaInput');
+
 const cropBtn = document.getElementById('cropBtn');
+const clearBtn = document.getElementById('clearBtn');
 
 // ==================================================
 // STATES
@@ -21,6 +23,13 @@ const cropBtn = document.getElementById('cropBtn');
 
 let clearAnimation;
 let inputValidated;
+
+// ==================================================
+// IMPORTS
+// ==================================================
+
+import { sendToastNotification } from '../components/toast.js';
+import { showNotification } from '../base/notifications.js';
 
 // ==================================================
 // FUNCTIONS
@@ -33,13 +42,20 @@ function deactivateUnits() {
     });
 }
 
+// * FUNCTION TO CLEAR DOCUMENT WINDOW
+function clearDocWindow() {
+    deactivateUnits();
+    pdfInput.value = '';
+    emptyUnit.classList.add('active');
+}
+
 // * FUNCTION TO CHECK IF INPUT HAS A VALID VALUE
 function validateInput(eventOrInput = pdfInput) {
     const input = eventOrInput?.target ? eventOrInput.target : eventOrInput;
 
     if (!input || !input.files) {
         deactivateUnits();
-        emptyUnity.classList.add('active');
+        emptyUnit.classList.add('active');
         inputValidated = false;
         return;
     }
@@ -47,7 +63,7 @@ function validateInput(eventOrInput = pdfInput) {
     // Check if the input has files
     if (input.files.length === 0) {
         deactivateUnits();
-        emptyUnity.classList.add('active');
+        emptyUnit.classList.add('active');
         inputValidated = false;
         return;
     }
@@ -56,7 +72,7 @@ function validateInput(eventOrInput = pdfInput) {
     const file = input.files[0];
     if (file.type !== 'application/pdf') {
         deactivateUnits();
-        emptyUnity.classList.add('active');
+        emptyUnit.classList.add('active');
         input.value = '';
         inputValidated = false;
         return;
@@ -112,9 +128,12 @@ function animateCropSkeleton() {
 // & EVENT LISTENER FOR PDF-INPUT CHANGE
 pdfInput?.addEventListener('change', validateInput);
 
+// & EVENT LISTENER FOR CLEAR-BTN CLICK
+clearBtn.addEventListener('click', clearDocWindow);
+
 // & EVENT LISTENER FOR CROP-BTN CLICK
 cropBtn.addEventListener('click', async () => {
-    if (!inputValidated) return;
+    if (!inputValidated) sendToastNotification("Add a file to document window.", "docs", "var(--color-state-red)");
 
     clearAnimation = animateCropSkeleton();
     const cropRequest = createForm();
@@ -140,17 +159,17 @@ cropBtn.addEventListener('click', async () => {
         const url = window.URL.createObjectURL(blob);
         downloadUnit.href = url;
         downloadUnit.download = 'echo_cropped.pdf';
-        window.URL.revokeObjectURL(url);
         
         // Show download unit
         clearAnimation();
         deactivateUnits();
         downloadUnit.classList.add('active');
+        sendToastNotification("Cropped PDF is ready to download.", "docs", "var(--color-state-green)");
+        showNotification("ECHO Cropper", "Cropped PDF is ready to export.", "cropper");
 
     } catch (error) {
         clearAnimation();
         deactivateUnits();
         errorUnit.classList.add('active');
-        console.error(error)
     }
 });

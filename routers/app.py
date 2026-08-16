@@ -133,7 +133,7 @@ def crop():
         as_attachment=True,
         mimetype="application/pdf",
         download_name="echo_cropped.pdf"
-    )
+    ), 200
 
 
 # & SETTINGS ROUTE
