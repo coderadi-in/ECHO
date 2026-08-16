@@ -1,11 +1,8 @@
 <style>
-    .header #settingsOpen {
-        anchor-name: --settingAnchor;
-    }
-
+    .header #settingsOpen { anchor-name: --settingsAnchor; }
     .header #settingsOptions {
         position: absolute;
-        position-anchor: --settingAnchor;
+        position-anchor: --settingsAnchor;
         position-area: bottom left;
         border: none;
         background-color: var(--color-surface-alt);
@@ -14,15 +11,24 @@
         transform-origin: top right;
         transform: scale(0);
     }
+    .header #settingsOptions.open { transform: scale(1); }
 
-    .header #settingsOptions.open {
-        transform: scale(1);
+    .header #generateOpen { anchor-name: --generateAnchor; }
+    .header #generationOptions {
+        position: absolute;
+        position-anchor: --generateAnchor;
+        position-area: bottom right;
+        border: none;
+        background-color: var(--color-surface-alt);
+        backdrop-filter: blur(4px);
+        transition: transform 0.3s cubic-bezier(0.911, 0.161, 0.181, 0.797);
+        transform-origin: top left;
+        transform: scale(0);
     }
+    .header #generationOptions.open { transform: scale(1); }
 
     @media (max-width: 768px) {
-        .header .navlinks {
-            display: none;
-        }
+        .header .navlinks { display: none; }
     }
 </style>
 
@@ -32,12 +38,27 @@
             <img src="{{ url_for('static', filename='assets/icons/logo.webp') }}" alt="ECHO" class="logo">
         </a>
 
-        <ul class="navlinks list row gap-24">
-            <li><a href="{{ url_for('app.captions') }}" class="link">Captions</a></li>
-            <li><a href="{{ url_for('app.headlines') }}" class="link">Headlines</a></li>
-            <li><a href="{{ url_for('app.editor') }}" class="link">Editor</a></li>
-            <li><a href="{{ url_for('app.cropper') }}" class="link beta-element">Cropper</a></li>
-        </ul>
+        <div class="navlinks row gap-24">
+            <button class="btn" popovertarget="generationOptions" id="generateOpen">
+                <span class="text text-normal">Generate</span>
+            </button>
+            <a href="{{ url_for('app.editor') }}" class="link">Editor</a>
+            <a href="{{ url_for('app.cropper') }}" class="link beta-element">Cropper</a>
+        </div>
+    </div>
+
+    <div id="generationOptions" class="rounded-16" popover>
+        <div class="content column gap-8 rounded-16 p-16">
+            <a href="{{ url_for('app.captions') }}" class="link row gap-8">
+                <span class="symbol">subtitles</span>
+                <span class="text">Captions</span>
+            </a>
+
+            <a href="{{ url_for('app.headlines') }}" class="link row gap-8">
+                <span class="symbol">text_ad</span>
+                <span class="text">Headlines</span>
+            </a>
+        </div>
     </div>
 
     <div class="right row gap-12">
@@ -83,6 +104,7 @@
     const openControls = document.getElementById('openControls');
     const themeControl = document.getElementById('themeControl');
     const settingsOptions = document.getElementById('settingsOptions');
+    const generateOptions = document.getElementById('generationOptions');
     const betaModeEnabled = localStorage.getItem('betaMode') === 'enabled';
     import { sendToastNotification } from '../static/js/components/toast.js';
 
@@ -133,6 +155,10 @@
 
     settingsOptions.addEventListener('beforetoggle', () => {
         setTimeout(() => { settingsOptions.classList.toggle('open'); }, 100);
+    });
+    
+    generateOptions.addEventListener('beforetoggle', () => {
+        setTimeout(() => { generateOptions.classList.toggle('open'); }, 100);
     });
 
     themeControl.addEventListener('click', toggleTheme);
