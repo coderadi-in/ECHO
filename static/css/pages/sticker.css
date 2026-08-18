@@ -1,0 +1,44 @@
+/* ================================================== */
+/* BASIC */
+/* ================================================== */
+
+main { height: calc(100dvh - 90px); }
+.hidden { display: none !important; }
+
+.input {
+    background-color: var(--color-bg-main);
+    border: 1px solid var(--color-border);
+}
+
+/* ================================================== */
+/* GENERATION ILLUSTRATION */
+/* ================================================== */
+
+.generation-illustration {
+    position: fixed;
+    z-index: 1;
+    width: min(768px, 80vw);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    backdrop-filter: blur(4px);
+    background-color: var(--color-surface-main);
+    pointer-events: none;
+    opacity: 0;
+    cursor: wait;
+    transition: opacity 0.4s;
+}
+
+.generation-illustration .line {
+    width: 0;
+    height: 4px;
+    background-color: var(--color-text-main);
+    border-radius: 4px;
+    transition: width 0.5s;
+}
+
+/* ================================================== */
+/* TOOLS WINDOW */
+/* ================================================== */
+
+.tools-window { max-width: max(480px, 25%); }

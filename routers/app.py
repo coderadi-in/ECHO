@@ -16,6 +16,7 @@ from plugins import *
 import zipfile as zf
 from io import BytesIO
 from services.precised_cropper import PrecisedLabelCropper, PrecisedInvoiceCropper
+from services.barcode import generate_barcode
 
 # ! ROUTER INIT
 app = Blueprint("app", __name__, url_prefix='/app')
@@ -71,6 +72,7 @@ def dashboard():
         'saved_count': len(current_user.saved),
     })
 
+
 # & CAPTIONS ROUTE
 @app.route('/captions')
 @login_required
@@ -91,6 +93,7 @@ def headlines():
 @limiter.limit("30 per minute")
 def editor():
     return render_template('pages/editor.html')
+
 
 # & CROPPER ROUTE
 @app.route('/cropper')
@@ -133,6 +136,38 @@ def crop():
         as_attachment=True,
         mimetype="application/pdf",
         download_name="echo_cropped.pdf"
+    ), 200
+
+
+# & STICKER ROUTE
+@app.route('/sticker')
+@login_required
+@limiter.limit("30 per minute")
+def sticker():
+    return render_template("pages/sticker.html")
+
+# | GENERATE STICKER ROUTE
+@app.route('/sticker/generate', methods=['POST'])
+@login_required
+@limiter.limit("30 per minute")
+def generate_sticker():
+    # ACCESS FORM DATA
+    barcode_content = request.form.get('barcode')
+    with_label = request.form.get('label')
+
+    # FORM VALIDATION
+    if (not barcode_content):
+        return jsonify({"status": 422, "message": "No barcode content"}), 422
+
+    # GENERATE BARCODE
+    barcode = generate_barcode(barcode_content, False)
+
+    # RETURN RESPONSE
+    return send_file(
+        barcode,
+        mimetype="image/png",
+        as_attachment=True,
+        download_name="barcode.png"
     ), 200
 
 

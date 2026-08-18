@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#08090D" />
+    <link rel="pre-connect" href="https://fonts.googleapis.com">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/icons/favicon.ico') }}" type="image/x-icon">
+    <title>Sticker &bull; ECHO</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base/_utility.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/sticker.css') }}">
+
+    <link rel="manifest" href="/static/manifest.json" />
+</head>
+
+<body>
+    {% include 'components/msg.html' %}
+    <div class="toast-container column gap-12"></div>
+
+    {% include 'components/header.html' %}
+    {% include 'components/controls.html' %}
+
+    <div class="generation-illustration p-20 rounded-16 column gap-24">
+        <div class="head row gap-16">
+            <span class="text fs-24">Generating</span>
+        </div>
+
+        <div class="text-content column gap-8">
+            <div class="line line1"></div>
+            <div class="line line2"></div>
+            <div class="line line3"></div>
+        </div>
+    </div>
+
+    <main class="main flex gap-20 p-20">
+        <section class="sheet-window bg-card p-16 rounded-16 shadow w-full column gap-12" id="sheetWindow">
+            <div class="head row h-sb">
+                <span class="text text-center m-auto">Sheet</span>
+                <span class="symbol hidden">menu</span>
+            </div>
+
+            <div class="body">
+                <img src="" alt="" class="img hidden" id="barcodeImage">
+            </div>
+        </section>
+
+        <section class="tools-window bg-card p-16 rounded-16 shadow w-full column gap-24" id="toolsWindow">
+            <div class="head row h-sb">
+                <span class="text">Tools</span>
+                <span class="symbol hidden">menu</span>
+            </div>
+            <hr class="divider">
+
+            <div class="barcode-content column gap-12">
+                <label for="barcodeInput" class="row gap-12">
+                    <span class="symbol">barcode</span>
+                    <span class="text">Barcode*</span>
+                </label>
+
+                <input type="text" id="barcodeInput" class="input" placeholder="barcode content">
+
+                <button class="btn fl rounded-16 w-full pv-16" id="generateBarcode">
+                    <span class="text">Generate</span>
+                </button>
+            </div>
+            <hr class="divider">
+
+            <div class="other-content column gap-12">
+                <div class="head row gap-12">
+                    <span class="symbol">box</span>
+                    <span class="text">Product info*</span>
+                </div>
+
+                <div class="input-elem column gap-4">
+                    <label for="priceInput">Price</label>
+                    <input type="text" id="priceInput" class="input" placeholder="Price">
+                </div>
+
+                <div class="input-elem column gap-4">
+                    <label for="batchInput">Batch number</label>
+                    <input type="text" id="batchInput" class="input" placeholder="Batch number">
+                </div>
+
+                <div class="input-elem column gap-4">
+                    <label for="mfgInput">Manufacturing Date</label>
+                    <input type="date" id="mfgInput" class="input">
+                </div>
+
+                <div class="input-elem column gap-4">
+                    <label for="expInput">Expiry Date</label>
+                    <input type="date" id="expInput" class="input">
+                </div>
+
+                <div class="input-elem column gap-4">
+                    <label for="specificInput">Specific info</label>
+                    <input type="text" id="specificInput" class="input" placeholder="Size, weight, etc.">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="{{ url_for('static', filename='js/pages/sticker.js') }}"></script>
+</body>
+
+</html>
