@@ -31,6 +31,9 @@ const clearBtn = document.getElementById('clearSheet');
 // ==================================================
 
 let clearAnimation;
+let borderEnabled;
+let barcodeEnabled;
+let textEnabled;
 
 // ==================================================
 // IMPORTS
@@ -56,6 +59,8 @@ function resetStickers(clearOnly = false) {
         const sticker = createSticker();
         sheetBody.appendChild(sticker);
     }
+
+    toggleGridLines();
 }
 
 // * FUNCTION TO TOGGLE TOOLS WINDOW
@@ -112,15 +117,16 @@ function updateBodyGrids(x, y) {
 function createSticker() {
     // Create Wrapper
     const wrapper = document.createElement('div');
-    wrapper.classList.add('sticker', 'column', 'gap-12');
+    wrapper.classList.add('sticker');
 
     // Create Image
-    const barcodeImage = document.createElement('img');
-    barcodeImage.classList.add('img');
-    barcodeImage.src = barcodePreview.src;
+    if (barcodeEnabled) {
+        const barcodeImage = document.createElement('img');
+        barcodeImage.classList.add('img');
+        barcodeImage.src = barcodePreview.src;
+        wrapper.appendChild(barcodeImage);
+    }
 
-    // Append children
-    wrapper.appendChild(barcodeImage);
     return wrapper
 }
 
@@ -183,6 +189,7 @@ function addInputChangeListener(input) {
         resetStickers();
         const stickerElements = document.querySelectorAll('.sheet-window .body .sticker');
         stickerElements.forEach(sticker => {
+            sticker.classList.add('column');
             const stickerBody = createStickerBody();
             sticker.appendChild(stickerBody);
         });
@@ -195,17 +202,26 @@ function addDataChangeListener(input) {
         resetStickers();
         const stickerElements = document.querySelectorAll('.sheet-window .body .sticker');
         stickerElements.forEach(sticker => {
+            sticker.classList.add('column');
             const stickerBody = createStickerBody();
             sticker.appendChild(stickerBody);
         });
     });
+
+    if (
+        priceInput.value.trim() === "" &&
+        batchInput.value.trim() === "" &&
+        mfgInput.value.trim() === "" &&
+        expInput.value.trim() === "" &&
+        specificInput.value.trim() === ""
+    ) { textEnabled = false } else { textEnabled = true }
 }
 
 // * FUNCTION TO TOGGLE GRID LINES IN STICKERS
 function toggleGridLines() {
     const stickers = document.querySelectorAll('.sheet-window .body .sticker');
     stickers.forEach(sticker => {
-        sticker.classList.toggle('border');
+        sticker.classList.toggle('border', borderEnabled);
     });
 }
 
@@ -285,12 +301,16 @@ generateBarcode.addEventListener('click', async () => {
         clearAnimation();
         sendToastNotification("Barcode generated.", "thumb_up", "var(--color-state-green)");
 
-        const stickerQuantity = rowInput.value * columnInput.value
-        for (let i = 0; i < stickerQuantity; i++) {
-            const sticker = createSticker();
-            sheetBody.appendChild(sticker);
-        }
+        barcodeEnabled = true;
+        resetStickers();
+        if (!textEnabled) return;
 
+        const stickerElements = document.querySelectorAll('.sheet-window .body .sticker');
+        stickerElements.forEach(sticker => {
+            sticker.classList.add('column');
+            const stickerBody = createStickerBody();
+            sticker.appendChild(stickerBody);
+        });
 
     } catch (error) {
         clearAnimation();
@@ -312,7 +332,10 @@ addInputChangeListener(columnInput);
 addInputChangeListener(rowInput);
 
 // & EVENT LISTENER FOR TOGGLE-BORDER CLICK
-borderInput.addEventListener('change', toggleGridLines);
+borderInput.addEventListener('change', () => {
+    borderEnabled = borderInput.checked ? true : false;
+    toggleGridLines();
+});
 
 // & EVENT LISTENER FOR PRODUCT-DATA CHANGE
 addDataChangeListener(priceInput);
