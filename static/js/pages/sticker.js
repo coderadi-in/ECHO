@@ -2,13 +2,17 @@
 // ELEMENT REFERENCE
 // ==================================================
 
+const genIllustration = document.querySelector('.generation-illustration');
+const toggleToolsWindow = document.querySelectorAll('.toggle-tools-window');
+const windowToggleTriggers = document.querySelectorAll('.unit .head');
+
+const sheetBody = document.querySelector('.sheet-window .body');
+const toolsWindow = document.querySelector('.tools-window');
+
 const barcodeInput = document.getElementById('barcodeInput');
 const generateBarcode = document.getElementById('generateBarcode');
 const barcodePreview = document.getElementById('barcodePreview');
 
-const sheetBody = document.querySelector('.sheet-window .body');
-const genIllustration = document.querySelector('.generation-illustration');
-const windowToggleTriggers = document.querySelectorAll('.unit .head');
 
 const priceInput = document.getElementById('priceInput');
 const batchInput = document.getElementById('batchInput');
@@ -52,6 +56,13 @@ function resetStickers(clearOnly = false) {
         const sticker = createSticker();
         sheetBody.appendChild(sticker);
     }
+}
+
+// * FUNCTION TO TOGGLE TOOLS WINDOW
+function addToggleWindowListener(trigger) {
+    trigger.addEventListener('click', () => {
+        toolsWindow.classList.toggle('active');
+    });
 }
 
 // * FUNCTION TO CREATE A FORM
@@ -315,3 +326,8 @@ exportBtn.addEventListener('click', exportSheet);
 
 // & EVENT LISTENER TO CLEAR SHEET
 clearBtn.addEventListener('click', () => { resetStickers(true); });
+
+// & EVENT LISTENER TO TOGGLE TOOLS-WINDOW
+toggleToolsWindow.forEach(trigger => {
+    addToggleWindowListener(trigger);
+});
