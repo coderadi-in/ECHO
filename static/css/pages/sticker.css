@@ -38,6 +38,21 @@ main { height: calc(100dvh - 90px); }
 }
 
 /* ================================================== */
+/* SHEET WINDOW */
+/* ================================================== */
+
+.sheet-window > .body {
+    aspect-ratio: 21 / 29.7;
+    height: 100%;
+    max-height: calc(100vh - 194px);
+    width: auto;
+    margin: auto;
+    border: 1px dashed var(--color-border);
+    background-color: #FFF;
+    color: #000;
+}
+
+/* ================================================== */
 /* TOOLS WINDOW */
 /* ================================================== */
 
@@ -49,8 +64,10 @@ main { height: calc(100dvh - 90px); }
 }
 
 .tools-window .unit .head > * { pointer-events: none; }
+.tools-window .unit .head .symbol { transition: transform 0.3s; }
 
 .tools-window .unit.active { gap: 12px; }
+.tools-window .unit.active .head .symbol { transform: rotate(90deg); }
 
 .tools-window .unit .body {
     max-height: 0;
@@ -65,3 +82,5 @@ main { height: calc(100dvh - 90px); }
     padding: 12px;
     opacity: 1;
 }
+
+.tools-window #exportSheet { transition: opacity 0.3s; }

@@ -10,15 +10,23 @@ const sheetBody = document.querySelector('.sheet-window .body');
 const genIllustration = document.querySelector('.generation-illustration');
 const windowToggleTriggers = document.querySelectorAll('.unit .head');
 
+const priceInput = document.getElementById('priceInput');
+const batchInput = document.getElementById('batchInput');
+const mfgInput = document.getElementById('mfgInput');
+const expInput = document.getElementById('expInput');
+const specificInput = document.getElementById('specificInput');
+
 const columnInput = document.getElementById('columnInput');
 const rowInput = document.getElementById('rowInput');
+const borderInput = document.getElementById('toggleBorder');
+const exportBtn = document.getElementById('exportSheet');
+const clearBtn = document.getElementById('clearSheet');
 
 // ==================================================
 // STATES
 // ==================================================
 
 let clearAnimation;
-let inputValidated;
 
 // ==================================================
 // IMPORTS
@@ -26,10 +34,25 @@ let inputValidated;
 
 import { sendToastNotification } from '../components/toast.js';
 import { showNotification } from '../base/notifications.js';
+const { jsPDF } = window.jspdf;
 
 // ==================================================
 // FUNCTIONS
 // ==================================================
+
+// * FUNCTION TO RESET STICKERS
+function resetStickers(clearOnly = false) {
+    document.querySelectorAll('.sheet-window .body .sticker').forEach(elem => {
+        elem.remove();
+    });
+
+    if (clearOnly) return;
+    const stickerQuantity = rowInput.value * columnInput.value
+    for (let i = 0; i < stickerQuantity; i++) {
+        const sticker = createSticker();
+        sheetBody.appendChild(sticker);
+    }
+}
 
 // * FUNCTION TO CREATE A FORM
 function createForm(inputs) {
@@ -90,6 +113,54 @@ function createSticker() {
     return wrapper
 }
 
+// * FUNCTION TO CREATE STICKER BODY
+function createStickerBody() {
+    // Create Body
+    const barcodeBody = document.createElement('div');
+    barcodeBody.classList.add('body', 'res-row', 'gap-4', 'p-8');
+
+    // * FUNCTION TO FORMAT DATE
+    function formateDate(input) {
+        const date = new Date(input);
+
+        const output = new Intl.DateTimeFormat('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: '2-digit'
+        }).format(date);
+
+        return output
+    }
+
+    // * FUNCTION TO CREATE A TEXT ELEMENT FOR BODY
+    function createText(input, title, format) {
+        if (input.value.trim() !== '') {
+            const textElement = document.createElement('span');
+            textElement.classList.add('mini');
+
+            if (format) {
+                const content = formateDate(input.value.trim());
+                if (title) { textElement.textContent = `${title}: ${content}`; }
+                else { textElement.textContent = input.value.trim(); }
+            } else {
+                if (title) { textElement.textContent = `${title}: ${input.value.trim()}`; }
+                else { textElement.textContent = input.value.trim(); }
+            }
+
+            barcodeBody.appendChild(textElement);
+        }
+    }
+
+    // Add Data
+    createText(priceInput, "MRP", false);
+    createText(batchInput, "Batch", false);
+    createText(mfgInput, "MFG", true);
+    createText(expInput, "EXP", true);
+    createText(specificInput, false);
+
+    return barcodeBody;
+}
+
 // * FUNCTION TO ADD INPUT-CHANGE LISTENER
 function addInputChangeListener(input) {
     input.addEventListener('input', () => {
@@ -98,21 +169,77 @@ function addInputChangeListener(input) {
             rowInput.value
         );
 
-        document.querySelectorAll('.sheet-window .body .sticker').forEach(elem => {
-            elem.remove();
+        resetStickers();
+        const stickerElements = document.querySelectorAll('.sheet-window .body .sticker');
+        stickerElements.forEach(sticker => {
+            const stickerBody = createStickerBody();
+            sticker.appendChild(stickerBody);
         });
-
-        const stickerQuantity = rowInput.value * columnInput.value
-        for (let i = 0; i < stickerQuantity; i++) {
-            const sticker = createSticker();
-            sheetBody.appendChild(sticker);
-        }
     });
+}
+
+// * FUNCTION TO ADD DATA-CHANGE LISTENER
+function addDataChangeListener(input) {
+    input.addEventListener('input', () => {
+        resetStickers();
+        const stickerElements = document.querySelectorAll('.sheet-window .body .sticker');
+        stickerElements.forEach(sticker => {
+            const stickerBody = createStickerBody();
+            sticker.appendChild(stickerBody);
+        });
+    });
+}
+
+// * FUNCTION TO TOGGLE GRID LINES IN STICKERS
+function toggleGridLines() {
+    const stickers = document.querySelectorAll('.sheet-window .body .sticker');
+    stickers.forEach(sticker => {
+        sticker.classList.toggle('border');
+    });
+}
+
+// * FUNCTION TO EXPORT SHEET
+function exportSheet() {
+    exportBtn.disabled = true;
+    exportBtn.style.opacity = "0.6";
+
+    html2canvas(sheetBody, {
+        scale: 2,
+        useCORS: true,
+    }).then(canvas => {
+        // 1. Get the image data from the canvas as a PNG
+        const imgData = canvas.toDataURL("image/png");
+
+        // 2. Calculate PDF dimensions based on the canvas size
+        const imgWidth = canvas.width;
+        const imgHeight = canvas.height;
+
+        // 3. Create a new PDF instance matching the canvas orientation
+        const orientation = imgWidth > imgHeight ? "l" : "p";
+        const pdf = new jsPDF(orientation, "px", [imgWidth, imgHeight]);
+
+        // 4. Add the image to the PDF and save it
+        pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+        pdf.save("echo-sheet.pdf");
+    });
+
+    exportBtn.disabled = false;
+    exportBtn.style.opacity = "1";
+
+    showNotification("Export done.", "The sheet has been exported.", "echo-sheet");
 }
 
 // ==================================================
 // EVENT LISTENERS
 // ==================================================
+
+// & INITIAL DISPLAY SETTINGS
+document.addEventListener('DOMContentLoaded', () => {
+    updateBodyGrids(
+        columnInput.value,
+        rowInput.value
+    );
+});
 
 // & EVENT LISTENER FOR GENERATE-BARCODE CLICK
 generateBarcode.addEventListener('click', async () => {
@@ -173,10 +300,18 @@ windowToggleTriggers.forEach(trigger => {
 addInputChangeListener(columnInput);
 addInputChangeListener(rowInput);
 
-// & INITIAL DISPLAY SETTINGS
-document.addEventListener('DOMContentLoaded', () => {
-    updateBodyGrids(
-        columnInput.value,
-        rowInput.value
-    );
-})
+// & EVENT LISTENER FOR TOGGLE-BORDER CLICK
+borderInput.addEventListener('change', toggleGridLines);
+
+// & EVENT LISTENER FOR PRODUCT-DATA CHANGE
+addDataChangeListener(priceInput);
+addDataChangeListener(batchInput);
+addDataChangeListener(mfgInput);
+addDataChangeListener(expInput);
+addDataChangeListener(specificInput);
+
+// & EVENT LISTENER TO EXPORT SHEET
+exportBtn.addEventListener('click', exportSheet);
+
+// & EVENT LISTENER TO CLEAR SHEET
+clearBtn.addEventListener('click', () => { resetStickers(true); });

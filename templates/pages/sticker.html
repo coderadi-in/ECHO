@@ -103,7 +103,7 @@
                 </div>
             </div>
 
-            <div class="page-content column unit min-h-0">
+            <div class="page-content column unit min-h-0 active">
                 <div class="head link row h-sb bg-tertiary p-12" id="toggleSheetContent" data-section=".page-content">
                     <span class="text">Sheet</span>
                     <span class="symbol">keyboard_arrow_right</span>
@@ -124,11 +124,23 @@
                         <span class="text">Rows</span>
                         <input type="number" id="rowInput" class="input" value="3" min="1">
                     </div>
+
+                    <div class="row h-sb">
+                        <span class="text">Grid lines</span>
+                        <input type="checkbox" id="toggleBorder" class="input">
+                    </div>
+
+                    <div class="actions column gap-12">
+                        <button class="btn fl rounded-16 pv-16 w-full" id="exportSheet">EXPORT SHEET</button>
+                        <button class="btn ot rounded-16 pv-16 w-full" id="clearSheet">CLEAR SHEET</button>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script type="module" src="{{ url_for('static', filename='js/pages/sticker.js') }}"></script>
 </body>
 
