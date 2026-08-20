@@ -42,61 +42,88 @@
                 <span class="symbol hidden">menu</span>
             </div>
 
-            <div class="body">
-                <img src="" alt="" class="img hidden" id="barcodeImage">
-            </div>
+            <div class="body grid"></div>
         </section>
 
-        <section class="tools-window bg-card p-16 rounded-16 shadow w-full column gap-24" id="toolsWindow">
-            <div class="head row h-sb">
+        <section class="tools-window bg-card rounded-16 shadow w-full column" id="toolsWindow">
+            <div class="head row h-sb p-16">
                 <span class="text">Tools</span>
                 <span class="symbol hidden">menu</span>
             </div>
             <hr class="divider">
 
-            <div class="barcode-content column gap-12">
-                <label for="barcodeInput" class="row gap-12">
-                    <span class="symbol">barcode</span>
-                    <span class="text">Barcode*</span>
-                </label>
+            <div class="barcode-content column unit min-h-0">
+                <div class="head link row h-sb bg-tertiary p-12" id="toggleBarcodeContent" data-section=".barcode-content">
+                    <span class="text">Barcode</span>
+                    <span class="symbol">keyboard_arrow_right</span>
+                </div>
 
-                <input type="text" id="barcodeInput" class="input" placeholder="barcode content">
+                <div class="body column gap-12 h-full">
+                    <input type="text" id="barcodeInput" class="input" placeholder="barcode content">
 
-                <button class="btn fl rounded-16 w-full pv-16" id="generateBarcode">
-                    <span class="text">Generate</span>
-                </button>
+                    <button class="btn fl rounded-16 w-full pv-16" id="generateBarcode">
+                        <span class="text">Generate</span>
+                    </button>
+
+                    <img src class="img" id="barcodePreview">
+                </div>
             </div>
-            <hr class="divider">
 
-            <div class="other-content column gap-12">
-                <div class="head row gap-12">
-                    <span class="symbol">box</span>
-                    <span class="text">Product info*</span>
+            <div class="product-content column unit min-h-0">
+                <div class="head link row h-sb bg-tertiary p-12" id="toggleProductContent" data-section=".product-content">
+                    <span class="text">Product</span>
+                    <span class="symbol">keyboard_arrow_right</span>
                 </div>
 
-                <div class="input-elem column gap-4">
-                    <label for="priceInput">Price</label>
-                    <input type="text" id="priceInput" class="input" placeholder="Price">
+                <div class="body column gap-12 h-full">
+                    <div class="input-elem column gap-4">
+                        <label for="priceInput">Price</label>
+                        <input type="text" id="priceInput" class="input" placeholder="Price">
+                    </div>
+
+                    <div class="input-elem column gap-4">
+                        <label for="batchInput">Batch number</label>
+                        <input type="text" id="batchInput" class="input" placeholder="Batch number">
+                    </div>
+
+                    <div class="input-elem column gap-4">
+                        <label for="mfgInput">Manufacturing Date</label>
+                        <input type="date" id="mfgInput" class="input">
+                    </div>
+
+                    <div class="input-elem column gap-4">
+                        <label for="expInput">Expiry Date</label>
+                        <input type="date" id="expInput" class="input">
+                    </div>
+
+                    <div class="input-elem column gap-4">
+                        <label for="specificInput">Specific info</label>
+                        <input type="text" id="specificInput" class="input" placeholder="Size, weight, etc.">
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-content column unit min-h-0">
+                <div class="head link row h-sb bg-tertiary p-12" id="toggleSheetContent" data-section=".page-content">
+                    <span class="text">Sheet</span>
+                    <span class="symbol">keyboard_arrow_right</span>
                 </div>
 
-                <div class="input-elem column gap-4">
-                    <label for="batchInput">Batch number</label>
-                    <input type="text" id="batchInput" class="input" placeholder="Batch number">
-                </div>
+                <div class="body column gap-12 h-full">
+                    <div class="row h-sb">
+                        <span class="text">Size:</span>
+                        <span class="text">A4</span>
+                    </div>
 
-                <div class="input-elem column gap-4">
-                    <label for="mfgInput">Manufacturing Date</label>
-                    <input type="date" id="mfgInput" class="input">
-                </div>
-
-                <div class="input-elem column gap-4">
-                    <label for="expInput">Expiry Date</label>
-                    <input type="date" id="expInput" class="input">
-                </div>
-
-                <div class="input-elem column gap-4">
-                    <label for="specificInput">Specific info</label>
-                    <input type="text" id="specificInput" class="input" placeholder="Size, weight, etc.">
+                    <div class="row h-sb">
+                        <span class="text">Columns</span>
+                        <input type="number" id="columnInput" class="input" value="5" min="1">
+                    </div>
+                    
+                    <div class="row h-sb">
+                        <span class="text">Rows</span>
+                        <input type="number" id="rowInput" class="input" value="3" min="1">
+                    </div>
                 </div>
             </div>
         </section>

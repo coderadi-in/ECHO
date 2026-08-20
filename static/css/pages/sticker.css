@@ -42,3 +42,26 @@ main { height: calc(100dvh - 90px); }
 /* ================================================== */
 
 .tools-window { max-width: max(480px, 25%); }
+
+.tools-window .unit {
+    gap: 0;
+    transition: gap 0.3s;
+}
+
+.tools-window .unit .head > * { pointer-events: none; }
+
+.tools-window .unit.active { gap: 12px; }
+
+.tools-window .unit .body {
+    max-height: 0;
+    padding: 0;
+    opacity: 0;
+    overflow-y: auto;
+    transition: max-height 0.3s, opacity 0.3s, padding 0.3s;
+}
+
+.tools-window .unit.active .body {
+    max-height: 100%;
+    padding: 12px;
+    opacity: 1;
+}
