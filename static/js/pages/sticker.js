@@ -381,6 +381,7 @@ aiGen.addEventListener('click', async () => {
         // Show response
         sheetBody.classList.add('hidden');
         pdfPreview.classList.remove('hidden');
+        aiExport.classList.remove('hidden');
         pdfPreview.src = sheetURL;
         aiExport.href = sheetURL;
         aiExport.download = "echo-sheet.pdf"
@@ -421,7 +422,10 @@ addDataChangeListener(specificInput);
 exportBtn.addEventListener('click', exportSheet);
 
 // & EVENT LISTENER TO CLEAR SHEET
-clearBtn.addEventListener('click', () => { resetStickers(true); });
+clearBtn.addEventListener('click', () => {
+    resetStickers(true);
+    aiExport.classList.add('hidden');
+});
 
 // & EVENT LISTENER TO TOGGLE TOOLS-WINDOW
 toggleToolsWindow.forEach(trigger => {
