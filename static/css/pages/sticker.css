@@ -25,7 +25,7 @@ main { height: calc(100dvh - 90px); }
     left: 50%;
     transform: translate(-50%, -50%);
     backdrop-filter: blur(4px);
-    background-color: var(--color-surface-main);
+    background-color: var(--color-surface-alt);
     pointer-events: none;
     opacity: 0;
     cursor: wait;
@@ -53,6 +53,14 @@ main { height: calc(100dvh - 90px); }
     border: 1px dashed var(--color-border);
     background-color: #FFF;
     color: #000;
+}
+
+.sheet-window > .pdf-preview {
+    aspect-ratio: 21 / 29.7;
+    height: 100%;
+    max-height: calc(100vh - 194px);
+    width: auto;
+    margin: auto;
 }
 
 /* ================================================== */

@@ -7,12 +7,12 @@ const toggleToolsWindow = document.querySelectorAll('.toggle-tools-window');
 const windowToggleTriggers = document.querySelectorAll('.unit .head');
 
 const sheetBody = document.querySelector('.sheet-window .body');
+const pdfPreview = document.querySelector('.sheet-window .pdf-preview');
 const toolsWindow = document.querySelector('.tools-window');
 
 const barcodeInput = document.getElementById('barcodeInput');
 const generateBarcode = document.getElementById('generateBarcode');
 const barcodePreview = document.getElementById('barcodePreview');
-
 
 const priceInput = document.getElementById('priceInput');
 const batchInput = document.getElementById('batchInput');
@@ -25,6 +25,9 @@ const rowInput = document.getElementById('rowInput');
 const borderInput = document.getElementById('toggleBorder');
 const exportBtn = document.getElementById('exportSheet');
 const clearBtn = document.getElementById('clearSheet');
+
+const aiGen = document.getElementById('generateAI');
+const aiExport = document.getElementById('exportAI');
 
 // ==================================================
 // STATES
@@ -49,6 +52,8 @@ const { jsPDF } = window.jspdf;
 
 // * FUNCTION TO RESET STICKERS
 function resetStickers(clearOnly = false) {
+    pdfPreview.classList.add('hidden');
+    sheetBody.classList.remove('hidden');
     document.querySelectorAll('.sheet-window .body .sticker').forEach(elem => {
         elem.remove();
     });
@@ -67,6 +72,13 @@ function resetStickers(clearOnly = false) {
 function addToggleWindowListener(trigger) {
     trigger.addEventListener('click', () => {
         toolsWindow.classList.toggle('active');
+    });
+}
+
+// * FUNCTION TO CLOSE ALL TOOLS WINDOW
+function closeAllToolsWindow() {
+    document.querySelectorAll('.tools-window .unit').forEach(unit => {
+        unit.classList.remove('active')
     });
 }
 
@@ -104,6 +116,7 @@ function animateGenSkeleton(frame = genIllustration) {
 
 // * FUNCTION TO TOGGLE WINDOW STATE
 function toggleWindow(window) {
+    closeAllToolsWindow();
     window.classList.toggle('active');
 }
 
@@ -221,7 +234,8 @@ function addDataChangeListener(input) {
 function toggleGridLines() {
     const stickers = document.querySelectorAll('.sheet-window .body .sticker');
     stickers.forEach(sticker => {
-        sticker.classList.toggle('border', borderEnabled);
+        if (borderEnabled) sticker.classList.add('border');
+        else sticker.classList.remove('border');
     });
 }
 
@@ -286,7 +300,6 @@ generateBarcode.addEventListener('click', async () => {
 
         // Check if response is ok
         if (!response.ok) {
-            console.log(response.status);
             clearAnimation();
             sendToastNotification("Generation failed, please try again.", "error", "var(--color-state-red)");
             return;
@@ -317,6 +330,66 @@ generateBarcode.addEventListener('click', async () => {
         sendToastNotification("Generation failed, please try again.", "error", "var(--color-state-red)");
     }
 });
+
+// & EVENT LISTENER FOR AI-GEN CLICK
+aiGen.addEventListener('click', async () => {
+    // Input validation
+    if (
+        barcodeInput.value.trim() === "" &&
+        priceInput.value.trim() === "" &&
+        batchInput.value.trim() === "" &&
+        mfgInput.value.trim() === "" &&
+        expInput.value.trim() === "" &&
+        specificInput.value.trim() === ""
+    ) {
+        sendToastNotification("There's no content", "error", "var(--color-state-red)");
+        return;
+    }
+
+    // Initiate form creation
+    clearAnimation = animateGenSkeleton();
+    const genRequest = createForm({
+        barcode: barcodeInput.value,
+        price: priceInput.value,
+        batch: batchInput.value,
+        mfg: mfgInput.value,
+        exp: expInput.value,
+        specific: specificInput.value
+    });
+
+    try {
+        // Send request
+        const response = await fetch(`${window.location.origin}/api/ai/generate-sticker-sheet`, {
+            method: 'POST',
+            body: genRequest
+        });
+
+        // Check if response ins't ok
+        if (!response.ok) {
+            clearAnimation();
+            sendToastNotification("Generation failed, please try again.", "error", "var(--color-state-red)");
+            return;
+        }
+
+        // Convert response to a blob
+        const blob = await response.blob();
+        const sheetURL = URL.createObjectURL(blob)+"#toolbar=0&navpanes=0&scrollbar=0";
+
+        clearAnimation();
+        sendToastNotification("Sheet generated.", "thumb_up", "var(--color-state-green)");
+
+        // Show response
+        sheetBody.classList.add('hidden');
+        pdfPreview.classList.remove('hidden');
+        pdfPreview.src = sheetURL;
+        aiExport.href = sheetURL;
+        aiExport.download = "echo-sheet.pdf"
+
+    } catch (error) {
+        clearAnimation();
+        sendToastNotification("Generation failed, please try again.", "error", "var(--color-state-red)");
+    }
+})
 
 // & EVENT LISTENER FOR WINDOW-TOGGLE-TRIGGER CLICK
 windowToggleTriggers.forEach(trigger => {

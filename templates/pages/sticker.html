@@ -43,6 +43,7 @@
             </div>
 
             <div class="body grid"></div>
+            <iframe frameborder="0" class="pdf-preview hidden"></iframe>
         </section>
 
         <section class="tools-window bg-card rounded-16 shadow w-full column" id="toolsWindow">
@@ -53,7 +54,8 @@
             <hr class="divider">
 
             <div class="barcode-content column unit min-h-0">
-                <div class="head link row h-sb bg-tertiary p-12" id="toggleBarcodeContent" data-section=".barcode-content">
+                <div class="head link row h-sb bg-tertiary p-12" id="toggleBarcodeContent"
+                    data-section=".barcode-content">
                     <span class="text">Barcode</span>
                     <span class="symbol">keyboard_arrow_right</span>
                 </div>
@@ -70,7 +72,8 @@
             </div>
 
             <div class="product-content column unit min-h-0">
-                <div class="head link row h-sb bg-tertiary p-12" id="toggleProductContent" data-section=".product-content">
+                <div class="head link row h-sb bg-tertiary p-12" id="toggleProductContent"
+                    data-section=".product-content">
                     <span class="text">Product</span>
                     <span class="symbol">keyboard_arrow_right</span>
                 </div>
@@ -119,7 +122,7 @@
                         <span class="text">Columns</span>
                         <input type="number" id="columnInput" class="input" value="5" min="1">
                     </div>
-                    
+
                     <div class="row h-sb">
                         <span class="text">Rows</span>
                         <input type="number" id="rowInput" class="input" value="3" min="1">
@@ -134,6 +137,22 @@
                         <button class="btn fl rounded-16 pv-16 w-full" id="exportSheet">EXPORT SHEET</button>
                         <button class="btn ot rounded-16 pv-16 w-full" id="clearSheet">CLEAR SHEET</button>
                     </div>
+                </div>
+            </div>
+
+            <div class="ai-content column unit min-h-0 beta-element">
+                <div class="head link row h-sb bg-tertiary p-12" id="toggleAIContent" data-section=".ai-content">
+                    <span class="text">AI Generation</span>
+                    <span class="symbol">keyboard_arrow_right</span>
+                </div>
+
+                <div class="body column gap-12 h-full">
+                    <p class="para">Fill out all product details that you need in the sheet and click generate.</p>
+                    <p class="par">The number of rows and columns will be determined by AI.</p>
+                    <p class="para">AI generation costs 1 credit per generation.</p>
+                    
+                    <button class="btn fl rounded-16 pv-16 w-full" id="generateAI">Generate</button>
+                    <a class="btn link ot rounded-16 pv-16 w-full hidden" id="exportAI">Download</a>
                 </div>
             </div>
         </section>
