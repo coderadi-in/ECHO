@@ -15,13 +15,13 @@ from models import *
 from collections import defaultdict
 from ai import SystemPrompts
 from services.barcode import generate_barcode
-from services.sheet_gen import LabelGridPDFService
+from services.sheet_gen import SheetGenerator
 
 # ! ROUTER INIT
 ai = Blueprint('ai', __name__, url_prefix='/api/ai')
 
 # ! SERVICE INITS
-label_generation = LabelGridPDFService()
+label_generation = SheetGenerator()
 
 # ==================================================
 # AI SPECIFIC END-POINTS
@@ -86,8 +86,8 @@ specific_info_needed: {specific_info_needed}"""
     rows, columns = template.split("/")
 
     # GENERATE BARCODE
-    if (barcode):
-        barcode_image = generate_barcode(barcode, False)
+    if (barcode): barcode_image = generate_barcode(barcode, False)
+    else: barcode_image = None
 
     # APPEND LINES
     if (price): lines.append(f"MRP: {price}")
@@ -96,17 +96,15 @@ specific_info_needed: {specific_info_needed}"""
     if (exp): lines.append(f"EXP: {exp}")
     if (specific): lines.append(specific)
 
-    pdf = label_generation.build_sheet(label_type='fba', labels=[
-        {
-            "barcode": barcode_image,
-            "lines": lines
-        } for _ in range(int(rows) * int(columns))
-    ])
+    pdf = label_generation.generate_sheet(
+        barcode_image, lines,
+        rows=int(rows), columns=int(columns)
+    )
 
     # RETURN OUTPUT
     return send_file(
         pdf,
-        as_attachment=True,
+        as_attachment=False,
         download_name="echo_sheets.pdf",
         mimetype="application/pdf"
     )

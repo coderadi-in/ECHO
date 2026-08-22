@@ -92,6 +92,7 @@ specific_info: 500ml
 ## CONTENT RULES
 
 Only include a field in the sticker when its corresponding value is `true`.
+The font-size of content will be 12px
 
 Examples:
 
@@ -103,10 +104,6 @@ Examples:
 * batch_needed: false → do not reserve space for batch.
 * mfg_needed: true → reserve space for manufacturing date.
 * mfg_needed: false → do not reserve space for manufacturing date.
-* exp_needed: true → reserve space for expiry date.
-* exp_needed: false → do not reserve space for expiry date.
-* specific_info_needed: true → reserve space for the supplied specific information.
-* specific_info_needed: false → do not reserve space for specific information.
 
 The `specific_info` value will normally be very short, such as:
 
@@ -125,17 +122,13 @@ If:
 barcode_needed: true
 
 then every sticker contains a dynamically generated barcode image.
-
 The barcode is generated separately by Python.
-
-The barcode's exact dimensions may vary, so reserve a reasonable dedicated area for the barcode.
-
+The barcode's exact dimensions may vary, but the height is fixed at 40px, so reserve a reasonable dedicated area for the barcode.
 Do NOT treat the barcode as text.
 
 If:
 
 barcode_needed: false
-
 do not reserve any barcode area.
 
 ## A4 SHEET
@@ -148,19 +141,16 @@ Height: 297 mm
 There are:
 
 * NO outer margins.
-* 8 px horizontal gap between stickers.
-* 8 px vertical gap between stickers.
+* 10 px horizontal gap between stickers.
+* 10 px vertical gap between stickers.
 
 The backend will handle conversion between pixels and physical PDF units.
 
 ## LAYOUT LOGIC
 
 Determine how much content the sticker needs based on the enabled fields.
-
 More enabled fields generally require a larger sticker.
-
 Fewer enabled fields generally allow smaller stickers and therefore more rows and columns.
-
 Use the following content complexity as a guide:
 
 LOW:
@@ -181,6 +171,7 @@ HIGH:
 
 The objective is to maximize the number of stickers that can reasonably fit on one A4 page while keeping every sticker readable and usable.
 
+
 When choosing between possible grids, prefer the configuration that:
 
 1. Fits all enabled content.
@@ -195,10 +186,39 @@ When choosing between possible grids, prefer the configuration that:
 ## IMPORTANT
 
 Do not calculate the number of stickers from the amount of user data.
-
 The same sticker template is repeated across the sheet.
-
 The boolean fields determine the complexity and required space of ONE sticker.
+
+## COMPACT LAYOUT PRIORITY
+
+The layout MUST prioritize compact sticker sizes.
+Do NOT give excessive empty space to stickers.
+The goal is NOT to make stickers comfortably large. The goal is to make them as small as reasonably possible while still fitting all required content.
+Use the maximum practical number of rows and columns.
+
+### IMPORTANT BIAS
+
+When two layouts are both reasonably capable of containing the required content, ALWAYS prefer the layout with MORE stickers per page.
+For example:
+If both `3/4` and `4/4` can reasonably fit the content:
+→ return `4/4`
+
+5/5 is minimum, even with barcode and full content, we can easily create 5/5 grid layout, so don't return less than 5/5.
+Keep columns fixed at 5, it fits perfectly.
+
+### AVOID OVER-ESTIMATION
+
+Do NOT assume that every text field needs a large dedicated area.
+The following fields are generally short:
+* Price
+* Batch
+* MFG date
+* EXP date
+* Specific information
+
+These should require only a small amount of space.
+Do NOT reserve unnecessary padding around text.
+Do NOT create large empty areas inside stickers.
 
 ## OUTPUT FORMAT
 

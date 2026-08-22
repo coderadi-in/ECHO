@@ -1,142 +1,103 @@
-'''
-coderadi &bull; Manages all sheets functions
-'''
+"""
+Manages the SheetGenerator Class.
+Generates PDFs.
+"""
+
+# ==================================================
+# SETUP
+# ==================================================
 
 # ? IMPORTS
 from io import BytesIO
-from typing import Literal
-
-from reportlab.pdfgen import canvas
-from reportlab.lib.utils import ImageReader
-from reportlab.lib.units import inch
+from reportlab.pdfgen.canvas import Canvas
 from reportlab.lib.pagesizes import A4
+from reportlab.lib.utils import ImageReader
 
-class LabelGridPDFService:
-    def build_sheet(
-        self, 
-        label_type: Literal['fba', 'batch'],
-        labels: list[dict], 
-        grid: tuple[int] = (10, 4), 
-        outlined: bool = True,
-    ) -> BytesIO:
-        """
-        labels = [
-            {"code": "ABC123", "lines": ["Product A", "₹99"]},
-            ...
-        ]
-        """
+# ==================================================
+# SHEET GENERATOR LOGIC
+# ==================================================
 
-        rows, cols = grid
+class SheetGenerator:
+    def __init__(self):
+        """Creates a SheetGenerator instance."""
 
-        pdf_buffer = BytesIO()
-        c = canvas.Canvas(pdf_buffer, pagesize=A4)
+        self.FONT_SIZE = 12
+        self.PADDING = 10
+        self.PAGE_W, self.PAGE_H = A4
 
-        page_width, page_height = A4
-
-        cell_w = page_width / cols
-        cell_h = page_height / rows
-
-        for i, label in enumerate(labels):
-            col = i % cols
-            row = i // cols
-
-            if row >= rows:
-                break  # max row * col
-
-            x = col * cell_w
-            y = page_height - ((row + 1) * cell_h)
-
-            if (label_type == "fba"):
-                self.draw_fba_label(c, x, y, cell_w, cell_h, label)
-            elif (label_type == "batch"):
-                self.draw_batch_label(c, x, y, cell_w, cell_h, label)
-
-        c.showPage()
-        c.save()
-
-        pdf_buffer.seek(0)
-        return pdf_buffer
-
-
-    def draw_fba_label(
-        self,
-        c: canvas.Canvas,
-        x: int|float, y: int|float,
-        w: int|float, h: int|float,
-        label: dict, outlined: bool = True
+    # * FUNCTION TO DRAW A STICKER
+    def _draw_sticker(
+        self, canvas: Canvas, barcode_image: BytesIO|None, lines: list[str], *,
+        x: int, y: int, w: int, barcode_h: int = 40
     ):
-        padding = 10        
-        if (outlined): c.rect(x, y, w, h)
+        '''
+        Draws a sticker to provided coordinates and data.
+        '''
 
-        # -------------------------
-        # BARCODE AT TOP
-        # -------------------------
-        barcode_height = 40
-        barcode_img = ImageReader(label["barcode"])
+        # ADD BARCODE IMAGE
+        barcode_w = w - (self.PADDING * 2)
+        barcode_x = x + self.PADDING
+        barcode_y = self.PAGE_H - (y + self.PADDING + barcode_h)
 
-        c.drawImage(
-            barcode_img,
-            x + padding,
-            y + h - barcode_height - padding,
-            width=w - 2 * padding,
-            height=barcode_height,
-            preserveAspectRatio=True
-        )
+        if (barcode_image):
+            image_buffer = ImageReader(barcode_image)
+            canvas.drawImage(
+                image_buffer, barcode_x, barcode_y,
+                barcode_w, barcode_h
+            )
 
-        # -------------------------
-        # TEXT BELOW BARCODE
-        # -------------------------
-        text_y = y + h - barcode_height - 15
-        c.setFont("Helvetica", 9)
+        # ADD TEXT
+        text_y = barcode_y - (self.FONT_SIZE + 3)
+        text_x = x + self.PADDING
+        for line in lines:
+            canvas.drawString(text_x, text_y, line)
+            text_y -= (self.FONT_SIZE + 3)
 
-        for line in label["lines"]:
-            c.drawString(x + padding, text_y, line)
-            text_y -= 12
-
-    def draw_batch_label(
-        self,
-        c: canvas.Canvas,
-        x: int|float, y: int|float,
-        w: int|float, h: int|float,
-        label: dict, outlined: bool = True
+    # * FUNCTION TO GENERATE THE STICKER SHEET
+    def generate_sheet(
+            self, barcode_image: BytesIO|None, lines: list[str],
+            *, rows: int, columns: int, border: bool = False
     ):
-        padding = 10
-        if (outlined): c.rect(x, y, w, h)
+        '''
+        Generates a complete sheet of stickers
+        '''
 
-        # -------------------------
-        # BARCODE AT TOP
-        # -------------------------
-        barcode_height = 40
-        barcode_img = ImageReader(label["barcode"])
+        buffer = BytesIO()
+        canvas = Canvas(buffer, pagesize=A4)
+        canvas.setFont("Helvetica", self.FONT_SIZE)
 
-        c.drawImage(
-            barcode_img,
-            x + padding,
-            y + h - barcode_height - padding / 2,
-            width=w - 2 * padding,
-            height=barcode_height,
-            preserveAspectRatio=True
-        )
+        # Calculation partitions of sticker
+        partition_x = self.PAGE_W // columns
+        partition_y = self.PAGE_H // rows
 
-        # -------------------------
-        # TEXT BELOW BARCODE
-        # -------------------------
-        dataset = label["lines"]
-        text_y = y + h - barcode_height - 15
-        c.setFont("Helvetica", 9)
+        # Draw borders
+        if (border):
+            for x in range(partition_x+1):
+                x_cord = x * partition_x
+                canvas.line(
+                    x1=x_cord, y1=0,
+                    x2=x_cord, y2=self.PAGE_H
+                )
 
-        c.drawString(x + padding, text_y, dataset["id"])
-        c.drawString(x + padding + 100, text_y, dataset["variant"])
-        
-        text_y -= 12
-        c.setFont("Helvetica-Bold", 9)
-        c.drawString(x + padding, text_y, dataset["price"])
-        c.drawString(x + padding + 75, text_y, dataset["batch"])
+            for y in range(partition_y+1):
+                y_cord = y * partition_y
+                canvas.line(
+                    x1=0, y1=y_cord,
+                    x2=self.PAGE_W, y2=y_cord
+                )
 
-        text_y -= 12
-        c.setFont("Helvetica", 9)
-        c.drawString(x + padding, text_y, dataset["mfd"])
+        # Draw stickers
+        for row in range(rows):
+            for col in range(columns):
+                self._draw_sticker(
+                    canvas, barcode_image, lines,
+                    x=col*partition_x,
+                    y=row*partition_y,
+                    w=partition_x
+                )
 
-        if (dataset["exp"]):
-            text_y -= 12
-            c.drawString(x + padding, text_y, dataset["exp"])
+        # Finish and return
+        canvas.showPage()
+        canvas.save()
+        buffer.seek(0)
+        return buffer

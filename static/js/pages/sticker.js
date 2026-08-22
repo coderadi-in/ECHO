@@ -365,15 +365,20 @@ aiGen.addEventListener('click', async () => {
         });
 
         // Check if response ins't ok
-        if (!response.ok) {
+        if (!response.ok && response.status == 500) {
             clearAnimation();
-            sendToastNotification("Generation failed, please try again.", "error", "var(--color-state-red)");
+            sendToastNotification("Generation failed due to network issues.", "error", "var(--color-state-red)");
+            return;
+        } 
+        else if (!response.ok) {
+            clearAnimation();
+            sendToastNotification("Something broke in our end, please try again.", "error", "var(--color-state-red)");
             return;
         }
 
         // Convert response to a blob
         const blob = await response.blob();
-        const sheetURL = URL.createObjectURL(blob)+"#toolbar=0&navpanes=0&scrollbar=0";
+        const sheetURL = URL.createObjectURL(blob) + "#toolbar=0&navpanes=0&scrollbar=0";
 
         clearAnimation();
         sendToastNotification("Sheet generated.", "thumb_up", "var(--color-state-green)");
