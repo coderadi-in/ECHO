@@ -50,6 +50,12 @@ const { jsPDF } = window.jspdf;
 // FUNCTIONS
 // ==================================================
 
+// * FUNCTION TO CHECK IF THE OS IS MOBILE OR iOS
+function isMobile() {
+    const ua = navigator.userAgent;
+    return /Android|Mobi|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+}
+
 // * FUNCTION TO RESET STICKERS
 function resetStickers(clearOnly = false) {
     pdfPreview.classList.add('hidden');
@@ -376,20 +382,22 @@ aiGen.addEventListener('click', async () => {
             return;
         }
 
-        // Convert response to a blob
+        // Create a downloadable link
         const blob = await response.blob();
         const sheetURL = URL.createObjectURL(blob) + "#toolbar=0&navpanes=0&scrollbar=0";
+        aiExport.classList.remove('hidden');
+        aiExport.href = sheetURL;
+        aiExport.download = "echo-sheet.pdf"
+        
+        // Show response
+        if (!isMobile()) {
+            pdfPreview.src = sheetURL;
+            sheetBody.classList.add('hidden');
+            pdfPreview.classList.remove('hidden');
+        }
 
         clearAnimation();
         sendToastNotification("Sheet generated.", "thumb_up", "var(--color-state-green)");
-
-        // Show response
-        sheetBody.classList.add('hidden');
-        pdfPreview.classList.remove('hidden');
-        aiExport.classList.remove('hidden');
-        pdfPreview.src = sheetURL;
-        aiExport.href = sheetURL;
-        aiExport.download = "echo-sheet.pdf"
 
     } catch (error) {
         clearAnimation();
