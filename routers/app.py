@@ -439,7 +439,7 @@ def delete_account():
     flash("Your account has been deleted completely from ECHO.", "delete_forever")
     return redirect('/')
 
-# ! ERR
-@app.route('/err/<code>')
-def return_error(code):
-    return render_template(f"err/{code}.html")
+# ! ERR PREVIEW
+@app.route('/preview-err/<code>')
+def preview_error(code):
+    return render_template(f'err/{code}')
