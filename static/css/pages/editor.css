@@ -131,7 +131,7 @@ main { height: calc(100dvh - 90px); }
 
     transition: transform 0.3s cubic-bezier(0.911, 0.161, 0.181, 0.797);
     transform: scale(0) translate(-50%, -50%);
-    transform-origin: center;
+    transform-origin: top left;
 }
 
 .prompt-area.active { transform: scale(1) translate(-50%, -50%); }
