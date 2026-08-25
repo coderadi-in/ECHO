@@ -12,7 +12,7 @@ const toastContainer = document.querySelector('.toast-container');
 export function sendToastNotification(message, iconContent, accent) {
     // CREATE NOTIFICATION WRAP
     const notificationRow = document.createElement('div');
-    notificationRow.classList.add('notification-row', 'row', 'gap-12', 'p-16', 'rounded-12', accent);
+    notificationRow.classList.add('notification-row', 'row', 'gap-12', 'ph-16', 'pv-12', 'rounded-12', accent);
     notificationRow.style.border = `1px solid ${accent}`;
     
     // CREATE & APPEND NOTIFICATION ICON

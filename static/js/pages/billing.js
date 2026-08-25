@@ -3,7 +3,6 @@
 // ==================================================
 
 const upgradeProBtn = document.getElementById('upgradePro');
-const upgradeProText = document.querySelector('#upgradePro span');
 
 const renewalDate = document.getElementById('renewalDate');
 const paymentRows = document.querySelectorAll('.payment-row');
@@ -64,20 +63,11 @@ document.addEventListener('DOMContentLoaded', () => {
 // & EVENT LISTENER FOR UPGRADE-BUTTON CLICK
 if (upgradeProBtn) {
     upgradeProBtn.addEventListener('click', async () => {
-        upgradeProBtn.disabled = true;
-        upgradeProText.classList.add('symbol');
-        upgradeProText.textContent = 'progress_activity';
-        upgradeProText.classList.add('anim-rotate');
-
         const response = await fetch('/billing/create-order', { method: "POST" });
         const data = await response.json();
 
         if (!data.success) {
             sendToastNotification("Something went wrong while processing your order!", "error", "var(--color-state-red)");
-            upgradeProBtn.disabled = false;
-            upgradeProText.classList.remove('symbol');
-            upgradeProText.textContent = 'Upgrade to Pro';
-            upgradeProText.classList.remove('anim-rotate');
         }
 
         const options = {
@@ -93,24 +83,12 @@ if (upgradeProBtn) {
             },
             modal: {
                 ondismiss: function () {
-                    upgradeProBtn.disabled = false;
-                    upgradeProText.classList.remove('symbol');
-                    upgradeProText.textContent = 'Upgrade to Pro';
-                    upgradeProText.classList.remove('anim-rotate');
-
+                    sendToastNotification("Payment cancelled by user.", "cancel", "var(--color-state-red)");
                 }
             }
         };
 
         const razorpay = new Razorpay(options);
         razorpay.open();
-
-        setTimeout(() => {
-            sendToastNotification("Timeout: Processing your order took too long.", "error", "var(--color-state-red)");
-            upgradeProBtn.disabled = false;
-            upgradeProText.classList.remove('symbol');
-            upgradeProText.textContent = 'Upgrade to Pro';
-            upgradeProText.classList.remove('anim-rotate');
-        }, 10000);
     });
 }
