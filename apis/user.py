@@ -43,12 +43,20 @@ def get_monthly_usage():
         extract('month', Headline.created_at) == today.month
     ).all()
 
+    barcode_sheets = BarcodeSheet.query.filter(
+        BarcodeSheet.user == current_user.id,
+        extract('month', BarcodeSheet.created_at) == today.month,
+    ).all()
+
     # COUNT GENERATIONS IN DICT [DEFAULT = 0]
     for caption in captions:
         gens[caption.created_at] += 1
 
     for headline in headlines:
         gens[headline.created_at] += 1
+
+    for barcode in barcode_sheets:
+        gens[barcode.created_at] += 1
 
     # APPEND ALL COUNTS AND DATES IN A LIST
     while (current <= today):

@@ -371,14 +371,10 @@ aiGen.addEventListener('click', async () => {
         });
 
         // Check if response ins't ok
-        if (!response.ok && response.status == 500) {
+        if (!response.ok) {
+            const responseContent = await response.json();
             clearAnimation();
-            sendToastNotification("Generation failed due to network issues.", "error", "var(--color-state-red)");
-            return;
-        } 
-        else if (!response.ok) {
-            clearAnimation();
-            sendToastNotification("Something broke in our end, please try again.", "error", "var(--color-state-red)");
+            sendToastNotification(responseContent.message, "error", "var(--color-state-red)");
             return;
         }
 

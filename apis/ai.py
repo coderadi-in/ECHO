@@ -32,6 +32,17 @@ label_generation = SheetGenerator()
 @login_required
 @limiter.limit("20 per minute")
 def generate_sticker_sheet():
+    # REFRESH USER'S PLAN AND CREDITS
+    reset_credits()
+    downgrade_plan()
+
+    # CHECK CREDITS
+    if (current_user.left_credits <= 0):
+        return jsonify({
+            "status": 402,
+            "message": "You're out of credits"
+        }), 402
+
     # ACCESS FORM DATA
     barcode = request.form.get('barcode')
     price = request.form.get('price')
@@ -96,10 +107,31 @@ specific_info_needed: {specific_info_needed}"""
     if (exp): lines.append(f"EXP: {exp}")
     if (specific): lines.append(specific)
 
-    pdf = label_generation.generate_sheet(
-        barcode_image, lines,
-        rows=int(rows), columns=int(columns)
+    try:
+        pdf = label_generation.generate_sheet(
+            barcode_image, lines,
+            rows=int(rows), columns=int(columns)
+        )
+    except:
+        return jsonify({
+            "status": 500,
+            "message": "Something went wrong while generating PDF."
+        })
+
+    # SAVE OUTPUT IN DB
+    new_sheet = BarcodeSheet(
+        user=current_user.id,
+        barcode=barcode,
+        price=price,
+        batch=batch,
+        mfg=mfg,
+        exp=exp,
+        specific=specific
     )
+
+    db.session.add(new_sheet)
+    current_user.left_credits -= 1
+    db.session.commit()
 
     # RETURN OUTPUT
     return send_file(

@@ -37,7 +37,9 @@ def dashboard():
     # COUNT TOTAL GENERATIONS
     total_captions_count = Caption.query.filter(Caption.user == current_user.id).count()
     total_headlines_count = Headline.query.filter(Headline.user == current_user.id).count()
-    total_gens = total_captions_count + total_headlines_count
+    total_barcode_sheet_count = BarcodeSheet.query.filter(BarcodeSheet.user == current_user.id).count()
+    
+    total_gens = total_captions_count + total_headlines_count + total_barcode_sheet_count
 
     # COUNT CURRENT MONTH'S GENERATIONS
     month_captions_count = Caption.query.filter(
@@ -50,7 +52,12 @@ def dashboard():
         extract('month', Headline.created_at) == date.today().month,
     ).count()
 
-    month_gens = month_captions_count + month_headlines_count
+    month_barcode_sheet_count = BarcodeSheet.query.filter(
+        BarcodeSheet.user == current_user.id,
+        extract('month', BarcodeSheet.created_at) == date.today().month,
+    ).count()
+
+    month_gens = month_captions_count + month_headlines_count + month_barcode_sheet_count
 
     # COUNT TODAY'S GENERATIONS
     today_caption_count = Caption.query.filter(
@@ -63,7 +70,12 @@ def dashboard():
         Headline.created_at == date.today()
     ).count()
 
-    today_gens = today_caption_count + today_headline_count
+    today_barcode_sheet_count = BarcodeSheet.query.filter(
+        BarcodeSheet.user == current_user.id,
+        BarcodeSheet.created_at == date.today()
+    ).count()
+
+    today_gens = today_caption_count + today_headline_count + today_barcode_sheet_count
 
     return render_template('pages/dashboard.html', data={
         'total_gens': total_gens,
