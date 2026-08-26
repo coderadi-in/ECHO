@@ -1,0 +1,36 @@
+/* ================================================== */
+/* BASIC */
+/* ================================================== */
+
+body {
+    height: auto;
+    overflow: auto;
+}
+
+/* ================================================== */
+/* HEADER */
+/* ================================================== */
+
+.header .section {
+    background-color: var(--color-surface-main);
+    backdrop-filter: blur(4px);
+    color: var(--color-bg-main);
+}
+
+/* ================================================== */
+/* HERO */
+/* ================================================== */
+
+.hero {
+    background-image: url('/static/assets/images/docs-bg.webp');
+    background-size: cover;
+    background-position: bottom;
+}
+
+.hero .section { min-height: 50vh; }
+
+/* ================================================== */
+/* TOPICS */
+/* ================================================== */
+
+.topics .topic-grid { grid-template-columns: repeat(auto-fit, minmax(min(248px, 100%), 1fr)); }
