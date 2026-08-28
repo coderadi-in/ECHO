@@ -22,15 +22,26 @@ body {
 /* ================================================== */
 
 .hero {
-    background-image: url('/static/assets/images/docs-bg.webp');
+    background: 
+        linear-gradient(135deg, rgba(8, 9, 13, 0.7) 0%, rgba(16, 17, 25, 0.5) 40%),
+        url('/static/assets/images/docs-bg.webp');
+    
     background-size: cover;
     background-position: bottom;
+    --color-text-main: #F8F7FF;
+    --color-text-alt: #CFC3D5;
+    color: var(--color-text-main);
 }
 
 .hero .section { min-height: 50vh; }
 
+.hero .h1 { max-width: 768px; }
+.hero .para { max-width: 568px; }
+
 /* ================================================== */
-/* TOPICS */
+/* HOTS */
 /* ================================================== */
 
-.topics .topic-grid { grid-template-columns: repeat(auto-fit, minmax(min(248px, 100%), 1fr)); }
+.hots { padding-top: 48px; }
+.hots .topic .link { transition: color 0.3s; }
+.hots .topic .link:hover { color: var(--color-accent-main); }

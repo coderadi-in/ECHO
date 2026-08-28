@@ -119,6 +119,11 @@
     letter-spacing: 1px;
     scrollbar-width: thin;
     scrollbar-color: var(--color-text-main) transparent;
+    transition:
+        background-color 0.4s,
+        color 0.3s,
+        transform 0.4s,
+        opacity 0.3s;
 }
 
 *::selection {
@@ -211,6 +216,7 @@ html {
 .cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .cols-auto-400 { grid-template-columns: repeat(auto-fit, minmax(min(400px, 100%), 1fr)); }
+.cols-auto-320 { grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); }
 .rows-1 { grid-template-rows: repeat(1, minmax(0, 1fr)); }
 .rows-2 { grid-template-rows: repeat(2, minmax(0, 1fr)); }
 .rows-3 { grid-template-rows: repeat(3, minmax(0, 1fr)); }

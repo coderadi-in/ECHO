@@ -29,6 +29,7 @@
 /* ================================================== */
 
 .account-action { border: 2px solid #FF58589C; }
+.account-action .actions .link { background-color: var(--color-tertiary); }
 
 .account-action #clearConfirmation,
 .account-action #deleteConfirmation {
