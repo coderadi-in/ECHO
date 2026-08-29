@@ -10,6 +10,9 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/docs/home.css') }}">
 
 <body>
+    {% include 'components/msg.html' %}
+    <div class="toast-container column gap-12"></div>
+    
     <main class="main" id="main">
         <section class="hero p-16" id="hero">
             <section class="section hero_inner p-16 rounded-16 column gap-16">
@@ -44,7 +47,7 @@
                 <section class="section hero_content column center text-center gap-12">
                     <h1 class="h1 fs-64">ECHO DOCUMENTATION</h1>
                     <p class="para">Discover the most viewed topics, follow the guided sequence, and keep up the the
-                        next release. Built for solo e-commerce people who need clear answers fast.</p>
+                        next release. Built for solo e_commerce people who need clear answers fast.</p>
 
                     <a href="#topics" class="link btn ot rounded-full ph-24 pv-16">Browser topics</a>
                 </section>
@@ -73,7 +76,7 @@
                         <p class="para h-full">The fastest path from account creation to your first AI result.</p>
 
                         <div class="foot row h-en">
-                            <a href="{{ url_for('docs.docs_home', topic='quick-start') }}"
+                            <a href="{{ url_for('docs.docs_topic', topic='quick-start') }}"
                                 class="link highlight uppercase">Open topic</a>
                         </div>
                     </div>
@@ -87,7 +90,7 @@
                         <p class="para h-full">How to generate posts for social media ad.</p>
 
                         <div class="foot row h-en">
-                            <a href="{{ url_for('docs.docs_home', topic='quick-start') }}"
+                            <a href="{{ url_for('docs.docs_topic', topic='quick-start') }}"
                                 class="link highlight uppercase">Open topic</a>
                         </div>
                     </div>
@@ -101,7 +104,7 @@
                         <p class="para h-full">Subscription purchase, renewal and plan management.</p>
 
                         <div class="foot row h-en">
-                            <a href="{{ url_for('docs.docs_home', topic='quick-start') }}"
+                            <a href="{{ url_for('docs.docs_topic', topic='quick-start') }}"
                                 class="link highlight uppercase">Open topic</a>
                         </div>
                     </div>
@@ -115,7 +118,7 @@
                         <p class="para h-full">Frequently asked questions</p>
 
                         <div class="foot row h-en">
-                            <a href="{{ url_for('docs.docs_home', topic='quick-start') }}"
+                            <a href="{{ url_for('docs.docs_topic', topic='quick-start') }}"
                                 class="link highlight uppercase">Open topic</a>
                         </div>
                     </div>
@@ -138,31 +141,31 @@
                         </summary>
 
                         <div class="content column gap-12">
-                            <a href="{{ url_for('docs.docs_home', topic='getting-started', sub_topic='introduction') }}"
+                            <a href="{{ url_for('docs.docs_topic', topic='getting_started', sub_topic='introduction') }}"
                                 class="link p-12 rounded-16 bg-tertiary row h-sb">
                                 <span class="text">Introduction</span>
                                 <span class="symbol">keyboard_arrow_right</span>
                             </a>
                             
-                            <a href="{{ url_for('docs.docs_home', topic='getting-started', sub_topic='quick-start') }}"
+                            <a href="{{ url_for('docs.docs_topic', topic='getting_started', sub_topic='quick_start') }}"
                                 class="link p-12 rounded-16 bg-tertiary row h-sb">
                                 <span class="text">Quick Start</span>
                                 <span class="symbol">keyboard_arrow_right</span>
                             </a>
                             
-                            <a href="{{ url_for('docs.docs_home', topic='getting-started', sub_topic='account') }}"
+                            <a href="{{ url_for('docs.docs_topic', topic='getting_started', sub_topic='account') }}"
                                 class="link p-12 rounded-16 bg-tertiary row h-sb">
                                 <span class="text">Account</span>
                                 <span class="symbol">keyboard_arrow_right</span>
                             </a>
                             
-                            <a href="{{ url_for('docs.docs_home', topic='getting-started', sub_topic='plans-pricing') }}"
+                            <a href="{{ url_for('docs.docs_topic', topic='getting_started', sub_topic='plans_pricing') }}"
                                 class="link p-12 rounded-16 bg-tertiary row h-sb">
                                 <span class="text">Plans &amp; Pricing</span>
                                 <span class="symbol">keyboard_arrow_right</span>
                             </a>
                             
-                            <a href="{{ url_for('docs.docs_home', topic='getting-started', sub_topic='installation') }}"
+                            <a href="{{ url_for('docs.docs_topic', topic='getting_started', sub_topic='installation') }}"
                                 class="link p-12 rounded-16 bg-tertiary row h-sb">
                                 <span class="text">Install ECHO</span>
                                 <span class="symbol">keyboard_arrow_right</span>
@@ -177,25 +180,25 @@
                         </summary>
 
                         <div class="content column gap-12">
-                            <a href="{{ url_for('docs.docs_home', topic='ai-features', sub_topic='ai-content-gen') }}"
+                            <a href="{{ url_for('docs.docs_topic', topic='ai_features', sub_topic='ai_content_gen') }}"
                                 class="link p-12 rounded-16 bg-tertiary row h-sb">
                                 <span class="text">AI Content Generation</span>
                                 <span class="symbol">keyboard_arrow_right</span>
                             </a>
                             
-                            <a href="{{ url_for('docs.docs_home', topic='ai-features', sub_topic='captions') }}"
+                            <a href="{{ url_for('docs.docs_topic', topic='ai_features', sub_topic='captions') }}"
                                 class="link p-12 rounded-16 bg-tertiary row h-sb">
                                 <span class="text">Captions</span>
                                 <span class="symbol">keyboard_arrow_right</span>
                             </a>
                             
-                            <a href="{{ url_for('docs.docs_home', topic='ai-features', sub_topic='headlines') }}"
+                            <a href="{{ url_for('docs.docs_topic', topic='ai_features', sub_topic='headlines') }}"
                                 class="link p-12 rounded-16 bg-tertiary row h-sb">
                                 <span class="text">Headlines</span>
                                 <span class="symbol">keyboard_arrow_right</span>
                             </a>
                             
-                            <a href="{{ url_for('docs.docs_home', topic='ai-features', sub_topic='barcode-stickers') }}"
+                            <a href="{{ url_for('docs.docs_topic', topic='ai_features', sub_topic='barcode_stickers') }}"
                                 class="link p-12 rounded-16 bg-tertiary row h-sb">
                                 <span class="text">Barcode Stickers</span>
                                 <span class="symbol">keyboard_arrow_right</span>
@@ -205,18 +208,18 @@
 
                     <details class="topic column p-16 rounded-16 bg-card">
                         <summary class="head link row h-sb">
-                            <span class="text fs-20 uppercase">E-Commerce</span>
+                            <span class="text fs-20 uppercase">E-commerce</span>
                             <span class="symbol">keyboard_arrow_right</span>
                         </summary>
 
                         <div class="content column gap-12">
-                            <a href="{{ url_for('docs.docs_home', topic='e-commerce', sub_topic='products') }}"
+                            <a href="{{ url_for('docs.docs_topic', topic='e_commerce', sub_topic='products') }}"
                                 class="link p-12 rounded-16 bg-tertiary row h-sb">
                                 <span class="text">Products</span>
                                 <span class="symbol">keyboard_arrow_right</span>
                             </a>
                             
-                            <a href="{{ url_for('docs.docs_home', topic='e-commerce', sub_topic='products-data') }}"
+                            <a href="{{ url_for('docs.docs_topic', topic='e_commerce', sub_topic='products_data') }}"
                                 class="link p-12 rounded-16 bg-tertiary row h-sb">
                                 <span class="text">Products Data</span>
                                 <span class="symbol">keyboard_arrow_right</span>
@@ -231,31 +234,31 @@
                         </summary>
 
                         <div class="content column gap-12">
-                            <a href="{{ url_for('docs.docs_home', topic='billing', sub_topic='subscriptions') }}"
+                            <a href="{{ url_for('docs.docs_topic', topic='billing', sub_topic='subscriptions') }}"
                                 class="link p-12 rounded-16 bg-tertiary row h-sb">
                                 <span class="text">Subscriptions</span>
                                 <span class="symbol">keyboard_arrow_right</span>
                             </a>
                             
-                            <a href="{{ url_for('docs.docs_home', topic='billing', sub_topic='payments') }}"
+                            <a href="{{ url_for('docs.docs_topic', topic='billing', sub_topic='payments') }}"
                                 class="link p-12 rounded-16 bg-tertiary row h-sb">
                                 <span class="text">Payments</span>
                                 <span class="symbol">keyboard_arrow_right</span>
                             </a>
                             
-                            <a href="{{ url_for('docs.docs_home', topic='billing', sub_topic='payment-failures') }}"
+                            <a href="{{ url_for('docs.docs_topic', topic='billing', sub_topic='payment_failures') }}"
                                 class="link p-12 rounded-16 bg-tertiary row h-sb">
                                 <span class="text">Payment Failures</span>
                                 <span class="symbol">keyboard_arrow_right</span>
                             </a>
                             
-                            <a href="{{ url_for('docs.docs_home', topic='billing', sub_topic='refunds') }}"
+                            <a href="{{ url_for('docs.docs_topic', topic='billing', sub_topic='refunds') }}"
                                 class="link p-12 rounded-16 bg-tertiary row h-sb">
                                 <span class="text">Refunds</span>
                                 <span class="symbol">keyboard_arrow_right</span>
                             </a>
                             
-                            <a href="{{ url_for('docs.docs_home', topic='billing', sub_topic='credit-usage') }}"
+                            <a href="{{ url_for('docs.docs_topic', topic='billing', sub_topic='credit_usage') }}"
                                 class="link p-12 rounded-16 bg-tertiary row h-sb">
                                 <span class="text">Credit Usage</span>
                                 <span class="symbol">keyboard_arrow_right</span>
@@ -270,13 +273,13 @@
                         </summary>
 
                         <div class="content column gap-12">
-                            <a href="{{ url_for('docs.docs_home', topic='troubleshooting', sub_topic='contact-support') }}"
+                            <a href="{{ url_for('docs.docs_topic', topic='troubleshooting', sub_topic='contact_support') }}"
                                 class="link p-12 rounded-16 bg-tertiary row h-sb">
                                 <span class="text">Contact Support</span>
                                 <span class="symbol">keyboard_arrow_right</span>
                             </a>
                             
-                            <a href="{{ url_for('docs.docs_home', topic='troubleshooting', sub_topic='faq') }}"
+                            <a href="{{ url_for('docs.docs_topic', topic='troubleshooting', sub_topic='faq') }}"
                                 class="link p-12 rounded-16 bg-tertiary row h-sb">
                                 <span class="text">FAQ</span>
                                 <span class="symbol">keyboard_arrow_right</span>
