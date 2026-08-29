@@ -28,5 +28,5 @@ dependencies = [
     "reportlab>=5.0.0",
     "barcode>=1.0.4",
     "python-barcode>=0.16.1",
-    "setuptools>=84.0.0",
+    "setuptools<82.0.0",
 ]
