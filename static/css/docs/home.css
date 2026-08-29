@@ -7,25 +7,31 @@ body {
     overflow: auto;
 }
 
-/* ================================================== */
-/* HEADER */
-/* ================================================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(48px), scale(0.5);
+    }
+    
+    to {
+        opacity: 1;
+        transform: translateX(0), scale(1);
+    }
+}
 
-.header .section {
-    background-color: var(--color-surface-main);
-    backdrop-filter: blur(4px);
-    color: var(--color-bg-main);
+.hots .topic,
+.topics .topic {
+    animation: fadeIn linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 35%;
 }
 
 /* ================================================== */
 /* HERO */
 /* ================================================== */
 
-.hero {
-    background: 
-        linear-gradient(135deg, rgba(8, 9, 13, 0.7) 0%, rgba(16, 17, 25, 0.5) 40%),
-        url('/static/assets/images/docs-bg.webp');
-    
+.hero .hero_inner {
+    background: url('/static/assets/images/docs-bg.webp');    
     background-size: cover;
     background-position: bottom;
     --color-text-main: #F8F7FF;
@@ -33,10 +39,17 @@ body {
     color: var(--color-text-main);
 }
 
-.hero .section { min-height: 50vh; }
-
+.hero .hero_content { min-height: 50vh; }
 .hero .h1 { max-width: 768px; }
 .hero .para { max-width: 568px; }
+
+.hero .hero_content .btn {
+    backdrop-filter: blur(4px);
+    box-shadow: inset 2px 6px 8px #FFFFFF1A;
+    transition: box-shadow 0.4s, color 0.3s;
+}
+
+.hero .hero_content .btn:hover { box-shadow: inset 4px 12px 8px #FFFFFF1A, }
 
 /* ================================================== */
 /* HOTS */
@@ -45,3 +58,38 @@ body {
 .hots { padding-top: 48px; }
 .hots .topic .link { transition: color 0.3s; }
 .hots .topic .link:hover { color: var(--color-accent-main); }
+
+/* ================================================== */
+/* TOPICS */
+/* ================================================== */
+
+.topics .topic { interpolate-size: allow-keywords; }
+.topics .topic[open] .head .symbol { transform: rotate(90deg); }
+
+.topics .topic .content {
+    padding-top: 20px;
+    height: 0;
+    transition:
+        height 0.4s ease-out,
+        content-visibility 0.4s ease-in allow-discrete;
+}
+
+.topics .topic[open] .content { height: auto; }
+
+/* ================================================== */
+/* MORE QUESTIONS */
+/* ================================================== */
+
+.more-ques .section {
+    background: url('/static/assets/images/docs-bg.webp');    
+    background-size: cover;
+    background-position: bottom;
+}
+
+.more-ques .section .btn {
+    backdrop-filter: blur(4px);
+    box-shadow: inset 2px 6px 8px #FFFFFF1A;
+    transition: box-shadow 0.4s, color 0.3s;
+}
+
+.more-ques .section .btn:hover { box-shadow: inset 4px 12px 8px #FFFFFF1A, }

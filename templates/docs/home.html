@@ -10,114 +10,294 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/docs/home.css') }}">
 
 <body>
-    <header class="header w-full p-12">
-        <section class="section ph-24 pv-20 row h-sb rounded-16">
-            <div class="left">
-                <a href="/" class="link">
-                    <img src="{{ url_for('static', filename='assets/icons/logo.webp') }}" alt="ECHO LOGO" class="logo">
-                </a>
-            </div>
-
-            <div class="right row gap-12">
-                {% if current_user.is_authenticated %}
-                <a href="{{ url_for('app.dashboard') }}" class="link">
-                    <span class="symbol">dashboard</span>
-                </a>
-                {% else %}
-                <a href="/" class="link">
-                    <span class="symbol">login</span>
-                </a>
-                {% endif %}
-
-                <button class="link btn" onclick="document.body.classList.toggle('dark-theme')">
-                    <span class="symbol">contrast</span>
-                </button>
-
-                <a href="https://github.com/coderadi-in/ECHO" class="link">
-                    <img src="{{ url_for('static', filename='assets/icons/git.png') }}" alt="GITHUB" class="img">
-                </a>
-            </div>
-        </section>
-    </header>
-
     <main class="main" id="main">
-        <section class="hero bg-card" id="hero">
-            <section class="section p-48 column h-sb">
-                <div class="head column gap-4">
-                    <span class="mini uppercase accent-main">Official ECHO docs</span>
-                    <h1 class="h1 fs-64">All you need to know about Echo</h1>
-                </div>
+        <section class="hero p-16" id="hero">
+            <section class="section hero_inner p-16 rounded-16 column gap-16">
+                <section class="header_inner row h-sb">
+                    <a href="/" class="link">
+                        <img src="{{ url_for('static', filename='assets/icons/logo.webp') }}" alt="ECHO AI"
+                            class="logo">
+                    </a>
 
-                <div class="body column gap-12">
+                    <div class="actions row gap-12">
+                        {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('app.dashboard') }}" class="link">
+                            <span class="symbol">dashboard</span>
+                        </a>
+                        {% else %}
+                        <a href="/" class="link">
+                            <span class="symbol">login</span>
+                        </a>
+                        {% endif %}
+
+                        <button class="link btn" onclick="document.body.classList.toggle('dark-theme')">
+                            <span class="symbol">contrast</span>
+                        </button>
+
+                        <a href="https://github.com/coderadi-in/ECHO" class="link">
+                            <img src="{{ url_for('static', filename='assets/icons/git.png') }}" alt="GITHUB"
+                                class="icon">
+                        </a>
+                    </div>
+                </section>
+
+                <section class="section hero_content column center text-center gap-12">
+                    <h1 class="h1 fs-64">ECHO DOCUMENTATION</h1>
                     <p class="para">Discover the most viewed topics, follow the guided sequence, and keep up the the
                         next release. Built for solo e-commerce people who need clear answers fast.</p>
 
-                    <div class="actions res-row gap-12">
-                        <a href="#sequential-docs" class="link btn fl rounded-full ph-16 pv-12">Explore topics</a>
-                        <a href="{{ url_for('news.news_home') }}"
-                            class="link btn ot rounded-full ph-16 pv-12">Newsletter</a>
-                    </div>
+                    <a href="#topics" class="link btn ot rounded-full ph-24 pv-16">Browser topics</a>
+                </section>
+
+                <div class="section hero_foot row h-en">
+                    <span class="text">v1.1.0</span>
                 </div>
             </section>
         </section>
 
-        <section class="hots p-20" id="hots">
-            <section class="section p-20 bg-card shadow rounded-16 p-16 column gap-24">
+        <section class="hots" id="hots">
+            <section class="section p-48 column gap-32">
                 <div class="head column gap-4">
-                    <span class="mini uppercase highlight">hots</span>
+                    <span class="mini uppercase text-muted">hots</span>
                     <h1 class="h1">Most Viewed topics</h1>
                     <p class="para">Quick answers and the pages readers return to most often.</p>
                 </div>
 
                 <div class="body grid cols-auto-320 gap-16">
                     <div class="topic p-16 rounded-16 column gap-16 bg-tertiary">
-                        <div class="head row h-sb">
-                            <h3 class="h3 highlight">01</h3>
-                            <span class="mini border rounded-full ph-12 pv-8 uppercase">Getting Started</span>
-                        </div>
-
-                        <div class="body column gap-12 h-full">
+                        <div class="head column gap-4">
+                            <span class="mini uppercase">Getting Started / Quick Start</span>
                             <h2 class="h2">Quick start</h2>
-                            <p class="para">The fastest path from account creation to your first AI result.</p>
                         </div>
 
+                        <p class="para h-full">The fastest path from account creation to your first AI result.</p>
+
                         <div class="foot row h-en">
-                            <a href="{{ url_for('docs.docs_home', topic='quick-start') }}" class="link highlight uppercase">Open topic</a>
+                            <a href="{{ url_for('docs.docs_home', topic='quick-start') }}"
+                                class="link highlight uppercase">Open topic</a>
                         </div>
                     </div>
-                    
+
                     <div class="topic p-16 rounded-16 column gap-16 bg-tertiary">
-                        <div class="head row h-sb">
-                            <h3 class="h3 highlight">02</h3>
-                            <span class="mini border rounded-full ph-12 pv-8 uppercase">AI Features</span>
+                        <div class="head column gap-4">
+                            <span class="mini uppercase">AI Features / Posts</span>
+                            <h2 class="h2">Posts</h2>
                         </div>
 
-                        <div class="body column gap-12 h-full">
-                            <h2 class="h2">AI Content</h2>
-                            <p class="para">The end-to-end AI generation workflow and what it produces.</p>
-                        </div>
+                        <p class="para h-full">How to generate posts for social media ad.</p>
 
                         <div class="foot row h-en">
-                            <a href="{{ url_for('docs.docs_home', topic='ai-features') }}" class="link highlight uppercase">Open topic</a>
+                            <a href="{{ url_for('docs.docs_home', topic='quick-start') }}"
+                                class="link highlight uppercase">Open topic</a>
                         </div>
                     </div>
-                    
+
                     <div class="topic p-16 rounded-16 column gap-16 bg-tertiary">
-                        <div class="head row h-sb">
-                            <h3 class="h3 highlight">03</h3>
-                            <span class="mini border rounded-full ph-12 pv-8 uppercase">AI Features / Captions</span>
+                        <div class="head column gap-4">
+                            <span class="mini uppercase">Billing / Subscriptions</span>
+                            <h2 class="h2">Subscriptions</h2>
                         </div>
 
-                        <div class="body column gap-12 h-full">
-                            <h2 class="h2">Captions</h2>
-                            <p class="para">How to generate product captions for online listings.</p>
-                        </div>
+                        <p class="para h-full">Subscription purchase, renewal and plan management.</p>
 
                         <div class="foot row h-en">
-                            <a href="{{ url_for('docs.docs_home', topic='ai-features', sub_topic='captions') }}" class="link highlight uppercase">Open topic</a>
+                            <a href="{{ url_for('docs.docs_home', topic='quick-start') }}"
+                                class="link highlight uppercase">Open topic</a>
+                        </div>
+                    </div>
+
+                    <div class="topic p-16 rounded-16 column gap-16 bg-tertiary">
+                        <div class="head column gap-4">
+                            <span class="mini uppercase">Troubleshoot / FAQ</span>
+                            <h2 class="h2">FAQ</h2>
+                        </div>
+
+                        <p class="para h-full">Frequently asked questions</p>
+
+                        <div class="foot row h-en">
+                            <a href="{{ url_for('docs.docs_home', topic='quick-start') }}"
+                                class="link highlight uppercase">Open topic</a>
                         </div>
                     </div>
                 </div>
+            </section>
+        </section>
+
+        <section class="topics" id="topics">
+            <section class="section p-48 column gap-32">
+                <div class="head column gap-4">
+                    <span class="mini uppercase text-muted">all topics</span>
+                    <h1 class="h1">Complete documentation</h1>
+                </div>
+
+                <div class="body column gap-12">
+                    <details class="topic column p-16 rounded-16 bg-card">
+                        <summary class="head link row h-sb">
+                            <span class="text fs-20 uppercase">Getting Started</span>
+                            <span class="symbol">keyboard_arrow_right</span>
+                        </summary>
+
+                        <div class="content column gap-12">
+                            <a href="{{ url_for('docs.docs_home', topic='getting-started', sub_topic='introduction') }}"
+                                class="link p-12 rounded-16 bg-tertiary row h-sb">
+                                <span class="text">Introduction</span>
+                                <span class="symbol">keyboard_arrow_right</span>
+                            </a>
+                            
+                            <a href="{{ url_for('docs.docs_home', topic='getting-started', sub_topic='quick-start') }}"
+                                class="link p-12 rounded-16 bg-tertiary row h-sb">
+                                <span class="text">Quick Start</span>
+                                <span class="symbol">keyboard_arrow_right</span>
+                            </a>
+                            
+                            <a href="{{ url_for('docs.docs_home', topic='getting-started', sub_topic='account') }}"
+                                class="link p-12 rounded-16 bg-tertiary row h-sb">
+                                <span class="text">Account</span>
+                                <span class="symbol">keyboard_arrow_right</span>
+                            </a>
+                            
+                            <a href="{{ url_for('docs.docs_home', topic='getting-started', sub_topic='plans-pricing') }}"
+                                class="link p-12 rounded-16 bg-tertiary row h-sb">
+                                <span class="text">Plans &amp; Pricing</span>
+                                <span class="symbol">keyboard_arrow_right</span>
+                            </a>
+                            
+                            <a href="{{ url_for('docs.docs_home', topic='getting-started', sub_topic='installation') }}"
+                                class="link p-12 rounded-16 bg-tertiary row h-sb">
+                                <span class="text">Install ECHO</span>
+                                <span class="symbol">keyboard_arrow_right</span>
+                            </a>
+                        </div>
+                    </details>
+
+                    <details class="topic column p-16 rounded-16 bg-card">
+                        <summary class="head link row h-sb">
+                            <span class="text fs-20 uppercase">AI Features</span>
+                            <span class="symbol">keyboard_arrow_right</span>
+                        </summary>
+
+                        <div class="content column gap-12">
+                            <a href="{{ url_for('docs.docs_home', topic='ai-features', sub_topic='ai-content-gen') }}"
+                                class="link p-12 rounded-16 bg-tertiary row h-sb">
+                                <span class="text">AI Content Generation</span>
+                                <span class="symbol">keyboard_arrow_right</span>
+                            </a>
+                            
+                            <a href="{{ url_for('docs.docs_home', topic='ai-features', sub_topic='captions') }}"
+                                class="link p-12 rounded-16 bg-tertiary row h-sb">
+                                <span class="text">Captions</span>
+                                <span class="symbol">keyboard_arrow_right</span>
+                            </a>
+                            
+                            <a href="{{ url_for('docs.docs_home', topic='ai-features', sub_topic='headlines') }}"
+                                class="link p-12 rounded-16 bg-tertiary row h-sb">
+                                <span class="text">Headlines</span>
+                                <span class="symbol">keyboard_arrow_right</span>
+                            </a>
+                            
+                            <a href="{{ url_for('docs.docs_home', topic='ai-features', sub_topic='barcode-stickers') }}"
+                                class="link p-12 rounded-16 bg-tertiary row h-sb">
+                                <span class="text">Barcode Stickers</span>
+                                <span class="symbol">keyboard_arrow_right</span>
+                            </a>
+                        </div>
+                    </details>
+
+                    <details class="topic column p-16 rounded-16 bg-card">
+                        <summary class="head link row h-sb">
+                            <span class="text fs-20 uppercase">E-Commerce</span>
+                            <span class="symbol">keyboard_arrow_right</span>
+                        </summary>
+
+                        <div class="content column gap-12">
+                            <a href="{{ url_for('docs.docs_home', topic='e-commerce', sub_topic='products') }}"
+                                class="link p-12 rounded-16 bg-tertiary row h-sb">
+                                <span class="text">Products</span>
+                                <span class="symbol">keyboard_arrow_right</span>
+                            </a>
+                            
+                            <a href="{{ url_for('docs.docs_home', topic='e-commerce', sub_topic='products-data') }}"
+                                class="link p-12 rounded-16 bg-tertiary row h-sb">
+                                <span class="text">Products Data</span>
+                                <span class="symbol">keyboard_arrow_right</span>
+                            </a>
+                        </div>
+                    </details>
+
+                    <details class="topic column p-16 rounded-16 bg-card">
+                        <summary class="head link row h-sb">
+                            <span class="text fs-20 uppercase">Billing</span>
+                            <span class="symbol">keyboard_arrow_right</span>
+                        </summary>
+
+                        <div class="content column gap-12">
+                            <a href="{{ url_for('docs.docs_home', topic='billing', sub_topic='subscriptions') }}"
+                                class="link p-12 rounded-16 bg-tertiary row h-sb">
+                                <span class="text">Subscriptions</span>
+                                <span class="symbol">keyboard_arrow_right</span>
+                            </a>
+                            
+                            <a href="{{ url_for('docs.docs_home', topic='billing', sub_topic='payments') }}"
+                                class="link p-12 rounded-16 bg-tertiary row h-sb">
+                                <span class="text">Payments</span>
+                                <span class="symbol">keyboard_arrow_right</span>
+                            </a>
+                            
+                            <a href="{{ url_for('docs.docs_home', topic='billing', sub_topic='payment-failures') }}"
+                                class="link p-12 rounded-16 bg-tertiary row h-sb">
+                                <span class="text">Payment Failures</span>
+                                <span class="symbol">keyboard_arrow_right</span>
+                            </a>
+                            
+                            <a href="{{ url_for('docs.docs_home', topic='billing', sub_topic='refunds') }}"
+                                class="link p-12 rounded-16 bg-tertiary row h-sb">
+                                <span class="text">Refunds</span>
+                                <span class="symbol">keyboard_arrow_right</span>
+                            </a>
+                            
+                            <a href="{{ url_for('docs.docs_home', topic='billing', sub_topic='credit-usage') }}"
+                                class="link p-12 rounded-16 bg-tertiary row h-sb">
+                                <span class="text">Credit Usage</span>
+                                <span class="symbol">keyboard_arrow_right</span>
+                            </a>
+                        </div>
+                    </details>
+
+                    <details class="topic column p-16 rounded-16 bg-card">
+                        <summary class="head link row h-sb">
+                            <span class="text fs-20 uppercase">Troubleshooting</span>
+                            <span class="symbol">keyboard_arrow_right</span>
+                        </summary>
+
+                        <div class="content column gap-12">
+                            <a href="{{ url_for('docs.docs_home', topic='troubleshooting', sub_topic='contact-support') }}"
+                                class="link p-12 rounded-16 bg-tertiary row h-sb">
+                                <span class="text">Contact Support</span>
+                                <span class="symbol">keyboard_arrow_right</span>
+                            </a>
+                            
+                            <a href="{{ url_for('docs.docs_home', topic='troubleshooting', sub_topic='faq') }}"
+                                class="link p-12 rounded-16 bg-tertiary row h-sb">
+                                <span class="text">FAQ</span>
+                                <span class="symbol">keyboard_arrow_right</span>
+                            </a>
+                        </div>
+                    </details>
+                </div>
+            </section>
+        </section>
+
+        <section class="more-ques p-16" id="moreQuestions">
+            <section class="section p-20 rounded-16 column gap-32">
+                <div class="head column gap-8">
+                    <span class="text fs-20">Still have questions?</span>
+                    <p class="para">Can't find the answers you're looking for? You can directly mail us.</p>
+                </div>
+
+                <a href="mailto:adi@coderadi.in" class="link btn icon-ot rounded-full ph-24 pv-16">
+                    <span class="symbol">chat</span>
+                    <span class="text">Mail</span>
+                </a>
             </section>
         </section>
     </main>
