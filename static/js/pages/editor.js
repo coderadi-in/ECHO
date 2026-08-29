@@ -275,6 +275,7 @@ textPreview.addEventListener('click', selectTextContent);
 increaseTextWidthBtn.addEventListener('pointerdown', () => {
     intervalId = setInterval(() => {
         updateTextPreviewWidth(20);
+        textPreview.style.border = '1px dashed var(--color-accent-main)';        
     }, 100);
 });
 
@@ -282,17 +283,20 @@ increaseTextWidthBtn.addEventListener('pointerdown', () => {
 decreaseTextWidthBtn.addEventListener('pointerdown', () => {
     intervalId = setInterval(() => {
         updateTextPreviewWidth(-20);
+        textPreview.style.border = '1px dashed var(--color-accent-main)';
     }, 100);
 });
 
 // & EVENT LISTENER FOR INCREASE TEXT-PREVIEW WIDTH BUTTON
 increaseTextWidthBtn.addEventListener('pointerup', () => {
     clearInterval(intervalId);
+    textPreview.style.border = 'none';
 });
 
 // & EVENT LISTENER FOR DECREASE TEXT-PREVIEW WIDTH BUTTON
 decreaseTextWidthBtn.addEventListener('pointerup', () => {
     clearInterval(intervalId);
+    textPreview.style.border = 'none';
 });
 
 // & EVENT LISTENER FOR HEADLINE COLOR INPUT
