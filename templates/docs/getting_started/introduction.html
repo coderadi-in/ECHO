@@ -1,12 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/icons/favicon.ico') }}" type="image/x-icon">
+    <title>Introduction &bull; ECHO</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base/_utility.css') }}">
 </head>
+
 <body>
     {% include 'components/msg.html' %}
+    {% include 'docs/reusable/header.html' %}
     <div class="toast-container column gap-12"></div>
+
+    <main class="main" id="main">
+        <section class="hero" id="hero">
+            <section class="section p-48 column gap-32">
+                <div class="head column gap-4">
+                    <span class="mini uppercase">Getting Started / Introduction</span>
+                    <h1 class="h1 fs-64">Introduction</h1>
+                </div>
+
+                <p class="para fs-20">ECHO is an AI-powered content and business productivity platform built to help
+                    e-commerce businesses create high-quality marketing content faster, with less manual effort.</p>
+
+                <div class="image-container p-12 rounded-16 bg-tertiary">
+                    <img src="{{ url_for('static', filename='assets/shots/dashboard_001.webp') }}" alt="Dashboard" class="img rounded-16">
+                </div>
+            </section>
+        </section>
+
+        <section class="use-case" id="usecase">
+            <section class="section p-48 column gap-32">
+                <h1 class="h1">USE CASES</h1>
+                <p class="para">From generating product captions and headlines to building a streamlined content
+                    workflow, ECHO brings AI directly into the everyday operations of an online business.</p>
+
+                <p class="para">Instead of repeatedly writing prompts, deciding what to ask AI, or creating content from
+                    scratch, ECHO is designed around <span class="text fw-500">ready-to-use workflows that turn a simple
+                        action into useful business output</span>.</p>
+            </section>
+        </section>
+
+        <section class="idea" id="idea">
+            <section class="section p-48 column gap-32">
+                <h3 class="h3">ECHO follows a simple idea</h3>
+                <p class="para p-16 rounded-16 w-full bg-tertiary">Less time creating content. More time growing the
+                    business.
+                </p>
+
+                <p class="para">With an easy-to-use interface, pre-configured AI workflows, credit-based usage, and a
+                    subscription model, ECHO is built to become more than just a content generator—it aims to become a
+                    practical AI workspace for e-commerce businesses.</p>
+
+                <p class="para">The platform is continuously evolving, with future plans to expand its capabilities
+                    across
+                    content creation, automation, business workflows, and AI-powered assistance.</p>
+
+                <p class="para fs-20 fw-500">ECHO's goal is simple: make AI useful, accessible, and deeply integrated
+                    into
+                    the way modern businesses work.</p>
+            </section>
+        </section>
+    </main>
 </body>
+
 </html>

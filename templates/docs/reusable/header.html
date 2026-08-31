@@ -1,0 +1,54 @@
+<style>
+    body {
+        height: auto;
+        overflow: auto;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateX(48px), scale(0.5);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0), scale(1);
+        }
+    }
+
+    .header .section {
+        background-color: var(--color-bg-card);
+        backdrop-filter: blur(4px);
+        color: var(--color-bg-main);
+    }
+</style>
+
+<header class="header p-12 w-full">
+    <section class="section header_inner row h-sb rounded-16 p-16">
+        <a href="/" class="link">
+            <img src="{{ url_for('static', filename='assets/icons/logo.webp') }}" alt="ECHO AI" class="logo">
+        </a>
+
+        <div class="actions row gap-12">
+            {% if current_user.is_authenticated %}
+            <a href="{{ url_for('app.dashboard') }}" class="link">
+                <span class="symbol">dashboard</span>
+            </a>
+            {% else %}
+            <a href="/" class="link">
+                <span class="symbol">login</span>
+            </a>
+            {% endif %}
+
+            <button class="link btn" onclick="document.body.classList.toggle('dark-theme')">
+                <span class="symbol">contrast</span>
+            </button>
+
+            <a href="https://github.com/coderadi-in/ECHO" class="link">
+                <img src="{{ url_for('static', filename='assets/icons/git.png') }}" alt="GITHUB" class="icon">
+            </a>
+        </div>
+    </section>
+</header>
+
+<script type="module" src="{{ url_for('static', filename='js/base/basic.js') }}"></script>
