@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/icons/favicon.ico') }}" type="image/x-icon">
+    <title>Introduction &bull; ECHO</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base/_utility.css') }}">
+</head>
+
+<body>
+    {% include 'components/msg.html' %}
+    {% include 'docs/reusable/header.html' %}
+    <div class="toast-container column gap-12"></div>
+
+    <main class="main" id="main">
+        <section class="hero" id="hero">
+            <section class="section p-48 column gap-32">
+                <div class="head column gap-4">
+                    <span class="mini uppercase"><a href="{{ url_for('docs.docs_home') }}" class="ulink">Docs</a> /
+                        Getting Started / Introduction</span>
+                    <span class="mini text-muted">Last updated: AUG, 31 2026</span>
+                    <h1 class="h1 fs-64">Quick-start</h1>
+                </div>
+
+                <p class="para fs-20">Let's see the fastest path from creating your ECHO account and generating first
+                    AI-content.</p>
+
+
+            </section>
+        </section>
+
+        <section class="account" id="account-creation">
+            <section class="section p-48 column gap-24">
+                <h1 class="h1">Account creation</h1>
+
+                <div class="column gap-12">
+                    <p class="para">When you launch the app for the first time, you'll get to the signup page. Add your
+                        details to the relevant input field and click signup.</p>
+                    <p class="para">If your credentials are valid, you'll get to the dashboard, which looks something
+                        like this;</p>
+                </div>
+
+                <div class="image-container p-12 rounded-16 bg-tertiary">
+                    <img src="{{ url_for('static', filename='assets/shots/dashboard_001.webp') }}" alt="Dashboard"
+                        class="img rounded-16">
+                </div>
+            </section>
+        </section>
+
+        <section class="tool-section" id="tool-selection">
+            <section class="section p-48 column gap-24">
+                <h1 class="h1">Tool selection</h1>
+
+                <div class="column gap-12">
+                    <p class="para">Now when you're on the dashboard, click the 4-dot icon in the top-right section of
+                        the screen on any device which you're on.</p>
+                    <p class="para">And then click the captions tool. Now you'll get to the captions page, here you can
+                        generation captions for social media posts and website listing.</p>
+                </div>
+
+                <div class="image-container p-12 rounded-16 bg-tertiary">
+                    <img src="{{ url_for('static', filename='assets/shots/dashboard_002.webp') }}" alt="Dashboard"
+                        class="img rounded-16">
+                </div>
+            </section>
+        </section>
+
+        <section class="ai-gen" id="ai-generation">
+            <section class="section p-48 column gap-32">
+                <h1 class="h1">AI generation</h1>
+
+                <div class="column gap-12">
+                    <p class="para">In the captions window, you'll see a prompt-area with product name, price, and
+                        description input. Fill out only name and description of any product you like, or a dummy
+                        product. You can copy a dummy product info from below;</p>
+
+                    <div class="column gap-12 p-16 rounded-16 bg-tertiary">
+                        <span class="text">TITLE: Titanium visiting card</span>
+                        <span class="text">DESCRIPTION: Ultra-premium titanium cards with a satin finish — extremely
+                            durable and unique in hand-feel.</span>
+                    </div>
+
+                    <p class="para">Now click the send button, and wait for a few seconds. The generation time depends
+                        on your internet speed.</p>
+                    <p class="para">&ThickSpace;&ThickSpace;After waiting for a few seconds, you'll have your first AI
+                        content generated.</p>
+                </div>
+
+                <div class="image-container p-12 rounded-16 bg-tertiary">
+                    <img src="{{ url_for('static', filename='assets/shots/captions_001.webp') }}" alt="Captions"
+                        class="img rounded-16">
+                </div>
+            </section>
+        </section>
+
+        <section class="home" id="getting-home">
+            <section class="section p-48 column gap-32">
+                <h1 class="h1">Checking for changes</h1>
+
+                <p class="para">Now get to your dashboard and see if the data has been changed or not, if it's changed
+                    that means it's working, if it doesn't change, that means you've got a generation for free, enjoy!
+                    🥳</p>
+            </section>
+        </section>
+
+        <section class="foot" id="foot">
+            <section class="section p-48 res-row h-en gap-24">
+                <a href="{{ url_for('docs.docs_topic', topic='getting_started', sub_topic='introduction') }}" class="link btn icon-ot rounded-full ph-24 pv-16">
+                    <span class="symbol">keyboard_arrow_left</span>
+                    <span class="text">Introduction</span>
+                </a>
+
+                <a href="{{ url_for('docs.docs_topic', topic='getting_started', sub_topic='account') }}" class="link btn icon-fl rounded-full ph-24 pv-16">
+                    <span class="text">Account</span>
+                    <span class="symbol">keyboard_arrow_right</span>
+                </a>
+            </section>
+        </section>
+    </main>
+</body>
+
+</html>

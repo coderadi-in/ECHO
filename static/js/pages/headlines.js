@@ -53,14 +53,6 @@ function closeOutputFrame() {
 
 // * FUNCTION TO HANDLE SEND-BUTTON CLICK
 function handleSendButtonClick(event, message, referred=false) {
-    showGenSkeleton();
-    clearAnimation = animateGenSkeleton();
-
-    // UPDATE SEND-BTN
-    sendBtn.disabled = true;
-    sendBtn.textContent = 'progress_activity';
-    sendBtn.classList.add('anim-rotate');
-
     // DATA VALIDATION
     if (!referred) {
         if (titleInput.value.trim() === '' || priceInput.value.trim() === '' || descInput.value.trim() === '') {
@@ -70,6 +62,14 @@ function handleSendButtonClick(event, message, referred=false) {
             return;
         }
     }
+    
+    showGenSkeleton();
+    clearAnimation = animateGenSkeleton();
+
+    // UPDATE SEND-BTN
+    sendBtn.disabled = true;
+    sendBtn.textContent = 'progress_activity';
+    sendBtn.classList.add('anim-rotate');
 
     // SEND MESSAGE TO SERVER
     sendMessage(event, message);

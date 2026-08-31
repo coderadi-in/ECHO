@@ -51,6 +51,16 @@ export function closeOutputFrame() {
 
 // * FUNCTION TO HANDLE SEND-BUTTON CLICK
 export function handleSendButtonClick(event, message, referred=false) {
+    // DATA VALIDATION
+    if (!referred) {
+        if (titleInput.value.trim() === '' || descInput.value.trim() === '') {
+            sendBtn.disabled = false;
+            sendBtn.textContent = 'send';
+            sendBtn.classList.remove('anim-rotate');
+            return;
+        }
+    }
+
     showGenSkeleton();
     clearAnimation = animateGenSkeleton();
 
@@ -58,16 +68,6 @@ export function handleSendButtonClick(event, message, referred=false) {
     sendBtn.disabled = true;
     sendBtn.textContent = 'progress_activity';
     sendBtn.classList.add('anim-rotate');
-
-    // DATA VALIDATION
-    if (!referred) {
-        if (titleInput.value.trim() === '' || priceInput.value.trim() === '' || descInput.value.trim() === '') {
-            sendBtn.disabled = false;
-            sendBtn.textContent = 'send';
-            sendBtn.classList.remove('anim-rotate');
-            return;
-        }
-    }
 
     // SEND MESSAGE TO SERVER
     sendMessage(event, message);
