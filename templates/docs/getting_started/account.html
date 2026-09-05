@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/icons/favicon.ico') }}" type="image/x-icon">
+    <title>Account &bull; ECHO</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base/_utility.css') }}">
+</head>
+
+<body>
+    {% include 'components/msg.html' %}
+    {% include 'docs/reusable/header.html' %}
+    <div class="toast-container column gap-12"></div>
+
+    <main class="main" id="main">
+        <section class="hero" id="hero">
+            <section class="hero" id="hero">
+                <section class="section p-48 column gap-32">
+                    <div class="head column gap-4">
+                        <span class="mini uppercase text-muted"><a href="{{ url_for('docs.docs_home') }}"
+                                class="ulink">Docs</a> / Getting Started / Introduction</span>
+                        <span class="mini text-muted">Last updated: SEP 05, 2026</span>
+                        <h1 class="h1 fs-64">Account</h1>
+                    </div>
+
+                    <p class="para fs-20">Let's have a quick go-through of our account features.</p>
+
+                    <div class="image-container p-12 rounded-16 bg-tertiary">
+                        <img src="{{ url_for('static', filename='assets/shots/account_001.webp') }}"
+                            alt="Account page screenshot" class="img rounded-16">
+                    </div>
+                </section>
+            </section>
+        </section>
+
+        <section class="basic_1" id="basic">
+            <section class="section p-48 column gap-32">
+                <div class="head column gap-4">
+                    <span class="mini uppercase text-muted">Basic 01</span>
+                    <h1 class="h1">Basic Account Information</h1>
+                </div>
+
+                <p class="para">Here you can view your basic account information like your name, email, and generation.
+                    You can view your basic credits information and all generations you've saved.</p>
+
+                <p class="para">There's nothing more to explain about your basic account information. The UI is good
+                    enough for you to understand everything, it's simple.</p>
+            </section>
+        </section>
+
+        <section class="actions_1" id="actions">
+            <section class="section p-48 column gap-32">
+                <div class="head column gap-4">
+                    <span class="mini uppercase text-muted">Actions 01</span>
+                    <h1 class="h1">Account Actions</h1>
+                </div>
+
+                <p class="para">Let's see some account actions you can take right away from your account page.</p>
+
+                <div class="column gap-16">
+                    <h2 class="h2">1. Clear History</h2>
+                    <p class="para">You can clear all of your generation history right from your account page. This may
+                        help you to keep your account clean by clearing past history, we don't know if it makes sense,
+                        we don't even know why this thing exists. It was not even in our original design. Our developers
+                        add this just because they were unemployed.</p>
+
+                    <p class="para">By the way, we've added a confirmation prompt so that you don't accidentally clear
+                        your history.</p>
+                </div>
+
+                <div class="column gap-16">
+                    <h2 class="h2">2. Account deletion</h2>
+                    <p class="para">You can delete your account any time. This will remove all your data and settings
+                        from our servers. Do only if you're leaving ECHO, because all of your data will be deleted,
+                        including your subscriptions and generations.</p>
+                </div>
+            </section>
+        </section>
+
+        <section class="actions_2" id="store">
+            <section class="section p-48 column gap-32">
+                <div class="head column gap-4">
+                    <span class="mini uppercase text-muted">Actions 02</span>
+                    <h1 class="h1">Store Integration</h1>
+                </div>
+
+                <p class="para">You can integrate &amp; update your store URL from your account too. Sometimes, you may
+                    see an error even by entering the right URL, like this;</p>
+
+                <div class="image-container p-12 rounded-16 bg-tertiary">
+                    <img src="{{ url_for('static', filename='assets/shots/account_002.webp') }}"
+                        alt="Store integration error" class="img rounded-16">
+                </div>
+
+                <p class="para">You can see, we're getting error even after entering a proper URL `<span
+                        class="fw-500 text-muted">mystore.coderadi.in</span>`. To fix this just add `<span
+                        class="fw-500 text-muted">https://</span>` at the beginning of the URL.</p>
+
+                <p class="para">For instance, instead of `<span class="fw-500 text-muted">mystore.coderadi.in</span>`,
+                    use `<span class="fw-500 text-muted">https://mystore.coderadi.in</span>`.</p>
+            </section>
+        </section>
+
+        <section class="support" id="support">
+            <section class="section p-48 column gap-32">
+                <div class="head column gap-4">
+                    <span class="mini uppercase text-muted">Basic 02</span>
+                    <h1 class="h1">Support</h1>
+                </div>
+
+                <p class="para">You can reach out to our support team at any time if you have questions or need
+                    assistance. We're here to help! Just click the <span class="fw-500 text-muted">Mail</span> button in
+                    the bottom section.</p>
+            </section>
+        </section>
+
+        <section class="foot" id="foot">
+            <section class="section p-48 res-row h-en gap-24">
+                <a href="{{ url_for('docs.docs_topic', topic='getting_started', sub_topic='quick_start') }}"
+                    class="link btn icon-ot rounded-full ph-24 pv-16">
+                    <span class="symbol">keyboard_arrow_left</span>
+                    <span class="text">Quick-start</span>
+                </a>
+
+                <a href="{{ url_for('docs.docs_topic', topic='getting_started', sub_topic='plans_pricing') }}"
+                    class="link btn icon-fl rounded-full ph-24 pv-16">
+                    <span class="text">Plans & Pricing</span>
+                    <span class="symbol">keyboard_arrow_right</span>
+                </a>
+            </section>
+        </section>
+    </main>
+</body>
+
+</html>
