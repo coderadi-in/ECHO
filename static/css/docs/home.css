@@ -83,7 +83,10 @@ body {
 .more-ques .section {
     background: url('/static/assets/images/docs-bg.webp');    
     background-size: cover;
-    background-position: bottom;
+    background-position: top;
+    --color-text-main: #F8F7FF;
+    --color-text-alt: #CFC3D5;
+    color: var(--color-text-main);
 }
 
 .more-ques .section .btn {
