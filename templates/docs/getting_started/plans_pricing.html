@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/icons/favicon.ico') }}" type="image/x-icon">
+    <title>Plans & Pricing &bull; ECHO</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base/_utility.css') }}">
+</head>
+
+<body>
+    {% include 'components/msg.html' %}
+    {% include 'docs/reusable/header.html' %}
+    <div class="toast-container column gap-12"></div>
+
+    <main class="main" id="main">
+        <section class="hero" id="hero">
+            <section class="section p-48 column gap-32">
+                <div class="head column gap-4">
+                    <span class="mini uppercase text-muted"><a href="{{ url_for('docs.docs_home') }}"
+                            class="ulink">Docs</a> / Getting Started / Plans & Pricing</span>
+                    <span class="mini text-muted">Last updated: SEP 05, 2026</span>
+                    <h1 class="h1 fs-64">Plans & Pricing</h1>
+                </div>
+
+                <p class="para fs-20">Let's have a quick go-through of our plans and pricing.</p>
+
+                <div class="image-container p-12 rounded-16 bg-tertiary">
+                    <img src="{{ url_for('static', filename='assets/shots/plans_pricing_001.webp') }}"
+                        alt="Plans & Pricing page screenshot" class="img rounded-16">
+                </div>
+            </section>
+        </section>
+
+        <section class="free" id="free-plan">
+            <section class="section p-48 column gap-32">
+                <div class="head column gap-4">
+                    <span class="mini uppercase text-muted">Free Plan</span>
+                    <h1 class="h1">Free Plan</h1>
+                </div>
+
+                <p class="para">The free plan gives you access to basic features and a 50 generations per
+                    month. There's nothing to explain more about it. Perfect to test out.</p>
+            </section>
+        </section>
+
+        <section class="paid" id="paid-plan">
+            <section class="section p-48 column gap-32">
+                <div class="head column gap-4">
+                    <span class="mini uppercase text-muted">Paid Plan</span>
+                    <h1 class="h1">Paid Plan</h1>
+                </div>
+
+                <p class="para">The paid plan gives you access to all features and an much more number of generations
+                    per month, which is 1500. It's perfect for power users who need more functionality.</p>
+            </section>
+        </section>
+
+        <section class="foot" id="foot">
+            <section class="section p-48 res-row h-en gap-24">
+                <a href="{{ url_for('docs.docs_topic', topic='getting_started', sub_topic='account') }}"
+                    class="link btn icon-ot rounded-full ph-24 pv-16">
+                    <span class="symbol">keyboard_arrow_left</span>
+                    <span class="text">Account</span>
+                </a>
+
+                <a href="{{ url_for('docs.docs_topic', topic='getting_started', sub_topic='installation') }}"
+                    class="link btn icon-fl rounded-full ph-24 pv-16">
+                    <span class="text">Installation</span>
+                    <span class="symbol">keyboard_arrow_right</span>
+                </a>
+            </section>
+        </section>
+    </main>
+</body>
+
+</html>
